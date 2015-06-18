@@ -6,3 +6,5 @@ app/deeploy/library/User.php
 app/deeploy/library/Index.php
 app/deeploy/library/Component.php
 gitlab.php
+
+logs/*.log
