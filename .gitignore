@@ -1,0 +1,8 @@
+config.ini
+projects.ini
+*~
+app/deeploy/library/Utils.php
+app/deeploy/library/User.php
+app/deeploy/library/Index.php
+app/deeploy/library/Component.php
+gitlab.php

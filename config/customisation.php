@@ -1,0 +1,5 @@
+<?php
+
+	$Deeploy = new Deeploi();
+
+?>

@@ -1,0 +1,44 @@
+#!/usr/bin/env php
+<?php
+
+$USAGE = <<<EOT
+Usage: deeploi [action:resource] [query]
+
+Examples:
+
+	deeploi add:repository        Add repository
+
+EOT;
+
+if ( isset( $argv ) ) {
+
+	$_SERVER = array();
+	$_REQUEST = array();
+
+	if ( isset( $argv[1] ) ) {
+		$parts = explode( ':', $argv[1] );
+		switch ( $parts[0] ) {
+			case 'css':
+			case 'js':
+				$_SERVER['REQUEST_URI'] = '/' . $parts[1] . '.' . $parts[0];
+				break;
+			case 'view':
+				$_SERVER['REQUEST_URI'] = '/' . $parts[1];
+				break;
+		}
+	}
+	else {
+		exit($USAGE);
+	}
+	if ( isset( $argv[2] ) ) {
+		$_SERVER['REQUEST_URI'] .= '?' . $argv[2];
+		$_SERVER['QUERY_STRING'] = $argv[2];
+		parse_str( $argv[2], $_REQUEST );
+	}
+	else {
+		$_SERVER['QUERY_STRING'] = '';
+	}
+}
+
+require_once __DIR__ . '../../../index.php';
+
