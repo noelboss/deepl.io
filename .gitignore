@@ -9,3 +9,4 @@ gitlab.php
 
 logs/*.log
 gitlab2.php
+logs/*
