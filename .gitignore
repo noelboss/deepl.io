@@ -8,3 +8,4 @@ app/deeploy/library/Component.php
 gitlab.php
 
 logs/*.log
+gitlab2.php
