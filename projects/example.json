@@ -1,0 +1,10 @@
+{
+	"project": {
+		"name": "ICF Child Theme",
+		"repository": "git@gitlab.com:icf-website/icf-child-theme.git",
+		"branch": "deploy/test"
+	},
+	"notification": {
+		"mail": "noel.bossart@me.com"
+	}
+}

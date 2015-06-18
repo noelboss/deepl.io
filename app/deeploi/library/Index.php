@@ -7,6 +7,7 @@ class Index {
 
 	private $user;
 	private $utils;
+	private $logfile = BASE.'/logs/deeploi.log';
 
 	function __construct() {
 		$this->user  = new User();
@@ -28,7 +29,7 @@ class Index {
 				<h3>Views</h3>
 				<?php
 				global $config;
-				$this->viewCollector( BASE . $config->micro->view_directory );
+				$this->configCollector( BASE . 'projects' );
 				?>
 			</div>
 			<div class="col-md-6">
@@ -50,41 +51,34 @@ class Index {
 	}
 
 
-	private function viewCollector( $base, $folders = array() ) {
+	private function configCollector( $base, $folders = array() ) {
 		global $config;
 
 		// views
-		$files = glob( $base . '/*.' . $config->micro->view_file_extension );
+		$files = glob( $base . '/*.json');
 		$this->viewList( $files, $folders );
-
-		// sub folders
-		foreach ( glob( $base . '/*', GLOB_ONLYDIR ) as $dir ) {
-			$base_dir = basename( $dir );
-			if ( $base_dir !== basename( $config->micro->view_partials_directory ) ) {
-				$dirs = array_merge( $folders, array( $base_dir ) );
-
-				// more sub folders
-				$this->viewCollector($dir, $dirs);
-			}
-		}
 	}
 
 	private function viewList( $files, $dirs = null ) {
-		global $config;
 		?>
 		<div class="list-group">
 			<?php
 			foreach ( $files as $file ) {
-				if ( basename( $file, '.' . $config->micro->view_file_extension ) !== basename( __FILE__, '.' . $config->micro->view_file_extension ) ) {
-					?>
-					<a href="<?php echo BASEURL, !empty( $dirs ) ? implode( $dirs, '-' ) . '-' : '', basename( $file, '.' . $config->micro->view_file_extension ); ?>" class="list-group-item">
-						<?php echo !empty( $dirs ) ? ucwords( implode( $dirs, ' ' ) ) . ' ' : '', ucwords( str_replace( '-', ' ', basename( $file, '.' . $config->micro->view_file_extension ) ) ); ?>
-					</a>
-				<?php
+				$conf = json_decode( file_get_contents( $file ) );
+
+				// check conf
+				if(!is_object($conf)){
+					$this->log('Error: '.$file.' broken', true);
 				}
 			}
 			?>
 		</div>
 	<?php
+	}
+
+	private function log($msg, $die = false){
+		$pre  = date('Y-m-d H:i:s').' (IP: ' . $_SERVER['REMOTE_ADDR'] . '): ';
+		file_put_contents($this->logfile, $pre . $msg . "\n", FILE_APPEND);
+		if($die) die();
 	}
 }
