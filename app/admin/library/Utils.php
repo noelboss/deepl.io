@@ -11,7 +11,7 @@ class Utils {
 			<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 			<title><?php echo($title); ?></title>
 			<link rel="shortcut icon" type="image/ico" href="<?php echo(DEEPLIOURL); ?>assets/img/favicon.ico" />
-			<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+			<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 			<style type="text/css" media="screen">
 				h1 { color: #555; }
 				h1 span { font-size: 0.6em; color: #999; }

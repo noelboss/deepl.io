@@ -38,7 +38,7 @@ namespace noelbosscom;
 			$this->token = substr($_SERVER['REQUEST_URI'],1);
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 
-			$this->log('START: Request detected');
+			$this->log('START – Request detected');
 
 			$this->security();
 			$this->run();
@@ -84,7 +84,7 @@ namespace noelbosscom;
 						$this->log('Error: Error executing command: ');
 						$this->log("   return code $ret", true);
 					} else {
-						$this->log('SUCCESS: Deployment finished.');
+						$this->log('SUCCESS – Deployment finished.');
 					}
 				}
 
@@ -105,7 +105,7 @@ namespace noelbosscom;
 			if(!isset($conf->security->token) || strlen($conf->security->token) < 1) {
 				$this->log('Error: Please provide security token in config.json', true);
 			} else if(strlen($conf->security->token) < 30) {
-				$this->log('Security Warning: Token unsave, make it longer');
+				$this->log('Warning: Token unsave, make it longer');
 			}
 			if(!$this->token){
 				$this->log('Error: Token not provided. Add the token to the request '.$_SERVER["HTTP_HOST"]."/YOUR-SAVE-TOKEN", true);
@@ -118,14 +118,15 @@ namespace noelbosscom;
 			// check ip
 			if(is_object($conf->security->allowedips)) {
 				if(count($conf->security->allowedips)<1) {
-					$this->log('Security Warning: Please configure allowed IPs');
+					$this->log('Warning: Please configure allowed IPs');
 				} else {
-					if ( !property_exists($conf->security->allowedips, $this->ip )){
+					$ips = (array) $conf->security->allowedips;
+					if ( !$ips[$this->ip] ){
 						$this->log('Error: IP not allowed: '.$this->ip, true);
 					}
 				}
-			} else if(strlen($conf->security->allowedips) < 7){
-				$this->log('Security Warning: Please configure allowed IPs');
+			} else if(strlen($conf->security->allowedips) < 3){
+				$this->log('Warning: Please configure allowed IPs');
 			} else {
 				if ( $conf->security->allowedips !== $this->ip){
 					$this->log('Error: IP not allowed: '.$this->client_ip, true);
@@ -136,11 +137,17 @@ namespace noelbosscom;
 
 		private function log($msg, $die = false){
 			if(isset($this->config->log)){
-				$pre  = date('Y-m-d H:i:s').' (IP: ' . $_SERVER['REMOTE_ADDR'] . '): ';
+				$pre  = date('Y-m-d H:i:s').' (IP: ' . $_SERVER['REMOTE_ADDR'] . ') ';
+				// echoing for manual deploy
+				if($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input')){
+					echo $pre . $msg . "\n";
+				}
 				file_put_contents($this->logfile, $pre . $msg . "\n", FILE_APPEND);
 			}
-			if($die) {
+			if($die && !($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input'))) {
 				header("HTTP/1.0 404 Not Found - Archive Empty");
+				die();
+			} else if($die){
 				die();
 			}
 		}
