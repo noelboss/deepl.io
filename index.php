@@ -14,7 +14,7 @@ namespace noelbosscom;
 
 	class Deeploi {
 		private $config;
-		private $logfile = BASE.'/logs/deeploi.log';
+		private $logfile;
 		private $token;
 		private $ip;
 
@@ -30,17 +30,23 @@ namespace noelbosscom;
 				$conffile = BASE . 'config/config.json';
 			}
 			$this->config = json_decode( file_get_contents( $conffile ) );
+
+			if(isset($this->config->log)){
+				$this->logfile = BASE.'/'.$this->config->log;
+			}
+
 			$this->token = substr($_SERVER['REQUEST_URI'],1);
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 
-			$this->security();
+			$this->log('START: Request detected');
 
+			$this->security();
 			$this->run();
 		}
 
 		private function run() {
 			$data = json_decode( file_get_contents('php://input') );
-			if(!is_object($data)){
+			if($data === null || !is_object($data->repository)){
 				$this->log('Error: JSON data missing or broken: '.$data, true);
 			}
 
@@ -127,9 +133,10 @@ namespace noelbosscom;
 
 
 		private function log($msg, $die = false){
-			$pre  = date('Y-m-d H:i:s').' (IP: ' . $_SERVER['REMOTE_ADDR'] . '): ';
-			file_put_contents($this->logfile, $pre . $msg . "\n", FILE_APPEND);
-
+			if(isset($this->config->log)){
+				$pre  = date('Y-m-d H:i:s').' (IP: ' . $_SERVER['REMOTE_ADDR'] . '): ';
+				file_put_contents($this->logfile, $pre . $msg . "\n", FILE_APPEND);
+			}
 			if($die) {
 				header("HTTP/1.0 404 Not Found - Archive Empty");
 				die();

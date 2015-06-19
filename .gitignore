@@ -9,3 +9,4 @@ app/deeploy/library/Component.php
 gitlab.php
 gitlab2.php
 logs/*.log
+example.txt
