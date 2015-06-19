@@ -50,12 +50,13 @@ namespace noelbosscom;
 				$this->log('Error: JSON data missing or broken: '.$data, true);
 			}
 
-			$this->log('Note: New push from '.$data->repository->git_http_url);
-
-			// Todo, add check for push
-
-
 			$repo = basename($data->repository->git_http_url);
+
+			// gitlab || github
+			$repo = $repo ? $repo : basename($data->repository->git_url);
+
+			$this->log('Note: New push from '.$repo);
+
 			$branch = str_replace('refs/heads','', $data->ref);
 
 			$path = repositories.$repo.$branch;
