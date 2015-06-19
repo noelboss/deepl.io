@@ -29,7 +29,7 @@ class Index {
 
 	private function htmlList() {
 		?>
-		<h1>DEEPLIO Settings.
+		<h1>Deploy Settings.
 			<span>Hi <?php echo $this->user->getName(); ?>.</span>
 		</h1>
 

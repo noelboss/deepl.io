@@ -30,7 +30,7 @@ Options -Indexes +FollowSymLinks
 RewriteEngine On
 
 RewriteRule ^admin/assets/(.*) app/admin/public/assets/$1 [L]
-RewriteRule ^admin/(.*	) app/admin/public/index.php?uriparts=$1 [QSA]
+RewriteRule ^admin/(.*) app/admin/public/index.php?uriparts=$1 [QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
