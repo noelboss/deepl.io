@@ -20,13 +20,13 @@ class Index {
 
 	private function htmlList() {
 		?>
-		<h1>Deeploi Start.
+		<h1>Deeploi Settings.
 			<span>Hi <?php echo $this->user->getName(); ?>.</span>
 		</h1>
 
 		<div class="row">
 			<div class="col-md-6">
-				<h3>Views</h3>
+				<h3>Deployment Configurations</h3>
 				<?php
 				global $config;
 				$this->configCollector( BASE . 'projects' );
@@ -65,10 +65,20 @@ class Index {
 			<?php
 			foreach ( $files as $file ) {
 				$conf = json_decode( file_get_contents( $file ) );
+				$sh = dirname($file).'/'.basename($file, '.json').'.sh';
 
 				// check conf
 				if(!is_object($conf)){
 					$this->log('Error: '.$file.' broken', true);
+				} else {
+					echo "<p><input type='text' value='".$conf->project->name."' /></p>";
+					echo "<p><input type='text' value='".$conf->project->repository."' /></p>";
+					echo "<p><input type='text' value='".$conf->project->branch."' /></p>";
+					echo "<textarea>";
+					if(file_exists($sh)){
+						echo file_get_contents( $sh );
+					}
+					echo "</textarea>";
 				}
 			}
 			?>

@@ -1,11 +1,15 @@
 <?php
 namespace noelbosscom;
+
 // -------------------------------------------------------------------------------------------
 // Deeploi 0.0.1
 // https://github.com/noelboss/deeploi
 //
 // Do not change this file - use config/customisation.php for your customisations
 // -------------------------------------------------------------------------------------------
+
+
+	define( 'BASE', __DIR__ . '/' );
 
 	class Deeploi {
 		private $config;
@@ -81,7 +85,11 @@ namespace noelbosscom;
 		private function log($msg, $die = false){
 			$pre  = date('Y-m-d H:i:s').' (IP: ' . $_SERVER['REMOTE_ADDR'] . '): ';
 			file_put_contents($this->logfile, $pre . $msg . "\n", FILE_APPEND);
-			if($die) die();
+
+			if($die) {
+				header("HTTP/1.0 404 Not Found - Archive Empty");
+				die();
+			}
 		}
 	}
 
