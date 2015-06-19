@@ -1,0 +1,10 @@
+{
+	"project": {
+		"name": "Example Project",
+		"repository": "git@example.com:mike/example.git",
+		"branch": "deploy/test"
+	},
+	"notification": {
+		"mail": "me@noelboss.com"
+	}
+}

@@ -83,6 +83,7 @@ namespace noelbosscom;
 				if(!file_exists($path.'/script.sh')){
 					$this->log('Error: No deployment script configured: '.$path.'/script.sh', true);
 				} else {
+					chdir(BASE);
 					exec($path.'/script.sh', $out, $ret);
 					if ($ret){
 						$this->log('Error: Error executing command: ');
@@ -125,7 +126,7 @@ namespace noelbosscom;
 					$this->log('Warning: Please configure allowed IPs');
 				} else {
 					$ips = (array) $conf->security->allowedips;
-					if ( !$ips[$this->ip] ){
+					if ( !isset($ips[$this->ip]) ){
 						$this->log('Error: IP not allowed: '.$this->ip, true);
 					}
 				}
