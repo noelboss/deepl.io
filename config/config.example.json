@@ -1,0 +1,9 @@
+{
+	"security": {
+		"token": "token",
+		"allowedips": {
+			"::1": true
+		}
+	},
+	"log": "logs/deeplio.log"
+}
