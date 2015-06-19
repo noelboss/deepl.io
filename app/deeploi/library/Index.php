@@ -82,7 +82,9 @@ class Index {
 					$this->log('Error: '.$file.' broken', true);
 				} else {
 					echo "<p><input type='text' value='".$conf->project->name."' /></p>";
+					// grabing filenames from:
 					echo "<p><input type='text' value='".$conf	->project->repository."' /></p>";
+					// needed for testing
 					echo "<p><input type='text' value='".$conf->project->branch."' /></p>";
 
 					echo "<textarea>";
@@ -113,6 +115,7 @@ class Index {
 				$context = stream_context_create( $options );
 				$result = file_get_contents( $url, false, $context );
 				$response = json_decode( $result );
+				echo $response;
 			}
 			?>
 		</div>

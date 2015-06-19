@@ -1,7 +1,7 @@
 {
 	"project": {
 		"name": "ICF Child Theme",
-		"repository": "git@gitlab.com:icf-website/icf-child-theme.git",
+		"repository": "git@example.com:mike/example.git",
 		"branch": "deploy/test"
 	},
 	"notification": {

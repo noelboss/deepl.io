@@ -10,6 +10,7 @@ namespace noelbosscom;
 
 
 	define( 'BASE', __DIR__ . '/' );
+	define( 'PROJECTS', __DIR__ . '/projects/' );
 
 	class Deeploi {
 		private $config;
@@ -38,9 +39,50 @@ namespace noelbosscom;
 		}
 
 		private function run() {
-			echo "running:";
-			$data = file_get_contents('php://input');
-			$this->log($data);
+			$data = json_decode( file_get_contents('php://input') );
+			if(!is_object($data)){
+				$this->log('Error: JSON data missing or broken: '.$data, true);
+			}
+
+			$this->log('Note: New push from '.$data->repository->git_http_url);
+
+			$repo = basename($data->repository->git_http_url, '.git');
+
+			if(file_exists(PROJECTS.$repo.'.json')){
+
+
+				$conf = json_decode( file_get_contents( PROJECTS.$repo.'.json' ) );
+				if(!is_object($conf)){
+					$this->log('Error: '.$repo.'.json broken', true);
+				}
+
+				if ($data->repository->url !== $conf->project->repository){
+					$this->log('Error: Repository not matching;');
+					$this->log(' - Config: '.$conf->project->repository);
+					$this->log(' - Hook: '.$data->repository->url , true);
+				}
+
+				if ($data->ref !== 'refs/heads/'.$conf->project->branch){
+					$this->log('Branch not configured: Repository not matching;');
+					$this->log(' - Config: refs/heads/'.$conf->project->branch);
+					$this->log(' - Hook: '.$data->ref, true);
+				}
+
+				if(!file_exists(PROJECTS.$repo.'.sh')){
+					$this->log('Error: No deployment script configured: projects/'.$repo.'.sh', true);
+				} else {
+					exec(PROJECTS.$repo.'.sh', $out, $ret);
+					if ($ret){
+						$this->log('Error: Error executing command: ');
+						$this->log("   return code $ret", true);
+					} else {
+						$this->log('SUCCESS: Deployment finished.');
+					}
+				}
+
+			} else {
+				$this->log('Error: No deployment configured: projects/'.$repo.'.json', true);
+			}
 		}
 
 		private function security(){
