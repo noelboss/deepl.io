@@ -1,12 +1,12 @@
 <?php
 namespace noelbosscom;
 
-// ------------------------------------------------------------------------------------
-// DEEPLIO 0.0.1
-// https://github.com/noelboss/deepl.io
-//
-// Do not change this file - use config/customisation.php for your customisations
-// ------------------------------------------------------------------------------------
+/* ------------------------------------------------------------------------------------
+ * Deepl.io
+ * https://github.com/noelboss/deepl.io
+ *
+ * Do not change this file - use config/customisation.php for your customisations
+ * ------------------------------------------------------------------------------------ */
 
 
 	define( 'BASE', __DIR__ . '/' );
