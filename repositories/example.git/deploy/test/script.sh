@@ -27,4 +27,7 @@
 #rm -rf $BASE/.maintenance
 #echo "End deeplio." >> "$LOG"
 
-echo "Hello World" >> example.txt
+mkdir example-deploy;
+mkdir example-deploy/example;
+echo "Example Script sucessfully Deployed" >> deploy/example/sucess.txt
+
