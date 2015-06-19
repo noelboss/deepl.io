@@ -53,7 +53,7 @@ namespace noelbosscom;
 			$repo = basename($data->repository->git_http_url);
 
 			// gitlab || github
-			$repo = $repo ? $repo : basename($data->repository->git_url);
+			$repo = $repo ? $repo : $data->repository->name.'.git';
 
 			$this->log('Note: New push from '.$repo);
 
