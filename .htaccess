@@ -29,8 +29,8 @@ Options -Indexes +FollowSymLinks
 # Routing
 RewriteEngine On
 
-RewriteRule ^deeploi/assets/(.*) app/deeploi/public/assets/$1 [L]
-RewriteRule ^deeploi/(.*) app/deeploi/public/index.php?uriparts=$1 [QSA]
+RewriteRule ^deeplio/assets/(.*) app/deeplio/public/assets/$1 [L]
+RewriteRule ^deeplio/(.*) app/deeplio/public/index.php?uriparts=$1 [QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

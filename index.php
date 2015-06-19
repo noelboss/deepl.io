@@ -2,8 +2,8 @@
 namespace noelbosscom;
 
 // ------------------------------------------------------------------------------------
-// Deeploi 0.0.1
-// https://github.com/noelboss/deeploi
+// DEEPLIO 0.0.1
+// https://github.com/noelboss/deeplio
 //
 // Do not change this file - use config/customisation.php for your customisations
 // ------------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ namespace noelbosscom;
 	define( 'BASE', __DIR__ . '/' );
 	define( 'PROJECTS', __DIR__ . '/projects/' );
 
-	class Deeploi {
+	class DEEPLIO {
 		private $config;
 		private $logfile;
 		private $token;
@@ -148,5 +148,5 @@ namespace noelbosscom;
 	if(file_exists(BASE . 'config/customisation.php')){
 		include_once( BASE . 'config/customisation.php' );
 	} else {
-		$Deeploy = new Deeploi();
+		$Deeploy = new DEEPLIO();
 	}

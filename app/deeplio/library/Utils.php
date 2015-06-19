@@ -10,7 +10,7 @@ class Utils {
 		<head>
 			<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 			<title><?php echo($title); ?></title>
-			<link rel="shortcut icon" type="image/ico" href="<?php echo(DEEPLOIURL); ?>assets/img/favicon.ico" />
+			<link rel="shortcut icon" type="image/ico" href="<?php echo(DEEPLIOURL); ?>assets/img/favicon.ico" />
 			<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 			<style type="text/css" media="screen">
 				h1 { color: #555; }
@@ -23,12 +23,12 @@ class Utils {
 			<header class="navbar navbar-default" role="banner">
 				<div class="container">
 					<div class="navbar-header">
-						<a href="<?php echo(DEEPLOIURL); ?>" class="navbar-brand">Deeploi</a>
+						<a href="<?php echo(DEEPLIOURL); ?>" class="navbar-brand">DEEPLIO</a>
 					</div>
 					<nav class="collapse navbar-collapse" role="navigation">
 						<!--<ul class="nav navbar-nav">
 							<li>
-								<a href="<?php echo(DEEPLOIURL); ?>">Overview</a>
+								<a href="<?php echo(DEEPLIOURL); ?>">Overview</a>
 							</li>
 						</ul>-->
 					</nav>

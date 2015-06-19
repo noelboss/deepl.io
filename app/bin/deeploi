@@ -2,11 +2,11 @@
 <?php
 
 $USAGE = <<<EOT
-Usage: deeploi [action:resource] [query]
+Usage: deeplio [action:resource] [query]
 
 Examples:
 
-	deeploi add:repository        Add repository
+	deeplio add:repository        Add repository
 
 EOT;
 

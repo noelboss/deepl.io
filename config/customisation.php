@@ -1,5 +1,5 @@
 <?php
 
-	$Deeploy = new \noelbosscom\Deeploi();
+	$Deeploy = new \noelbosscom\DEEPLIO();
 
 ?>

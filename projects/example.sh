@@ -2,7 +2,7 @@
 
 #BASE="/home/user/www/"
 #FOLDER="$BASE/wp-content/themes/example/"
-#LOG="$BASE/deeploi/logs/example.log"
+#LOG="$BASE/deeplio/logs/example.log"
 #NOW=$(date)
 #
 ## Start Sctipt
@@ -25,6 +25,6 @@
 #
 ## disable maintenance mode
 #rm -rf $BASE/.maintenance
-#echo "End deeploi." >> "$LOG"
+#echo "End deeplio." >> "$LOG"
 
 echo "Hello World" >> example.txt

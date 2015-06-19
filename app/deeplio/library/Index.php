@@ -8,7 +8,7 @@ class Index {
 	private $config;
 	private $user;
 	private $utils;
-	private $logfile = BASE.'/logs/deeploi.log';
+	private $logfile = BASE.'/logs/deeplio.log';
 
 	function __construct() {
 		$this->user  = new User();
@@ -22,14 +22,14 @@ class Index {
 		}
 		$this->config = json_decode( file_get_contents( $conffile ) );
 
-		$this->utils->htmlFragmentStart( 'Deeploi Start' );
+		$this->utils->htmlFragmentStart( 'DEEPLIO Start' );
 		$this->htmlList();
 		$this->utils->htmlFragmentEnd( '' );
 	}
 
 	private function htmlList() {
 		?>
-		<h1>Deeploi Settings.
+		<h1>DEEPLIO Settings.
 			<span>Hi <?php echo $this->user->getName(); ?>.</span>
 		</h1>
 

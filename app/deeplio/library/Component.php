@@ -4,7 +4,7 @@ include_once( 'Utils.php' );
 include_once( 'User.php' );
 
 // Path to the default component template files
-define( 'COMPONENTTEMPLATE', BASE . 'app/deeploi/templates/module/' );
+define( 'COMPONENTTEMPLATE', BASE . 'app/deeplio/templates/module/' );
 
 class Component {
 
