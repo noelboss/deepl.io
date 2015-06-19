@@ -28,6 +28,4 @@
 #echo "End deeplio." >> "$LOG"
 
 mkdir example-deploy;
-mkdir example-deploy/example;
-echo "Example Script sucessfully Deployed" >> deploy/example/sucess.txt
-
+echo "Example Script sucessfully Deployed" >> example-deploy/sucess.txt

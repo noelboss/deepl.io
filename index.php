@@ -54,6 +54,7 @@ namespace noelbosscom;
 
 			// Todo, add check for push
 
+
 			$repo = basename($data->repository->git_http_url);
 			$branch = str_replace('refs/heads','', $data->ref);
 
