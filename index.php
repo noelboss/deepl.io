@@ -3,7 +3,7 @@ namespace noelbosscom;
 
 // ------------------------------------------------------------------------------------
 // DEEPLIO 0.0.1
-// https://github.com/noelboss/deeplio
+// https://github.com/noelboss/deepl.io
 //
 // Do not change this file - use config/customisation.php for your customisations
 // ------------------------------------------------------------------------------------
@@ -148,5 +148,5 @@ namespace noelbosscom;
 	if(file_exists(BASE . 'config/customisation.php')){
 		include_once( BASE . 'config/customisation.php' );
 	} else {
-		$Deeploy = new DEEPLIO();
+		$Deeplio = new DEEPLIO();
 	}
