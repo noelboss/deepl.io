@@ -145,7 +145,7 @@ namespace noelbosscom;
 				file_put_contents($this->logfile, $pre . $msg . "\n", FILE_APPEND);
 			}
 			if($die && !($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input'))) {
-				header("HTTP/1.0 404 Not Found - Archive Empty");
+				header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
 				die();
 			} else if($die){
 				die();

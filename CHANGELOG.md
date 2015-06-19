@@ -1,3 +1,3 @@
-# Changelog - DEEPLIO
+# Changelog - Deepl.io
 
-## v0.0.1 - 2015-06-19 - initial release
+## v0.0.1 - 2015-07-19 - Initial Release
