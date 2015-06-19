@@ -38,7 +38,9 @@ namespace noelbosscom;
 		}
 
 		private function run() {
-			echo "running";
+			echo "running:";
+			$data = file_get_contents('php://input');
+			$this->log($data);
 		}
 
 		private function security(){
@@ -50,7 +52,7 @@ namespace noelbosscom;
 			}
 
 			// check token
-			if(strlen($conf->security->token) < 1) {
+			if(!isset($conf->security->token) || strlen($conf->security->token) < 1) {
 				$this->log('Error: Please provide security token in config.json', true);
 			} else if(strlen($conf->security->token) < 30) {
 				$this->log('Security Warning: Token unsave, make it longer');

@@ -5,6 +5,7 @@ include_once( 'User.php' );
 
 class Index {
 
+	private $config;
 	private $user;
 	private $utils;
 	private $logfile = BASE.'/logs/deeploi.log';
@@ -12,6 +13,14 @@ class Index {
 	function __construct() {
 		$this->user  = new User();
 		$this->utils = new Utils();
+
+		if(isset($_ENV["ENVIRONMENT"]) && file_exists(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
+			$conffile = BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json';
+		}
+		else {
+			$conffile = BASE . 'config/config.json';
+		}
+		$this->config = json_decode( file_get_contents( $conffile ) );
 
 		$this->utils->htmlFragmentStart( 'Deeploi Start' );
 		$this->htmlList();
@@ -66,20 +75,44 @@ class Index {
 			foreach ( $files as $file ) {
 				$conf = json_decode( file_get_contents( $file ) );
 				$sh = dirname($file).'/'.basename($file, '.json').'.sh';
+				$req = dirname($file).'/'.basename($file, '.json').'.request';
 
 				// check conf
 				if(!is_object($conf)){
 					$this->log('Error: '.$file.' broken', true);
 				} else {
 					echo "<p><input type='text' value='".$conf->project->name."' /></p>";
-					echo "<p><input type='text' value='".$conf->project->repository."' /></p>";
+					echo "<p><input type='text' value='".$conf	->project->repository."' /></p>";
 					echo "<p><input type='text' value='".$conf->project->branch."' /></p>";
+
 					echo "<textarea>";
 					if(file_exists($sh)){
-						echo file_get_contents( $sh );
+						echo file_get_contents($sh);
+					}
+					echo "</textarea>";
+					echo "<textarea>";
+					if(file_exists($req)){
+						echo file_get_contents($req);
 					}
 					echo "</textarea>";
 				}
+
+
+
+				$options = array(
+					'http' => array(
+						'method'  => 'POST',
+						'content' => json_encode( json_decode(file_get_contents($req)) ),
+						'header'=>  "Content-Type: application/json\r\n" .
+							"Accept: application/json\r\n"
+						)
+				);
+
+				$url = 'http://'.$_SERVER["HTTP_HOST"].'/'.$this->config->security->token;
+
+				$context = stream_context_create( $options );
+				$result = file_get_contents( $url, false, $context );
+				$response = json_decode( $result );
 			}
 			?>
 		</div>
