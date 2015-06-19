@@ -64,7 +64,7 @@ class Index {
 		global $config;
 
 		// views
-		$files = glob( $base . '/*.json');
+		$files = glob( $base . '/example/deploy/test/config.json');
 		$this->viewList( $files, $folders );
 	}
 
@@ -74,8 +74,8 @@ class Index {
 			<?php
 			foreach ( $files as $file ) {
 				$conf = json_decode( file_get_contents( $file ) );
-				$sh = dirname($file).'/'.basename($file, '.json').'.sh';
-				$req = dirname($file).'/'.basename($file, '.json').'.request';
+				$sh = dirname($file).'/script.sh';
+				$req = dirname($file).'/request.json';
 
 				// check conf
 				if(!is_object($conf)){

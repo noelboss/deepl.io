@@ -53,13 +53,15 @@ namespace noelbosscom;
 			$this->log('Note: New push from '.$data->repository->git_http_url);
 
 			$repo = basename($data->repository->git_http_url, '.git');
+			$branch = str_replace('refs/heads','', $data->ref);
 
-			if(file_exists(PROJECTS.$repo.'.json')){
+			$path = PROJECTS.$repo.$branch;
 
+			if(file_exists($path.'/config.json')){
 
-				$conf = json_decode( file_get_contents( PROJECTS.$repo.'.json' ) );
-				if(!is_object($conf)){
-					$this->log('Error: '.$repo.'.json broken', true);
+				$conf = json_decode( file_get_contents( $path.'/config.json' ) );
+				if($conf === null || !is_object($conf)){
+					$this->log('Error: '.$path.'/config.json broken', true);
 				}
 
 				if ($data->repository->url !== $conf->project->repository){
@@ -74,10 +76,10 @@ namespace noelbosscom;
 					$this->log(' - Hook: '.$data->ref, true);
 				}
 
-				if(!file_exists(PROJECTS.$repo.'.sh')){
-					$this->log('Error: No deployment script configured: projects/'.$repo.'.sh', true);
+				if(!file_exists($path.'/script.sh')){
+					$this->log('Error: No deployment script configured: '.$path.'/script.sh', true);
 				} else {
-					exec(PROJECTS.$repo.'.sh', $out, $ret);
+					exec($path.'/script.sh', $out, $ret);
 					if ($ret){
 						$this->log('Error: Error executing command: ');
 						$this->log("   return code $ret", true);
@@ -87,7 +89,7 @@ namespace noelbosscom;
 				}
 
 			} else {
-				$this->log('Error: No deployment configured: projects/'.$repo.'.json', true);
+				$this->log('Error: No deployment configured: '.$path.'/script.sh', true);
 			}
 		}
 
