@@ -10,7 +10,7 @@ namespace noelbosscom;
 
 
 	define( 'BASE', __DIR__ . '/' );
-	define( 'PROJECTS', __DIR__ . '/projects/' );
+	define( 'repositories', __DIR__ . '/repositories/' );
 
 	class DEEPLIO {
 		private $config;
@@ -52,10 +52,10 @@ namespace noelbosscom;
 
 			$this->log('Note: New push from '.$data->repository->git_http_url);
 
-			$repo = basename($data->repository->git_http_url, '.git');
+			$repo = basename($data->repository->git_http_url);
 			$branch = str_replace('refs/heads','', $data->ref);
 
-			$path = PROJECTS.$repo.$branch;
+			$path = repositories.$repo.$branch;
 
 			if(file_exists($path.'/config.json')){
 

@@ -38,21 +38,14 @@ class Index {
 				<h3>Deployment Configurations</h3>
 				<?php
 				global $config;
-				$this->configCollector( BASE . 'projects' );
+				$this->configCollector( BASE . 'repositories' );
 				?>
 			</div>
 			<div class="col-md-6">
-				<h3>Tools</h3>
+				<h3>Help</h3>
 
 				<div class="list-group">
-					<?php
-					global $config;
-					foreach ( $config->micro->components as $key => $component ) {
-						echo '<a href="' . TERRIFICURL . 'create/' . $key . '" class="list-group-item">';
-						echo 'Create ' . ucfirst( $key );
-						echo '</a>';
-					}
-					?>
+					Here you will find more information...
 				</div>
 			</div>
 		</div>
@@ -64,7 +57,7 @@ class Index {
 		global $config;
 
 		// views
-		$files = glob( $base . '/example/deploy/test/config.json');
+		$files = glob( $base . '/example.git/deploy/test/config.json');
 		$this->viewList( $files, $folders );
 	}
 
@@ -100,7 +93,7 @@ class Index {
 				}
 
 
-
+				// sending testdata...
 				$options = array(
 					'http' => array(
 						'method'  => 'POST',
