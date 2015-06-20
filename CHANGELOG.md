@@ -1,5 +1,16 @@
 # Changelog - Deepl.io
 
+## Master
+
+
+## v0.1.1 - 2015-06-20
+
+* Added Tag
+
+## v0.1.0 - 2015-06-20
+
+* Added Grunt, use npm install
+
 ## v0.0.2 - 2015-07-21 - Admin Interface
 
 * creating jobs

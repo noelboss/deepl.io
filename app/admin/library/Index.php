@@ -91,9 +91,8 @@ class Index {
 				?>
 				<a href="#conf<?= $i ?>" id="conf<?= $i ?>" class="list-group-item">
 					<h4 class="list-group-item-heading"><?= $conf->project->name ?></h4>
-					<p class="list-group-item-text"><strong>Repository:</strong> <?= $conf->project->repository_ssh_url ?></p>
-					<p class="list-group-item-text"><strong>Branch:</strong> <?= $conf->project->branch ?></p>
-					<p class="list-group-item-text"><strong>Notifications:</strong> <?= $conf->notification->mail ?></p>
+					<p class="list-group-item-text">Repository: <?= $conf->project->repository_ssh_url ?></p>
+					<p class="list-group-item-text">Branch: <?= $conf->project->branch ?></p>
 					<?php
 						if(isset($_POST['deploy'.$i])){
 							include_once('Test.php');
@@ -118,8 +117,10 @@ class Index {
 							<input type="test" class="form-control" id="name<?= $i ?>" name="name" placeholder="Configuration Title" value="<?= $conf->project->name ?>">
 						</div>
 						<div class="form-group">
-							<label for="repo<?= $i ?>" class="control-label">Repository SSH URL</label>
-							<input type="test" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="git@gitlab.com:user/repo.git" value="<?= $conf->project->repository_ssh_url ?>">
+							<label for="repo<?= $i ?>" class="col-sm-2 control-label">Repository SSH URL</label>
+							<div class="col-sm-10">
+								<input type="email" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="Repository" value="<?= $conf->project->repository_ssh_url ?>">
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="branch<?= $i ?>" class="control-label">Branch</label>

@@ -16,7 +16,7 @@
 		<header class="navbar navbar-default" role="banner">
 			<div class="container">
 				<div class="navbar-header">
-					<a href="/admin/" class="navbar-brand">Git deployment simplified.</a>
+					<a href="http://deepl.io" class="navbar-brand">Git deployment simplified.</a>
 				</div>
 				<nav class="collapse navbar-collapse" role="navigation">
 					<!--<ul class="nav navbar-nav">
@@ -31,33 +31,50 @@
 		<div class="container">
 			<h1>Deepl.io</h1>
 			<div class="row">
-				<div class="col-md-12">
-					<p class="lead">A simple yet powerful php-tool to catch GIT Web-Hooks and deploy your projects to your server after pushing.</p>
-					<p>
+				<div class="col-md-7">
+					<p class="lead">A simple yet powerful php-tool to catch GIT Web-Hooks from GITLAB and GITHUB to deploy your projects to your server after pushing.</p>
+				</div>
+				<div class="col-md-5">
+					<p class="text-right">
 						<a href="https://github.com/noelboss/deepl.io" class="btn btn-info" name="deploy<?= $i ?>">Visit Github</a>
-						<a href="https://github.com/noelboss/deepl.io/archive/master.zip" class="btn btn-success" name="deploy<?= $i ?>">Download Latest</a>
+						<a href="https://github.com/noelboss/deepl.io/archive/master.zip" class="btn btn-success" name="deploy<?= $i ?>">Download Latest (0.1.1)</a>
 					</p>
-
+				</div>
+				<div class="col-md-12">
+					<p>
+						<iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=noelboss&amp;repo=Deepl.io&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+						<iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=noelboss&amp;repo=Deepl.io&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="102px" height="20px"></iframe>
+						<a href="https://twitter.com/share" class="twitter-share-button" data-counturl="Deepl.io" data-url="http://deepl.io" data-text="Deepl.io – A simple yet powerful php-tool to catch GIT Web-Hooks from GITLAB and GITHUB!
+		> " data-hashtags="#webhooks,#github,#gitlab,#simple,#powerful,#push,#post,#request" data-dnt="true">Tweet</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+					</p>
+				</div>
+				<div class="col-md-12">
 					<hr/>
 					<h2>How does it work?</h2>
 					<p>
-						Deepl.io catches and acts on requests sent by your git service-provider using <a href="https://developer.github.com/v3/repos/hooks/">web-hooks</a>. Currently github.com and gitlab.com are supported.
-						You configure your repository to send push-updates to your Deepl.io instance. Check your repository setting for the apropriate option.
-						Deepl.io will check weather the request comes from the right source, detects if the branch that you pushed to is correct and then
-						executes the .sh commands that you deinfed.
+						Deepl.io catches and then acts on post requests sent by your git service-provider
+						using <a href="https://developer.github.com/v3/repos/hooks/">web-hooks</a>.
+						Currently <a href="http://doc.gitlab.com/ee/web_hooks/web_hooks.html">github.com</a>
+						and <a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/web_hooks/web_hooks.md">gitlab.com</a>
+						are supported.<br/>
+						You configure your repository to send push-updates to your Deepl.io instance runing on your server via Webhooks.
+						Check the repository  setting for the appropriate option.
+						Deepl.io will check if the request comes from the right source,
+						detects if the branch that has been updated is correct and then
+						executes your custom php or shell commands. Deepl.io does only call your commands, it does not act
+						on it's own since this would be way to unflexible.
 					</p>
 
 					<hr/>
 					<h2>Installation</h2>
 					<p>
-						<a herf="https://github.com/noelboss/deepl.io/archive/master.zip">Download</a> Deepl.io to your server or <a herf="https://github.com/noelboss/deepl.io">clone using git</a>. Consider creating a subdomain:
+						<a href="https://github.com/noelboss/deepl.io/archive/master.zip">Download</a> Deepl.io to your server or <a href="https://github.com/noelboss/deepl.io">clone using git</a>. Consider creating a subdomain:
 						<code>deploy.yourserver.com</code>.
-						Then, add this to the Web-Hook Settings of your GIT Provider:
-						<code>deploy.yourserver.com/your-secret-token</code>
 					</p>
 					<p>
 						<strong>Requirements:</strong>
-						PHP, and your web-host needs to allow <a href="http://php.net/manual/en/function.exec.php">php exec</a> commands.
+						PHP, and your web-host needs to allow <a href="http://php.net/manual/en/function.exec.php">php exec</a> commands and <code>mod_rewrite</code> has to be enabled.
 					</p>
 
 					<hr/>
@@ -65,27 +82,76 @@
 					<p>
 						Open <code>config/config.example.json</code> and rename it to <code>config.json</code>.
 						Set a secret token and maybe configure allowed ips.
+						<br/>
+						Then, add this to the Web-Hook Settings of your GIT Provider:
+						<code>deploy.yourserver.com/your-secret-token</code>
 					</p>
 
 					<hr/>
 					<h2>Configure Deployments</h2>
 					<p>
 						Right now, you need to configure your deploys manually. It's pretty simple:
-						open the <code>repositories/</code> folder, create a new folder coresponding with your git-repository-name and add 3 files:<br />
-						<code>your-repo.git</code>/<code>branch.config.json</code> containing information (name, repository ssh url, branch) related to your deployment<br/>
-						<code>your-repo.git</code>/<code>branch.script.sh</code> contains the code that should be executed when the hook is called<br />
-						<code>your-repo.git</code>/<code>branch.request.json</code> (optional) containing a test JSON payload<br />
-						The <code>branch.</code> part is needed to distinguish push events only for the desired branch.
+						open the <code>repositories/</code> folder, create a new folder corresponding with your git-repository-name and add 3 files:<br />
 					</p>
+					<div class="list-group">
+						<a href="https://github.com/noelboss/deepl.io/blob/master/repositories/example.git/deploy-test.config.json" class="list-group-item">
+							<h4 class="list-group-item-heading"><code>your-repo.git</code>/<code>branch.config.json</code></h4>
+							<p class="list-group-item-text">containing information (name, repository-ssh-url, branch) required to identify your deployment</p>
+						</a>
+						<a href="https://github.com/noelboss/deepl.io/blob/master/repositories/example.git/deploy-test.script.sh" class="list-group-item">
+							<h4 class="list-group-item-heading"><code>your-repo.git</code>/<code>branch.script.php / .sh</code></h4>
+							<p class="list-group-item-text">contains the code that should be executed when the hook is called. PHP scripts take precedence over shell scripts since they can call it themselfs.</p>
+						</a>
+						<a href="https://github.com/noelboss/deepl.io/blob/master/repositories/example.git/deploy-test.request.json" class="list-group-item">
+							<h4 class="list-group-item-heading"><code>your-repo.git</code>/<code>branch.request.json</code></h4>
+							<p class="list-group-item-text">(optional) containing a test JSON payload</p>
+						</a>
+					</div>
+					<p>The <code>branch.</code> part is needed to distinguish push events only for the desired branch.</p>
 					<p>
-						Example:<br/>
+						<strong>Example Structure:</strong><br/>
 						<code>deepl.io.git</code>/<code>master.config.json</code><br/>
 						<code>deepl.io.git</code>/<code>master.script.sh</code><br />
 						<code>deepl.io.git</code>/<code>master.request.json</code><br />
 					</p>
 
 					<hr/>
-					<h2>Debuging &amp; Issues</h2>
+					<h4>Example config.json</h4>
+					<pre>
+{
+	"project": {
+		"name": "Example Project",
+		"repository_ssh_url": "git@example.com:mike/example.git",
+		"branch": "master"
+	},
+	"notification": {
+		"mail": "mike@gmail.com"
+	}
+}</pre>
+					<p>
+						It is important, that the "repository_ssh_url" matches the repository that your service provider
+						delivers using the JOSN Payload. You can test this by calling <a href="/admin/">/admin/</a> (protected by .htaccess, only works localy) and updating the example request <code>branch.request.json</code>:
+					</p>
+					<strong><a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/web_hooks/web_hooks.md">Gitlab JSON</a>:</Strong><pre>
+...
+	"repository": {
+		...
+		"git_ssh_url":"git@example.com:mike/example.git",
+		...
+	},
+...</pre>
+					<strong><a href="http://doc.gitlab.com/ee/web_hooks/web_hooks.html">Github JSON</a>:</Strong><pre>
+...
+	"repository": {
+		...
+		"ssh_url": "git@github.com:mike/example.git",
+		...
+	},
+...</pre>
+
+
+					<hr/>
+					<h2>Debugging &amp; Issues</h2>
 					<p>
 						Check <code>logs/deeplio.log</code> if you have any problems or open up
 						an <a href="https://github.com/noelboss/deepl.io/issues">issue</a>.
@@ -97,5 +163,13 @@
 				<p><copy>© <a href="//noelboss.com">Noël Bossart</a>. Made in Switzerland.</copy></p>
 			</footer>
 		</div>
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-5342062-8', 'auto');
+			ga('send', 'pageview');
+		</script>
 	</body>
 </html>

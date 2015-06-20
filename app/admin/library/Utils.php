@@ -23,7 +23,7 @@ class Utils {
 			<header class="navbar navbar-default" role="banner">
 				<div class="container">
 					<div class="navbar-header">
-						<a href="<?php echo(DEEPLIOURL); ?>" class="navbar-brand">Deepl.io</a>
+						<a href="http://deepl.io" class="navbar-brand">Deepl.io</a>
 					</div>
 					<nav class="collapse navbar-collapse" role="navigation">
 						<!--<ul class="nav navbar-nav">
