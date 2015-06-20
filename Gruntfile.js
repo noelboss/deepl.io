@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		replace: {
 			src: {
-				src: ['./README.md','./index.html'],
+				src: ['./README.md','./index.html','./index.php'],
 				overwrite: true,
 				replacements: [
 					{
@@ -16,15 +16,15 @@ module.exports = function(grunt) {
 						to: 'Copyright <%= grunt.template.today("yyyy") %>'
 					},
 					{
-						from: /\*\sVersion\s[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+/g,
-						to: '* Version <%= pkg.version %>'
+						from: /\–\sVersion\s[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+/g,
+						to: '– Version <%= pkg.version %>'
 					},
 					{
 						from: /Current\sRelease:\s[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+/g,
 						to: 'Current Release: <%= pkg.version %>'
 					},
 					{
-						from: /"version": "[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+"/g,
+						from: /"Version": "[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+"/g,
 						to: '"version": "<%= pkg.version %>"'
 					},
 					{
