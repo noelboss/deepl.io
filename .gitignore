@@ -6,3 +6,4 @@ logs/*.log
 example.txt
 example-deploy
 repositories/deepl.io.git
+node_modules
