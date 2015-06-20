@@ -52,12 +52,10 @@
 					<p>
 						<a herf="https://github.com/noelboss/deepl.io/archive/master.zip">Download</a> Deepl.io to your server or <a herf="https://github.com/noelboss/deepl.io">clone using git</a>. Consider creating a subdomain:
 						<code>deploy.yourserver.com</code>.
-						Then, add this to the Web-Hook Settings of your GIT Provider:
-						<code>deploy.yourserver.com/your-secret-token</code>
 					</p>
 					<p>
 						<strong>Requirements:</strong>
-						PHP, and your web-host needs to allow <a href="http://php.net/manual/en/function.exec.php">php exec</a> commands.
+						PHP, and your web-host needs to allow <a href="http://php.net/manual/en/function.exec.php">php exec</a> commands and <code>mod_rewrite</code> has to be enabled.
 					</p>
 
 					<hr/>
@@ -65,6 +63,9 @@
 					<p>
 						Open <code>config/config.example.json</code> and rename it to <code>config.json</code>.
 						Set a secret token and maybe configure allowed ips.
+						<br/>
+						Then, add this to the Web-Hook Settings of your GIT Provider:
+						<code>deploy.yourserver.com/your-secret-token</code>
 					</p>
 
 					<hr/>
