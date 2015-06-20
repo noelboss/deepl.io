@@ -42,9 +42,9 @@
 					<h2>How does it work?</h2>
 					<p>
 						Deepl.io catches and acts on requests sent by your git service-provider using <a href="https://developer.github.com/v3/repos/hooks/">web-hooks</a>. Currently github.com and gitlab.com are supported.
-						You configure your repository to send push-updates to your Deepl.io instance. Check your repository setting for the apropriate option.
+						You configure your repository to send push-updates to your Deepl.io instance. Check your repository setting for the appropriate option.
 						Deepl.io will check weather the request comes from the right source, detects if the branch that you pushed to is correct and then
-						executes the .sh commands that you deinfed.
+						executes the .sh commands that you defined.
 					</p>
 
 					<hr/>
@@ -71,7 +71,7 @@
 					<h2>Configure Deployments</h2>
 					<p>
 						Right now, you need to configure your deploys manually. It's pretty simple:
-						open the <code>repositories/</code> folder, create a new folder coresponding with your git-repository-name and add 3 files:<br />
+						open the <code>repositories/</code> folder, create a new folder corresponding with your git-repository-name and add 3 files:<br />
 						<code>your-repo.git</code>/<code>branch.config.json</code> containing information (name, repository ssh url, branch) related to your deployment<br/>
 						<code>your-repo.git</code>/<code>branch.script.sh</code> contains the code that should be executed when the hook is called<br />
 						<code>your-repo.git</code>/<code>branch.request.json</code> (optional) containing a test JSON payload<br />
@@ -85,7 +85,7 @@
 					</p>
 
 					<hr/>
-					<h2>Debuging &amp; Issues</h2>
+					<h2>Debugging &amp; Issues</h2>
 					<p>
 						Check <code>logs/deeplio.log</code> if you have any problems or open up
 						an <a href="https://github.com/noelboss/deepl.io/issues">issue</a>.
