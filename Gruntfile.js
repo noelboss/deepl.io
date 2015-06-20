@@ -3,7 +3,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		replace: {
-			src: {
+			version: {
 				src: ['./README.md','./index.html','./index.php'],
 				overwrite: true,
 				replacements: [
@@ -24,7 +24,7 @@ module.exports = function(grunt) {
 						to: 'Current Release: <%= pkg.version %>'
 					},
 					{
-						from: /"Version": "[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+"/g,
+						from: /"Version":\s"[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+"/g,
 						to: '"version": "<%= pkg.version %>"'
 					},
 					{
@@ -68,12 +68,12 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-bump');
 
 	// Default task(s).
-	grunt.registerTask('default',   ['replace:src', 'bump-only:patch', 'replace:changelog',]);
+	grunt.registerTask('default', ['replace:version', 'bump-only:patch', 'replace:changelog',]);
 	//grunt.registerTask('test-release', ['bump-only:patch', 'jshint', 'replace', 'uglify', 'cssmin', 'jquerymanifest']);
 	//
 	//grunt.registerTask('patch',   ['bump-only:patch', 'jshint', 'replace:src', 'replace:min', 'uglify', 'cssmin', 'jquerymanifest', 'bump-commit', 'replace:changelog',]);
 	//grunt.registerTask('minor',   ['bump-only:minor', 'jshint', 'replace:src', 'replace:min', 'uglify', 'cssmin', 'jquerymanifest', 'bump-commit', 'replace:changelog',]);
 	//grunt.registerTask('major',   ['bump-only:major', 'jshint', 'replace:src', 'replace:min', 'uglify', 'cssmin', 'jquerymanifest', 'bump-commit', 'replace:changelog',]);
 	//
-	grunt.registerTask('test',    ['bump-only:patch', 'mocha']);
+	grunt.registerTask('test', ['replace:version', 'bump-only:patch', 'replace:changelog',]);
 };
