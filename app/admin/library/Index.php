@@ -88,7 +88,7 @@ class Index {
 				?>
 				<a href="#" id="conf<?= $i ?>" class="list-group-item">
 					<h4 class="list-group-item-heading"><?= $conf->project->name ?></h4>
-					<p class="list-group-item-text">Repository: <?= $conf->project->repository ?></p>
+					<p class="list-group-item-text">Repository: <?= $conf->project->repository_ssh_url ?></p>
 					<p class="list-group-item-text">Branch: <?= $conf->project->branch ?></p>
 					<?php
 					if(isset($_POST['deploy'.$i])){
@@ -138,7 +138,7 @@ class Index {
 						<div class="form-group">
 							<label for="repo<?= $i ?>" class="col-sm-2 control-label">Repository SSH URL</label>
 							<div class="col-sm-10">
-								<input type="email" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="Repository" value="<?= $conf->project->repository ?>">
+								<input type="email" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="Repository" value="<?= $conf->project->repository_ssh_url ?>">
 							</div>
 						</div>
 						<div class="form-group">

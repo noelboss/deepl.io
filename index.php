@@ -74,9 +74,9 @@ namespace noelbosscom;
 					$this->log('Error: '.$path.'.config.json broken', true);
 				}
 
-				if ($repo !== $conf->project->repository){
+				if ($repo !== $conf->project->repository_ssh_url){
 					$this->log('Error: Repository not matching;');
-					$this->log(' - Config: '.$conf->project->repository);
+					$this->log(' - Config: '.$conf->project->repository_ssh_url);
 					$this->log(' - Hook: '.$repo , true);
 				}
 

@@ -50,7 +50,7 @@
 					<hr/>
 					<h2>Installation</h2>
 					<p>
-						<a herf="https://github.com/noelboss/deepl.io/archive/master.zip">Download</a> Deepl.io to your server or <a herf="https://github.com/noelboss/deepl.io">clone using git</a>. Consider creating a subdomain:
+						<a href="https://github.com/noelboss/deepl.io/archive/master.zip">Download</a> Deepl.io to your server or <a href="https://github.com/noelboss/deepl.io">clone using git</a>. Consider creating a subdomain:
 						<code>deploy.yourserver.com</code>.
 					</p>
 					<p>
@@ -91,14 +91,33 @@
 {
 	"project": {
 		"name": "Example Project",
-		"repository-ssh-url": "git@example.com:mike/example.git",
+		"repository_ssh_url": "git@example.com:mike/example.git",
 		"branch": "deploy/test"
 	},
 	"notification": {
 		"mail": "me@noelboss.com"
 	}
-}
-					</pre>
+}</pre>
+					<p>
+						It is important, that the "repository_ssh_url" matches the repository that your service provider
+						delivers using the JOSN Payload. You can test this by calling <a href="/admin/">/admin/</a> (protected by .htaccess, only works localy) and updating the example request <code>branch.request.json</code>:
+					</p>
+					<strong><a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/web_hooks/web_hooks.md">Gitlab JSON</a>:</Strong><pre>
+...
+	"repository": {
+		...
+		"git_ssh_url":"git@example.com:mike/example.git",
+		...
+	},
+...</pre>
+					<strong><a href="http://doc.gitlab.com/ee/web_hooks/web_hooks.html">Github JSON</a>:</Strong><pre>
+...
+	"repository": {
+		...
+		"ssh_url": "git@github.com:mike/example.git",
+		...
+	},
+...</pre>
 
 
 					<hr/>
