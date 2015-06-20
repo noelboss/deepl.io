@@ -117,10 +117,8 @@ class Index {
 							<input type="test" class="form-control" id="name<?= $i ?>" name="name" placeholder="Configuration Title" value="<?= $conf->project->name ?>">
 						</div>
 						<div class="form-group">
-							<label for="repo<?= $i ?>" class="col-sm-2 control-label">Repository SSH URL</label>
-							<div class="col-sm-10">
-								<input type="email" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="Repository" value="<?= $conf->project->repository_ssh_url ?>">
-							</div>
+							<label for="repo<?= $i ?>" class="control-label">Repository SSH URL</label>
+							<input type="email" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="Repository" value="<?= $conf->project->repository_ssh_url ?>">
 						</div>
 						<div class="form-group">
 							<label for="branch<?= $i ?>" class="control-label">Branch</label>
