@@ -8,7 +8,7 @@ class Index {
 	private $config;
 	private $user;
 	private $utils;
-	private $logfile = BASE.'/logs/deeplio.log';
+	private $logfile = '/logs/deeplio.log';
 
 	function __construct() {
 		$this->user= new User();
@@ -26,13 +26,16 @@ class Index {
 		$this->htmlList();
 		$script = '
 			$(".form-horizontal").hide();
-			$(".list-group").on("click","a.list-group-item", function(){
+			$(".list-group").on("click","a.list-group-item", function(e){
 				$(".form-horizontal").hide();
 				var id = "form"+$(this).attr("id"),
 					$form = $("form#"+id).detach(),
 					$info = $(".info").hide().after($form.fadeIn());
-				return false;
+					e.preventDefault();
+					location.hash="#"+this.id;
+
 			});
+			$(location.hash).click();
 		';
 		$this->utils->htmlFragmentEnd($script);
 	}
@@ -86,42 +89,19 @@ class Index {
 				$req = dirname($file)."/".$branch.".request.json";
 
 				?>
-				<a href="#" id="conf<?= $i ?>" class="list-group-item">
+				<a href="#conf<?= $i ?>" id="conf<?= $i ?>" class="list-group-item">
 					<h4 class="list-group-item-heading"><?= $conf->project->name ?></h4>
 					<p class="list-group-item-text">Repository: <?= $conf->project->repository ?></p>
 					<p class="list-group-item-text">Branch: <?= $conf->project->branch ?></p>
 					<?php
-					if(isset($_POST['deploy'.$i])){
-
-						// sending testdata...
-						$options = array(
-							'http' => array(
-								'method'=> 'POST',
-								'content' => json_encode( json_decode($_POST['req']) ),
-								'header'=>"Content-Type: application/json\r\n" .
-									"Accept: application/json\r\n"
-								)
-						);
-
-						$url = 'http://'.$_SERVER["HTTP_HOST"].'/'.$this->config->security->token;
-
-						$context = stream_context_create( $options );
-						$response = file_get_contents( $url, false, $context );
-
-						$class = 'info';
-						$class = strripos($response, 'success') !== false ? 'success' : $class;
-						$class = strripos($response, 'warning') !== false ? 'warning' : $class;
-						$class = strripos($response, 'error') !== false ? 'danger' : $class;
-						?>
-						<div class="alert alert-<?= $class ?>" role="alert">
-							<h4>Request sent:</h4>
-							<pre><?= $response ?></pre>
-						</div>
-						<?php
-					}
+						if(isset($_POST['deploy'.$i])){
+							include_once('Test.php');
+							$Test = new Test($this->config);
+							echo $Test->response;
+						}
 					?>
 				</a>
-				<form class="form-horizontal" method="post" action="/admin/" id="formconf<?= $i ?>">
+				<form class="form-horizontal" method="post" action="/admin/#conf<?= $i ?>" id="formconf<?= $i ?>">
 
 					<?php
 					// check conf
