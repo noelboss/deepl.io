@@ -68,7 +68,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-bump');
 
 	// Default task(s).
-	grunt.registerTask('default',   ['replace:src', 'replace:min', 'bump-only:patch', 'replace:changelog',]);
+	grunt.registerTask('default',   ['replace:src', 'bump-only:patch', 'replace:changelog',]);
 	//grunt.registerTask('test-release', ['bump-only:patch', 'jshint', 'replace', 'uglify', 'cssmin', 'jquerymanifest']);
 	//
 	//grunt.registerTask('patch',   ['bump-only:patch', 'jshint', 'replace:src', 'replace:min', 'uglify', 'cssmin', 'jquerymanifest', 'bump-commit', 'replace:changelog',]);
