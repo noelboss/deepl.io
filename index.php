@@ -175,10 +175,10 @@ namespace noelbosscom;
 			$status = $success ? 'SUCCESS' : 'FAILED';
 			$this->log('Sending mail to: '.$to);
 
-			$subject = 'Deepl.io Status: '.$status.' ['.$conf->project->name.']';
+			$subject = '['.$conf->project->name.'] Deepl.io status: '.$status;
 
 			$message = "This is the protocol of your deployment:<br>";
-			$message .= $this->log;
+			$message .= nltbr($this->log);
 
 			$headers = "From: " . strip_tags('noreply@deepl.io') . "\r\n";
 			$headers .= "Reply-To: ". strip_tags($to) . "\r\n";
