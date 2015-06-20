@@ -308,7 +308,7 @@ p {
 	margin-bottom: 10px;
 }
 small {
-	font-size: 10px;
+	font-size: 14px;
 }
 a {
 	color: #2ba6cb;
@@ -678,7 +678,7 @@ body.outlook p {
 								<a class="template-label" href="http://deepl.io">Git deployment simplified.</a>
 							</td>
 							<td class="six sub-columns last" align="right" style="text-align:right; vertical-align:middle;">
-
+								<!-- Right Logo -->
 							</td>
 							<td class="expander"></td>
 							</tr>
@@ -701,11 +701,10 @@ body.outlook p {
 						<table class="twelve columns">
 						<tr>
 							<td>
-							<h1>Deepl.io</h1>
+							<h1>Deepl.io <small><?= $this->mail->status ?></small></h1>
 								<p class="lead">
 									<?= $this->mail->lead ?>
 								</p>
-								<img width="580" height="300" src="http://placehold.it/580x300">
 							</td>
 							<td class="expander"></td>
 						</tr>
@@ -719,7 +718,9 @@ body.outlook p {
 						<table class="twelve columns">
 						<tr>
 							<td class="panel">
-							<p>Phasellus dictum sapien a neque luctus cursus. Pellentesque sem dolor, fringilla et pharetra vitae. <a href="#">Click it! »</a></p>
+								<p>
+									<?= $this->mail->log ?>
+								</p>
 							</td>
 							<td class="expander"></td>
 						</tr>
@@ -733,8 +734,12 @@ body.outlook p {
 						<table class="twelve columns">
 						<tr>
 							<td>
-							<h3>Title Ipsum <small>This is a note.</small></h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+								<p>
+									Thank you for using Deepl.io. Please consider
+									<a href="https://twitter.com/share" class="twitter-share-button" data-counturl="Deepl.io" data-url="http://deepl.io" data-text="Deepl.io – A simple yet powerful php-tool to catch GIT Web-Hooks from GITLAB and GITHUB!
+									> " data-hashtags="#webhooks,#github,#gitlab,#simple,#powerful,#push,#post,#request" data-dnt="true">tweeting</a>
+									or bloging about.
+								</p>
 							</td>
 							<td class="expander"></td>
 						</tr>
@@ -746,18 +751,18 @@ body.outlook p {
 				<table class="row">
 					<tr>
 					<td class="wrapper last">
-						<table class="three columns">
+						<table class="five columns">
 						<tr>
 							<td>
-							<table class="button">
+							<table class="tiny-button">
 								<tr>
 								<td>
-									<a href="#">Click Me!</a>
+									<a href="<?= $this->mail->projecturl ?>">See your changes</a>
 								</td>
 								</tr>
 							</table>
 							</td>
-							<td class="expander"></td>
+x
 						</tr>
 						</table>
 					</td>
@@ -770,7 +775,7 @@ body.outlook p {
 						<table class="six columns">
 						<tr>
 							<td class="left-text-pad">
-							<h5>Connect With Us:</h5>
+							<h5>Share</h5>
 							<table class="tiny-button facebook">
 								<tr>
 								<td>
@@ -821,7 +826,7 @@ body.outlook p {
 						<tr>
 							<td align="center">
 							<center>
-								<p style="text-align:center;"><a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Unsubscribe</a></p>
+								<p style="text-align:center;"><a href="https://github.com/noelboss/deepl.io/blob/master/LICENSE">License</a> | <a href="https://github.com/noelboss/deepl.io/blob/master/CHANGELOG.md">Changelog</a> | <a href="http://deepl.io">Deepl.io</a></p>
 							</center>
 							</td>
 							<td class="expander"></td>
