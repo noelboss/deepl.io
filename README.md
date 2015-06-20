@@ -8,6 +8,7 @@ A simple yet powerful php-tool to catch GIT Web-Hooks from GITLAB and GITHUB and
 * configure multiple repositories
 * configure multiple branches per repository
 * us your own deploy scripts, eighter php, shell or both
+* sends confirmation mails
 
 #### [Visit the official website for instructions and more information »](http://deepl.io)
 
