@@ -10,23 +10,5 @@ define( 'BASE', $pathes[0] . '/' );
 define( 'BASEURL', $baseuri . '/' );
 define( 'DEEPLIOURL', $baseuri . '/admin/' );
 
-$parts     = isset( $_GET['uriparts'] ) ? explode( '/', $_GET['uriparts'] ) : '';
-$nrOfParts = count( $parts );
-
-if ( $nrOfParts > 1 && $parts[0] === 'create' && property_exists( $config->micro->components, $parts[1] ) ) {
-	include_once( '../library/Component.php' );
-
-	$componentConfig            = $config->micro->components->$parts[1];
-	$componentConfig->component = $parts[1];
-	$component                  = isset( $_REQUEST['component'] ) ? $_REQUEST['component'] : null;
-	$skin                       = isset( $_REQUEST['skin'] ) ? $_REQUEST['skin'] : null;
-	$username                   = isset( $_REQUEST['user'] ) ? $_REQUEST['user'] : null;
-	$useremail                  = isset( $_REQUEST['email'] ) ? $_REQUEST['email'] : null;
-
-	$page = new Component( $componentConfig, $component, $skin, $username, $useremail );
-}
-else {
-	// index page (overview)
-	include_once( '../library/Index.php' );
-	$page = new Index();
-}
+include_once( '../library/Index.php' );
+$page = new Index();
