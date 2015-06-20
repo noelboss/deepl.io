@@ -11,41 +11,91 @@
 			body { color: #666; }
 		</style>
 	</head>
-		<body>
+	<body>
 
-			<header class="navbar navbar-default" role="banner">
-				<div class="container">
-					<div class="navbar-header">
-						<a href="/admin/" class="navbar-brand">Git deployment simplified.</a>
-					</div>
-					<nav class="collapse navbar-collapse" role="navigation">
-						<!--<ul class="nav navbar-nav">
-							<li>
-								<a href="/admin/">Overview</a>
-							</li>
-						</ul>-->
-					</nav>
-				</div>
-			</header>
-
+		<header class="navbar navbar-default" role="banner">
 			<div class="container">
-			<h1>Deepl.io
-			<span>welcome</span>
-		</h1>
-
-		<div class="row">
-			<div class="col-md-6">
-				<p class="lead">A simple yet powerful php-tool to catch GIT Web-Hooks and deploy your projects to your server after pushing.</p>
-				<h3>Instructions</h3>
-				<p>
-					I will add some instructions soon...
-					For now, take a look at <code>repositories/</code>, <code>config/</code> and call
-					<code>admin/</code> to test the example.
-				</p>
-				<copy>© <a href="//noelboss.com">Noël Bossart</a>. Made in Switzerland.</copy>
+				<div class="navbar-header">
+					<a href="/admin/" class="navbar-brand">Git deployment simplified.</a>
+				</div>
+				<nav class="collapse navbar-collapse" role="navigation">
+					<!--<ul class="nav navbar-nav">
+						<li>
+							<a href="/admin/">Overview</a>
+						</li>
+					</ul>-->
+				</nav>
 			</div>
-			<div class="col-md-6">
+		</header>
 
+		<div class="container">
+			<h1>Deepl.io</h1>
+			<div class="row">
+				<div class="col-md-12">
+					<p class="lead">A simple yet powerful php-tool to catch GIT Web-Hooks and deploy your projects to your server after pushing.</p>
+					<p>
+						<a href="https://github.com/noelboss/deepl.io" class="btn btn-info" name="deploy<?= $i ?>">Visit Github</a>
+						<a href="https://github.com/noelboss/deepl.io/archive/master.zip" class="btn btn-success" name="deploy<?= $i ?>">Download Latest</a>
+					</p>
+
+					<hr/>
+					<h2>How does it work?</h2>
+					<p>
+						Deepl.io catches and acts on requests sent by your git service-provider using <a href="https://developer.github.com/v3/repos/hooks/">web-hooks</a>. Currently github.com and gitlab.com are supported.
+						You configure your repository to send push-updates to your Deepl.io instance. Check your repository setting for the apropriate option.
+						Deepl.io will check weather the request comes from the right source, detects if the branch that you pushed to is correct and then
+						executes the .sh commands that you deinfed.
+					</p>
+
+					<hr/>
+					<h2>Installation</h2>
+					<p>
+						<a herf="https://github.com/noelboss/deepl.io/archive/master.zip">Download</a> Deepl.io to your server or <a herf="https://github.com/noelboss/deepl.io">clone using git</a>. Consider creating a subdomain:
+						<code>deploy.yourserver.com</code>.
+						Then, add this to the Web-Hook Settings of your GIT Provider:
+						<code>deploy.yourserver.com/your-secret-token</code>
+					</p>
+					<p>
+						<strong>Requirements:</strong>
+						PHP, and your web-host needs to allow <a href="http://php.net/manual/en/function.exec.php">php exec</a> commands.
+					</p>
+
+					<hr/>
+					<h2>Setup</h2>
+					<p>
+						Open <code>config/config.example.json</code> and rename it to <code>config.json</code>.
+						Set a secret token and maybe configure allowed ips.
+					</p>
+
+					<hr/>
+					<h2>Configure Deployments</h2>
+					<p>
+						Right now, you need to configure your deploys manually. It's pretty simple:
+						open the <code>repositories/</code> folder, create a new folder coresponding with your git-repository-name and add 3 files:<br />
+						<code>your-repo.git</code>/<code>branch.config.json</code> containing information (name, repository ssh url, branch) related to your deployment<br/>
+						<code>your-repo.git</code>/<code>branch.script.sh</code> contains the code that should be executed when the hook is called<br />
+						<code>your-repo.git</code>/<code>branch.request.json</code> (optional) containing a test JSON payload<br />
+						The <code>branch.</code> part is needed to distinguish push events only for the desired branch.
+					</p>
+					<p>
+						Example:<br/>
+						<code>deepl.io.git</code>/<code>master.config.json</code><br/>
+						<code>deepl.io.git</code>/<code>master.script.sh</code><br />
+						<code>deepl.io.git</code>/<code>master.request.json</code><br />
+					</p>
+
+					<hr/>
+					<h2>Debuging &amp; Issues</h2>
+					<p>
+						Check <code>logs/deeplio.log</code> if you have any problems or open up
+						an <a href="https://github.com/noelboss/deepl.io/issues">issue</a>.
+					</p>
+				</div>
 			</div>
+
+			<footer class="text-right">
+				<p><copy>© <a href="//noelboss.com">Noël Bossart</a>. Made in Switzerland.</copy></p>
+			</footer>
 		</div>
-	</div></body></html>
+	</body>
+</html>
