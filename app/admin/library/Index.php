@@ -8,7 +8,7 @@ class Index {
 	private $config;
 	private $user;
 	private $utils;
-	private $logfile = BASE.'/logs/deeplio.log';
+	private $logfile = '/logs/deeplio.log';
 
 	function __construct() {
 		$this->user= new User();
