@@ -62,7 +62,7 @@ namespace noelbosscom;
 			if($this->service === 'github'){
 				$repo = $this->data->repository->ssh_url;
 			} else {
-				$repo = $this->data->repository->git_http_url;
+				$repo = $this->data->repository->git_ssh_url;
 			}
 
 			$this->log('Note: New push from '.$repo);

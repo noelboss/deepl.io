@@ -24,7 +24,17 @@ class Index {
 
 		$this->utils->htmlFragmentStart( 'Deepl.io Settings' );
 		$this->htmlList();
-		$this->utils->htmlFragmentEnd( '' );
+		$script = '
+			$(".form-horizontal").hide();
+			$(".list-group").on("click","a.list-group-item", function(){
+				$(".form-horizontal").hide();
+				var id = "form"+$(this).attr("id"),
+					$form = $("form#"+id).detach(),
+					$info = $(".info").hide().after($form.fadeIn());
+				return false;
+			});
+		';
+		$this->utils->htmlFragmentEnd($script);
 	}
 
 	private function htmlList() {
@@ -41,11 +51,13 @@ class Index {
 				$this->configCollector( BASE . 'repositories' );
 				?>
 			</div>
-			<div class="col-md-6">
-				<h3>Help</h3>
+			<div class="col-md-6 ">
+				<div class="info">
+					<h3>Help</h3>
 
-				<div class="list-group">
-					Here you will find more information...
+					<div class="list-group">
+						Here you will find more information...
+					</div>
 				</div>
 			</div>
 		</div>
@@ -74,16 +86,18 @@ class Index {
 				$req = dirname($file)."/".$branch.".request.json";
 
 				?>
-				<form class="form-horizontal" method="post" action="/admin/">
-
+				<a href="#" id="conf<?= $i ?>" class="list-group-item">
+					<h4 class="list-group-item-heading"><?= $conf->project->name ?></h4>
+					<p class="list-group-item-text">Repository: <?= $conf->project->repository ?></p>
+					<p class="list-group-item-text">Branch: <?= $conf->project->branch ?></p>
 					<?php
-					if(isset($_POST['repl'.$i])){
+					if(isset($_POST['deploy'.$i])){
 
 						// sending testdata...
 						$options = array(
 							'http' => array(
 								'method'=> 'POST',
-								'content' => json_encode( json_decode($_POST['req'.$i]) ),
+								'content' => json_encode( json_decode($_POST['req']) ),
 								'header'=>"Content-Type: application/json\r\n" .
 									"Accept: application/json\r\n"
 								)
@@ -105,7 +119,11 @@ class Index {
 						</div>
 						<?php
 					}
+					?>
+				</a>
+				<form class="form-horizontal" method="post" action="/admin/" id="formconf<?= $i ?>">
 
+					<?php
 					// check conf
 					if(!is_object($conf)){
 						$this->log('Error: '.$file.' broken', true);
@@ -114,26 +132,26 @@ class Index {
 						<div class="form-group">
 							<label for="name<?= $i ?>" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-10">
-								<input type="email" class="form-control" id="name<?= $i ?>" placeholder="Repository" value="<?= $conf->project->name ?>">
+								<input type="email" class="form-control" id="name<?= $i ?>" name="name" placeholder="Repository" value="<?= $conf->project->name ?>">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="repo<?= $i ?>" class="col-sm-2 control-label">Repository SSH URL</label>
 							<div class="col-sm-10">
-								<input type="email" class="form-control" id="repo<?= $i ?>" placeholder="Repository" value="<?= $conf->project->repository ?>">
+								<input type="email" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="Repository" value="<?= $conf->project->repository ?>">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="branch<?= $i ?>" class="col-sm-2 control-label">Branch</label>
 							<div class="col-sm-10">
-								<input type="email" class="form-control" id="branch<?= $i ?>" placeholder="deploy/dev" value="<?= $conf->project->branch ?>">
+								<input type="email" class="form-control" id="branch<?= $i ?>" name="branch" placeholder="deploy/dev" value="<?= $conf->project->branch ?>">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="script<?= $i ?>" class="col-sm-2 control-label">Deploy Script</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" rows="10" id="script<?= $i ?>">
+								<textarea class="form-control" rows="10" id="script<?= $i ?>" name="script">
 									<?php
 									if(file_exists($sh)){
 										echo file_get_contents($sh);
@@ -145,7 +163,7 @@ class Index {
 						<div class="form-group">
 							<label for="req<?= $i ?>" class="col-sm-2 control-label">Test JSON</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" rows="10" id="req<?= $i ?>" name="req<?= $i ?>">
+								<textarea class="form-control" rows="10" id="req<?= $i ?>" name="req">
 									<?php
 									if(file_exists($req)){
 										echo file_get_contents($req);
@@ -156,7 +174,8 @@ class Index {
 						</div>
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-default" name="repl<?= $i ?>">Manual Deploy</button>
+								<button type="submit" class="btn btn-warning" name="deploy<?= $i ?>">Test Deploy</button>
+								<button type="submit" class="btn btn-success" name="save">Save Configuration</button>
 							</div>
 						</div>
 					</form>
