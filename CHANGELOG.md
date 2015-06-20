@@ -1,7 +1,7 @@
 # Changelog - Deepl.io
 
 ## Master
-
+* Added Grunt
 
 ## v0.0.2 - 2015-07-21 - Admin Interface
 
