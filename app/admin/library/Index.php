@@ -28,14 +28,13 @@ class Index {
 			$("form").hide();
 			$(".list-group").on("click","a.list-group-item", function(e){
 				$("form").hide();
-				var id = "form"+$(this).attr("id"),
+				var id = "form"+$(this).attr("data-id"),
 					$form = $("form#"+id).detach(),
 					$info = $(".info").hide().after($form.fadeIn());
-					e.preventDefault();
-					location.hash="#"+this.id;
-
+					location.hash="#"+$(this).attr("data-id");
+					return false;
 			});
-			$(location.hash).click();
+			$(location.hash+"link").click();
 		';
 		$this->utils->htmlFragmentEnd($script);
 	}
@@ -89,10 +88,11 @@ class Index {
 				$req = dirname($file)."/".$branch.".request.json";
 
 				?>
-				<a href="#conf<?= $i ?>" id="conf<?= $i ?>" class="list-group-item">
+				<a href="#conf<?= $i ?>" id="conf<?= $i ?>link" data-id="conf<?= $i ?>" class="list-group-item">
 					<h4 class="list-group-item-heading"><?= $conf->project->name ?></h4>
-					<p class="list-group-item-text">Repository: <?= $conf->project->repository_ssh_url ?></p>
-					<p class="list-group-item-text">Branch: <?= $conf->project->branch ?></p>
+					<p class="list-group-item-text"><strong>Repository:</strong> <?= $conf->project->repository_ssh_url ?></p>
+					<p class="list-group-item-text"><strong>Branch:</strong> <?= $conf->project->branch ?></p>
+					<p class="list-group-item-text"><strong>Notification:</strong> <?= $conf->notification->mail ?></p>
 					<?php
 						if(isset($_POST['deploy'.$i])){
 							include_once('Test.php');
