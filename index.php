@@ -19,6 +19,8 @@ namespace noelbosscom;
 		private $ip;
 		private $service;
 		private $data;
+		private $log;
+		private $projectconf;
 
 		public function __construct() {
 			if(isset($_ENV["ENVIRONMENT"]) && file_exists(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
@@ -70,6 +72,8 @@ namespace noelbosscom;
 			if(file_exists($path.'.config.json')){
 
 				$conf = json_decode( file_get_contents( $path.'.config.json' ) );
+				$this->projectconf = $conf;
+
 				if($conf === null || !is_object($conf)){
 					$this->log('Error: '.$path.'.config.json broken', true);
 				}
@@ -161,6 +165,28 @@ namespace noelbosscom;
 
 		private function success(){
 			$this->log('SUCCESS – Deployment finished.');
+			$this->notification(true);
+		}
+
+		private function notification($success = false){
+			$conf = $this->projectconf;
+
+			$to = $conf->notification->mail;
+			$status = $success ? 'SUCCESS' : 'FAILED';
+			$this->log('Sending mail to: '.$to);
+
+			$subject = 'Deepl.io Status: '.$status.' ['.$conf->project->name.']';
+
+			$message = "This is the protocol of your deployment:<br>";
+			$message .= $this->log;
+
+			$headers = "From: " . strip_tags('noreply@deepl.io') . "\r\n";
+			$headers .= "Reply-To: ". strip_tags($to) . "\r\n";
+			//$headers .= "CC: susan@example.com\r\n";
+			$headers .= "MIME-Version: 1.0\r\n";
+			$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+			mail($to, $subject, $message, $headers);
 		}
 
 		private function log($msg, $die = false){
@@ -171,11 +197,14 @@ namespace noelbosscom;
 					echo $pre . $msg . "\n";
 				}
 				file_put_contents($this->logfile, $pre . $msg . "\n", FILE_APPEND);
+				$this->log .= $pre . $msg . "\n";
 			}
 			if($die && !($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input'))) {
 				header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+				$this->notification();
 				die();
 			} else if($die){
+				$this->notification();
 				die();
 			}
 		}
