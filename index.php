@@ -17,10 +17,12 @@ namespace noelbosscom;
 		private $logfile;
 		private $token;
 		private $ip;
+		private $service;
+		private $data;
 
 		/*
-		$data = file_get_contents('php://input');
-		$hook->run(json_decode($data)); */
+		$this->data = file_get_contents('php://input');
+		$hook->run(json_decode($this->data)); */
 
 		public function __construct() {
 			if(isset($_ENV["ENVIRONMENT"]) && file_exists(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
@@ -29,6 +31,9 @@ namespace noelbosscom;
 			else {
 				$conffile = BASE . 'config/config.json';
 			}
+
+			$this->log($_SERVER);
+
 			$this->config = json_decode( file_get_contents( $conffile ) );
 
 			if(isset($this->config->log)){
@@ -40,53 +45,58 @@ namespace noelbosscom;
 
 			$this->log('START – Request detected');
 
+			$this->data = file_get_contents('php://input');
+
+			$this->service = (strpos($this->data, 'github.com') !== false) ? 'github' : 'gitlab';
+
+			$this->data = json_decode( file_get_contents('php://input') );
+			if($this->data === null || !is_object($this->data->repository)){
+				$this->log('Error: JSON data missing or broken: '.$this->data, true);
+			}
+
 			$this->security();
 			$this->run();
 		}
 
 		private function run() {
-			$data = json_decode( file_get_contents('php://input') );
-			if($data === null || !is_object($data->repository)){
-				$this->log('Error: JSON data missing or broken: '.$data, true);
+			if($this->service === 'github'){
+				$repo = $this->data->repository->ssh_url;
+			} else {
+				$repo = $this->data->repository->git_http_url;
 			}
-
-			$repo = basename($data->repository->git_http_url);
-
-			// gitlab || github
-			$repo = $repo ? $repo : $data->repository->name.'.git';
 
 			$this->log('Note: New push from '.$repo);
 
-			$branch = str_replace('refs/heads','', $data->ref);
+			$branch = str_replace('refs/heads/','', $this->data->ref);
+			$branch = str_replace('/','-', $branch);
 
-			$path = repositories.$repo.$branch;
+			$path = repositories.basename($repo).'/'.$branch;
+			if(file_exists($path.'.config.json')){
 
-			if(file_exists($path.'/config.json')){
-
-				$conf = json_decode( file_get_contents( $path.'/config.json' ) );
+				$conf = json_decode( file_get_contents( $path.'.config.json' ) );
 				if($conf === null || !is_object($conf)){
-					$this->log('Error: '.$path.'/config.json broken', true);
+					$this->log('Error: '.$path.'.config.json broken', true);
 				}
 
-				if ($data->repository->url !== $conf->project->repository){
+				if ($repo !== $conf->project->repository){
 					$this->log('Error: Repository not matching;');
 					$this->log(' - Config: '.$conf->project->repository);
-					$this->log(' - Hook: '.$data->repository->url , true);
+					$this->log(' - Hook: '.$repo , true);
 				}
 
-				if ($data->ref !== 'refs/heads/'.$conf->project->branch){
+				if ($this->data->ref !== 'refs/heads/'.$conf->project->branch){
 					$this->log('Branch not configured: Repository not matching;');
 					$this->log(' - Config: refs/heads/'.$conf->project->branch);
-					$this->log(' - Hook: '.$data->ref, true);
+					$this->log(' - Hook: '.$this->data->ref, true);
 				}
 
-				if(!file_exists($path.'/script.sh')){
-					$this->log('Error: No deployment script configured: '.$path.'/script.sh', true);
+				if(!file_exists($path.'.script.sh')){
+					$this->log('Error: No deployment script configured: '.$path.'.script.sh', true);
 				} else {
 					chdir(BASE);
-					exec($path.'/script.sh', $out, $ret);
+					exec($path.'.script.sh', $out, $ret);
 					if ($ret){
-						$this->log('Error: Error executing command: ');
+						$this->log('Error: Error executing command in '.$path.'.script.sh:');
 						$this->log("   return code $ret", true);
 					} else {
 						$this->log('SUCCESS – Deployment finished.');

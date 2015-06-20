@@ -22,7 +22,7 @@ class Index {
 		}
 		$this->config = json_decode( file_get_contents( $conffile ) );
 
-		$this->utils->htmlFragmentStart( 'DEEPLIO Start' );
+		$this->utils->htmlFragmentStart( 'Deepl.io Settings' );
 		$this->htmlList();
 		$this->utils->htmlFragmentEnd( '' );
 	}
@@ -57,7 +57,7 @@ class Index {
 		global $config;
 
 		// views
-		$files = glob( $base . '/example.git/deploy/test/config.json');
+		$files = glob( $base . '/*.git/*config.json');
 		$this->viewList( $files, $folders );
 	}
 
@@ -65,22 +65,25 @@ class Index {
 		?>
 		<div class="list-group">
 			<?php
+			$i = 0;
 			foreach ( $files as $file ) {
+				$i++;
 				$conf = json_decode( file_get_contents( $file ) );
-				$sh = dirname($file).'/script.sh';
-				$req = dirname($file).'/request.json';
+				$branch = str_replace('/','-',$conf->project->branch);
+				$sh = dirname($file)."/".$branch.".script.sh";
+				$req = dirname($file)."/".$branch.".request.json";
 
 				?>
 				<form class="form-horizontal" method="post" action="/admin/">
 
 					<?php
-					if(isset($_POST['repl1'])){
+					if(isset($_POST['repl'.$i])){
 
 						// sending testdata...
 						$options = array(
 							'http' => array(
 								'method'=> 'POST',
-								'content' => json_encode( json_decode($_POST['req1']) ),
+								'content' => json_encode( json_decode($_POST['req'.$i]) ),
 								'header'=>"Content-Type: application/json\r\n" .
 									"Accept: application/json\r\n"
 								)
@@ -109,28 +112,28 @@ class Index {
 					} else {
 						?>
 						<div class="form-group">
-							<label for="name1" class="col-sm-2 control-label">Name</label>
+							<label for="name<?= $i ?>" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-10">
-								<input type="email" class="form-control" id="name1" placeholder="Repository" value="<?= $conf->project->name ?>">
+								<input type="email" class="form-control" id="name<?= $i ?>" placeholder="Repository" value="<?= $conf->project->name ?>">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="repo1" class="col-sm-2 control-label">Repository URL</label>
+							<label for="repo<?= $i ?>" class="col-sm-2 control-label">Repository SSH URL</label>
 							<div class="col-sm-10">
-								<input type="email" class="form-control" id="repo1" placeholder="Repository" value="<?= $conf->project->repository ?>">
+								<input type="email" class="form-control" id="repo<?= $i ?>" placeholder="Repository" value="<?= $conf->project->repository ?>">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="branch1" class="col-sm-2 control-label">Branch</label>
+							<label for="branch<?= $i ?>" class="col-sm-2 control-label">Branch</label>
 							<div class="col-sm-10">
-								<input type="email" class="form-control" id="branch1" placeholder="deploy/dev" value="<?= $conf->project->branch ?>">
+								<input type="email" class="form-control" id="branch<?= $i ?>" placeholder="deploy/dev" value="<?= $conf->project->branch ?>">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="script1" class="col-sm-2 control-label">Deploy Script</label>
+							<label for="script<?= $i ?>" class="col-sm-2 control-label">Deploy Script</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" rows="10" id="script1">
+								<textarea class="form-control" rows="10" id="script<?= $i ?>">
 									<?php
 									if(file_exists($sh)){
 										echo file_get_contents($sh);
@@ -140,9 +143,9 @@ class Index {
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="req1" class="col-sm-2 control-label">Test JSON</label>
+							<label for="req<?= $i ?>" class="col-sm-2 control-label">Test JSON</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" rows="10" id="req1" name="req1">
+								<textarea class="form-control" rows="10" id="req<?= $i ?>" name="req<?= $i ?>">
 									<?php
 									if(file_exists($req)){
 										echo file_get_contents($req);
@@ -153,7 +156,7 @@ class Index {
 						</div>
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-default" name="repl1">Manual Deploy</button>
+								<button type="submit" class="btn btn-default" name="repl<?= $i ?>">Manual Deploy</button>
 							</div>
 						</div>
 					</form>
