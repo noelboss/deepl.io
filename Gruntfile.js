@@ -50,7 +50,7 @@ module.exports = function(grunt) {
 					'package.json'
 				],
 				updateConfigs: ['pkg'],
-				commit: false,
+				commit: true,
 				commitMessage: 'Release Version %VERSION%',
 				commitFiles: ['-a'], // '-a' for all files
 				createTag: false,
@@ -68,12 +68,11 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-bump');
 
 	// Default task(s).
-	grunt.registerTask('default', ['replace:version', 'bump-only:patch', 'replace:changelog',]);
-	//grunt.registerTask('test-release', ['bump-only:patch', 'jshint', 'replace', 'uglify', 'cssmin', 'jquerymanifest']);
-	//
-	//grunt.registerTask('patch',   ['bump-only:patch', 'jshint', 'replace:src', 'replace:min', 'uglify', 'cssmin', 'jquerymanifest', 'bump-commit', 'replace:changelog',]);
-	//grunt.registerTask('minor',   ['bump-only:minor', 'jshint', 'replace:src', 'replace:min', 'uglify', 'cssmin', 'jquerymanifest', 'bump-commit', 'replace:changelog',]);
-	//grunt.registerTask('major',   ['bump-only:major', 'jshint', 'replace:src', 'replace:min', 'uglify', 'cssmin', 'jquerymanifest', 'bump-commit', 'replace:changelog',]);
-	//
-	grunt.registerTask('test', ['replace:version', 'bump-only:patch', 'replace:changelog',]);
+	grunt.registerTask('default', ['bump-only:patch', 'replace:version', 'replace:changelog',]);
+	grunt.registerTask('test',    ['bump-only:patch', 'replace:version', 'replace:changelog',]);
+
+	grunt.registerTask('patch',   [ 'bump-only:patch', 'replace:version', 'bump-commit', 'replace:changelog',]);
+	grunt.registerTask('minor',   [ 'bump-only:minor', 'replace:version', 'bump-commit', 'replace:changelog',]);
+	grunt.registerTask('major',   [ 'bump-only:major', 'replace:version', 'bump-commit', 'replace:changelog',]);
+
 };
