@@ -2,6 +2,9 @@
 
 ## Master
 
+
+## v0.2.0 - 2015-06-20
+
 * Improved admin Interface
 * Sending notification mails
 
