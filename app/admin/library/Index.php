@@ -44,19 +44,19 @@ class Index {
 		</h1>
 
 		<div class="row">
-			<div class="col-md-6">
-				<h3>Deployment Configurations</h3>
+			<div class="col-md-5">
+				<h3>Deployment Jobs</h3>
 				<?php
 				global $config;
 				$this->configCollector( BASE . 'repositories' );
 				?>
 			</div>
-			<div class="col-md-6 ">
+			<div class="col-md-7">
 				<div class="info">
-					<h3>Help</h3>
+					<h3>Edit Settings</h3>
 
 					<div class="list-group">
-						Here you will find more information...
+						To edit and test a deployment, click on settings on the left.
 					</div>
 				</div>
 			</div>
@@ -151,20 +151,17 @@ class Index {
 						<div class="form-group">
 							<label for="script<?= $i ?>" class="col-sm-2 control-label">Deploy Script</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" rows="10" id="script<?= $i ?>" name="script">
-									<?php
+								<textarea class="form-control" rows="10" id="script<?= $i ?>" name="script"><?php
 									if(file_exists($sh)){
 										echo file_get_contents($sh);
 									}
-									?>
-								</textarea>
+?></textarea>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="req<?= $i ?>" class="col-sm-2 control-label">Test JSON</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" rows="10" id="req<?= $i ?>" name="req">
-									<?php
+								<textarea class="form-control" rows="10" id="req<?= $i ?>" name="req"><?php
 									if(file_exists($req)){
 										echo file_get_contents($req);
 									}
