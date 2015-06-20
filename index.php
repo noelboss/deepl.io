@@ -20,10 +20,6 @@ namespace noelbosscom;
 		private $service;
 		private $data;
 
-		/*
-		$this->data = file_get_contents('php://input');
-		$hook->run(json_decode($this->data)); */
-
 		public function __construct() {
 			if(isset($_ENV["ENVIRONMENT"]) && file_exists(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
 				$conffile = BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json';
