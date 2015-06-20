@@ -86,16 +86,30 @@ namespace noelbosscom;
 					$this->log(' - Hook: '.$this->data->ref, true);
 				}
 
-				if(!file_exists($path.'.script.sh')){
+				// using php over shell (since you can call shell from php)
+				if(file_exists($path.'.script.php')){
+					try {
+						chdir(BASE);
+						$this->log('Note: Using PHP '.$path.'.script.php:');
+						include_once($path.'.script.php');
+						$this->success();
+					} catch (Exception $e) {
+						$this->log('Error: Error in '.$path.'.script.php:');
+						$this->log('   '.$e);
+					}
+				}
+				// no shell and no php? no deployment
+				else if(!file_exists($path.'.script.sh')){
 					$this->log('Error: No deployment script configured: '.$path.'.script.sh', true);
 				} else {
+					// change to root directory
 					chdir(BASE);
 					exec($path.'.script.sh', $out, $ret);
 					if ($ret){
 						$this->log('Error: Error executing command in '.$path.'.script.sh:');
 						$this->log("   return code $ret", true);
 					} else {
-						$this->log('SUCCESS – Deployment finished.');
+						$this->success();
 					}
 				}
 
@@ -145,6 +159,9 @@ namespace noelbosscom;
 			}
 		}
 
+		private function success(){
+			$this->log('SUCCESS – Deployment finished.');
+		}
 
 		private function log($msg, $die = false){
 			if(isset($this->config->log)){
