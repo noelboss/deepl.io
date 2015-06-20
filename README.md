@@ -1,4 +1,5 @@
-# Deepl.io Version 0.0.2
+# Deepl.io
+### Current Release: 0.0.2
 A simple yet powerful php-tool to catch GIT Web-Hooks from GITLAB and GITHUB and deploy your projects to your server after pushing.
 
 ## Features
@@ -9,4 +10,4 @@ A simple yet powerful php-tool to catch GIT Web-Hooks from GITLAB and GITHUB and
 
 #### [Visit the official website for instructions and more information »](http://deepl.io)
 
-© Copyright 2015 Noël Bossart. Made in Switzerland.
+© 2015 [Noël Bossart](http://noelboss.com). Made in Switzerland.

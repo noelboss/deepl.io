@@ -4,9 +4,13 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		replace: {
 			src: {
-				src: ['./README.md','./src/*.*','bower.json'],
+				src: ['./README.md','./index.html'],
 				overwrite: true,
 				replacements: [
+					{
+						from: /@\s[0-9]{4}/g,
+						to: '© <%= grunt.template.today("yyyy") %>'
+					},
 					{
 						from: /Copyright\s[0-9]{4}/g,
 						to: 'Copyright <%= grunt.template.today("yyyy") %>'
@@ -16,16 +20,8 @@ module.exports = function(grunt) {
 						to: '* Version <%= pkg.version %>'
 					},
 					{
-						from: /Current\sRelease\s[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+/g,
-						to: 'Current Release <%= pkg.version %>'
-					},
-					{
-						from: /archive\/[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+/g,
-						to: 'archive/<%= pkg.version %>'
-					},
-					{
-						from: /noelboss\/featherlight\/[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+/g,
-						to: 'noelboss/featherlight/<%= pkg.version %>'
+						from: /Current\sRelease:\s[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+/g,
+						to: 'Current Release: <%= pkg.version %>'
 					},
 					{
 						from: /"version": "[0-9]+[.]{1}[0-9]+[.]{1}[0-9]+"/g,
@@ -42,8 +38,8 @@ module.exports = function(grunt) {
 				overwrite: true,
 				replacements: [
 					{
-						from: 'Master\n-----------------------------------',
-						to: 'Master\n-----------------------------------\n\n\n<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n-----------------------------------'
+						from: '## Master\n',
+						to: '## Master\n\n\n## v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n'
 					}
 				]
 			},
@@ -54,10 +50,10 @@ module.exports = function(grunt) {
 					'package.json'
 				],
 				updateConfigs: ['pkg'],
-				commit: true,
+				commit: false,
 				commitMessage: 'Release Version %VERSION%',
 				commitFiles: ['-a'], // '-a' for all files
-				createTag: true,
+				createTag: false,
 				tagName: '%VERSION%',
 				tagMessage: 'Released Version %VERSION%',
 				push: false
