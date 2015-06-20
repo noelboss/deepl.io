@@ -25,9 +25,9 @@ class Index {
 		$this->utils->htmlFragmentStart( 'Deepl.io Settings' );
 		$this->htmlList();
 		$script = '
-			$(".form-horizontal").hide();
+			$("form").hide();
 			$(".list-group").on("click","a.list-group-item", function(e){
-				$(".form-horizontal").hide();
+				$("form").hide();
 				var id = "form"+$(this).attr("id"),
 					$form = $("form#"+id).detach(),
 					$info = $(".info").hide().after($form.fadeIn());
@@ -56,9 +56,9 @@ class Index {
 			</div>
 			<div class="col-md-7">
 				<div class="info">
-					<h3>Edit Settings</h3>
+					<h3 class="text-right">Edit Deployment Jobs</h3>
 
-					<div class="list-group">
+					<div class="list-group text-right">
 						To edit and test a deployment, click on settings on the left.
 					</div>
 				</div>
@@ -91,8 +91,9 @@ class Index {
 				?>
 				<a href="#conf<?= $i ?>" id="conf<?= $i ?>" class="list-group-item">
 					<h4 class="list-group-item-heading"><?= $conf->project->name ?></h4>
-					<p class="list-group-item-text">Repository: <?= $conf->project->repository_ssh_url ?></p>
-					<p class="list-group-item-text">Branch: <?= $conf->project->branch ?></p>
+					<p class="list-group-item-text"><strong>Repository:</strong> <?= $conf->project->repository_ssh_url ?></p>
+					<p class="list-group-item-text"><strong>Branch:</strong> <?= $conf->project->branch ?></p>
+					<p class="list-group-item-text"><strong>Notifications:</strong> <?= $conf->notification->mail ?></p>
 					<?php
 						if(isset($_POST['deploy'.$i])){
 							include_once('Test.php');
@@ -101,8 +102,11 @@ class Index {
 						}
 					?>
 				</a>
-				<form class="form-horizontal" method="post" action="/admin/#conf<?= $i ?>" id="formconf<?= $i ?>">
-
+				<form method="post" action="/admin/#conf<?= $i ?>" id="formconf<?= $i ?>">
+					<h3>Edit "<?= $conf->project->name ?>"
+					<button type="submit" class="btn btn-success pull-right" name="save">Save</button>
+					</h3>
+					<hr/>
 					<?php
 					// check conf
 					if(!is_object($conf)){
@@ -110,50 +114,42 @@ class Index {
 					} else {
 						?>
 						<div class="form-group">
-							<label for="name<?= $i ?>" class="col-sm-2 control-label">Name</label>
-							<div class="col-sm-10">
-								<input type="email" class="form-control" id="name<?= $i ?>" name="name" placeholder="Repository" value="<?= $conf->project->name ?>">
-							</div>
+							<label for="name<?= $i ?>" class="control-label">Configuration Name</label>
+							<input type="test" class="form-control" id="name<?= $i ?>" name="name" placeholder="Configuration Title" value="<?= $conf->project->name ?>">
 						</div>
 						<div class="form-group">
-							<label for="repo<?= $i ?>" class="col-sm-2 control-label">Repository SSH URL</label>
-							<div class="col-sm-10">
-								<input type="email" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="Repository" value="<?= $conf->project->repository_ssh_url ?>">
-							</div>
+							<label for="repo<?= $i ?>" class="control-label">Repository SSH URL</label>
+							<input type="test" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="git@gitlab.com:user/repo.git" value="<?= $conf->project->repository_ssh_url ?>">
 						</div>
 						<div class="form-group">
-							<label for="branch<?= $i ?>" class="col-sm-2 control-label">Branch</label>
-							<div class="col-sm-10">
-								<input type="email" class="form-control" id="branch<?= $i ?>" name="branch" placeholder="deploy/dev" value="<?= $conf->project->branch ?>">
+							<label for="branch<?= $i ?>" class="control-label">Branch</label>
+							<input type="test" class="form-control" id="branch<?= $i ?>" name="branch" placeholder="deploy/dev" value="<?= $conf->project->branch ?>">
+						</div>
+						<div class="form-group">
+							<label for="mail<?= $i ?>" class="control-label">e-Mail</label>
+							<div class="input-group">
+								<span class="input-group-addon">@</span>
+								<input type="email" class="form-control" id="mail<?= $i ?>" name="mail" placeholder="nofitication@email.com" value="<?= $conf->notification->mail ?>">
 							</div>
 						</div>
-
+						<hr/>
 						<div class="form-group">
-							<label for="script<?= $i ?>" class="col-sm-2 control-label">Deploy Script</label>
-							<div class="col-sm-10">
-								<textarea class="form-control" rows="10" id="script<?= $i ?>" name="script"><?php
+							<label for="script<?= $i ?>" class="control-label">Deploy Script</label>
+							<textarea class="form-control" rows="10" id="script<?= $i ?>" name="script"><?php
 									if(file_exists($sh)){
 										echo file_get_contents($sh);
-									}
-?></textarea>
-							</div>
+									}?></textarea>
 						</div>
 						<div class="form-group">
-							<label for="req<?= $i ?>" class="col-sm-2 control-label">Test JSON</label>
-							<div class="col-sm-10">
-								<textarea class="form-control" rows="10" id="req<?= $i ?>" name="req"><?php
+							<label for="req<?= $i ?>" class="control-label">Test JSON</label>
+							<textarea class="form-control" rows="10" id="req<?= $i ?>" name="req"><?php
 									if(file_exists($req)){
 										echo file_get_contents($req);
-									}
-									?>
-								</textarea>
-							</div>
+									}?></textarea>
 						</div>
 						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-warning" name="deploy<?= $i ?>">Test Deploy</button>
-								<button type="submit" class="btn btn-success" name="save">Save Configuration</button>
-							</div>
+							<button type="submit" class="btn btn-warning" name="deploy<?= $i ?>">Test Deploy</button>
+							<button type="submit" class="btn btn-success pull-right" name="save">Save</button>
 						</div>
 					</form>
 
