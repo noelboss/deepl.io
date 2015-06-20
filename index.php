@@ -178,7 +178,7 @@ namespace noelbosscom;
 			$subject = '['.$conf->project->name.'] Deepl.io status: '.$status;
 
 			$message = "This is the protocol of your deployment:<br>";
-			$message .= nltbr($this->log);
+			$message .= nl2br($this->log);
 
 			$headers = "From: " . strip_tags('noreply@deepl.io') . "\r\n";
 			$headers .= "Reply-To: ". strip_tags($to) . "\r\n";
