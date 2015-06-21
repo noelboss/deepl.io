@@ -2,6 +2,10 @@
 
 ## Master
 
+* Fixing mails without recipient
+
+## v0.3.0 - 2015-06-21
+
 * Logo & improved design
 * Sending html mail
 
