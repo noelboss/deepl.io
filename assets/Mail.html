@@ -308,7 +308,7 @@ p {
 	margin-bottom: 10px;
 }
 small {
-	font-size: 14px;
+	font-size: 20px;
 }
 a {
 	color: #2ba6cb;
@@ -348,9 +348,14 @@ h6 a:visited {
 	color: #2ba6cb !important;
 }
 /* Panels */
-.panel {
-	background: #f2f2f2;
-	border: 1px solid #d9d9d9;
+.panel-success {
+	background: #79D195;
+	border: 1px solid #679C6A;
+	padding: 10px !important;
+}
+.panel-error {
+	background: #E90089;
+	border: 1px solid #9A2160;
 	padding: 10px !important;
 }
 .sub-grid table {
@@ -618,6 +623,9 @@ body.outlook p {
 		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 		-moz-border-radiusfont-size: 18px;
 	}
+	a.template-label img {
+		height: 48px;
+	}
 	a.template-label:hover {
 		color: #5e5e5e !important;
 	}
@@ -657,6 +665,8 @@ body.outlook p {
 		padding-right: 10px !important;
 		}
 	}
+
+
 	</style>
 </head>
 <body>
@@ -675,7 +685,10 @@ body.outlook p {
 						<table class="twelve columns">
 							<tr>
 							<td class="six sub-columns">
-								<a class="template-label" href="http://deepl.io">Git deployment simplified.</a>
+								<a class="template-label" href="http://deepl.io"><span style="display: none;">Deepl.io</span>
+									<img alt="Deepl.io"
+										src="data:image/png;base64,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" />
+								</a>
 							</td>
 							<td class="six sub-columns last" align="right" style="text-align:right; vertical-align:middle;">
 								<!-- Right Logo -->
@@ -701,7 +714,7 @@ body.outlook p {
 							<table class="twelve columns">
 							<tr>
 								<td>
-								<h1>Deepl.io <small>{{status}}</small></h1>
+								<h1>Deployment <small class="{{statusclass}}">{{status}}</small></h1>
 									<p class="lead">
 										{{lead}}
 									</p>
@@ -717,10 +730,8 @@ body.outlook p {
 						<td class="wrapper last">
 							<table class="twelve columns">
 								<tr>
-									<td class="panel">
-										<p>
-											{{log}}
-										</p>
+									<td class="panel panel-{{statusclass}}">
+										{{log}}
 									</td>
 									<td class="expander"></td>
 								</tr>
@@ -755,7 +766,11 @@ body.outlook p {
 						<tr>
 							<td align="center">
 							<center>
-								<p style="text-align:center;"><a href="https://github.com/noelboss/deepl.io/blob/master/LICENSE">License</a> | <a href="https://github.com/noelboss/deepl.io/blob/master/CHANGELOG.md">Changelog</a> | <a href="http://deepl.io">Deepl.io</a></p>
+								<p style="text-align:center;">
+									<a href="http://deepl.io">Deepl.io</a> |
+									<a href="https://github.com/noelboss/deepl.io/blob/master/CHANGELOG.md">Changelog</a> |
+									<a href="https://github.com/noelboss/deepl.io/blob/master/LICENSE">Copyright</a>
+								</p>
 							</center>
 							</td>
 							<td class="expander"></td>

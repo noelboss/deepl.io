@@ -182,6 +182,7 @@ namespace noelbosscom;
 
 			$mail = (object) array(
 				'status' => $status,
+				'statusclass' => $success ? 'success' : 'error'
 				'lead' => $lead,
 				'log' => nl2br($this->log),
 			);
@@ -191,9 +192,9 @@ namespace noelbosscom;
 				$message = str_replace('{{'.$key.'}}', $value, $message);
 			}
 
-			$headers = "From: " . strip_tags('noreply@deepl.io') . "\r\n";
+			$headers = "From: Deepl.io <" . strip_tags('noreply@deepl.io') . "> \r\n";
+			$headers .= "To: ". strip_tags($to) . "\r\n";
 			$headers .= "Reply-To: ". strip_tags($to) . "\r\n";
-			//$headers .= "CC: susan@example.com\r\n";
 			$headers .= "MIME-Version: 1.0\r\n";
 			$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
