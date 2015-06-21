@@ -79,7 +79,7 @@
 						and <a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/web_hooks/web_hooks.md">gitlab.com</a>
 						are supported.<br/>
 						You configure your repository to send push-updates to your Deepl.io instance runing on your server via Webhooks.
-						Check the repository  setting for the appropriate option.
+						Check the repository	setting for the appropriate option.
 						Deepl.io will check if the request comes from the right source,
 						detects if the branch that has been updated is correct and then
 						executes your custom php or shell commands. Deepl.io does only call your commands, it does not act
@@ -153,21 +153,21 @@
 						delivers using the JOSN Payload. You can test this by calling <a href="/admin/">/admin/</a> (protected by .htaccess, only works localy) and updating the example request <code>branch.request.json</code>:
 					</p>
 					<strong><a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/web_hooks/web_hooks.md">Gitlab JSON</a>:</Strong><pre>
-...
+	.
 	"repository": {
-		...
+			.
 		"git_ssh_url":"git@example.com:mike/example.git",
-		...
+			.
 	},
-...</pre>
+	.</pre>
 					<strong><a href="http://doc.gitlab.com/ee/web_hooks/web_hooks.html">Github JSON</a>:</Strong><pre>
-...
+	.
 	"repository": {
-		...
+			.
 		"ssh_url": "git@github.com:mike/example.git",
-		...
+			.
 	},
-...</pre>
+	.</pre>
 
 					<hr/>
 					<h2>Debugging &amp; Issues</h2>
@@ -175,6 +175,13 @@
 						Check <code>logs/deeplio.log</code> if you have any problems or open up
 						an <a href="https://github.com/noelboss/deepl.io/issues">issue</a>.
 					</p>
+					<div class="check hidden">
+						<hr/>
+						<h2>System Check</h2>
+						<p class="hidden check-htaccess alert">.htaccess &amp; mod_rewrite <strong>checking...</strong></p>
+						<p class="hidden check-config1 alert">config/config.json <strong>checking...</strong></p>
+						<p class="hidden check-config2 alert">config/config.json <strong>checking...</strong></p>
+					</div>
 				</div>
 			</div>
 
@@ -189,6 +196,31 @@
 				</p>
 			</footer>
 		</div>
+
+		<script src="//code.jquery.com/jquery-latest.js"></script>
+		<script src="//cdn.rawgit.com/noelboss/featherlight/1.3.2/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+
+				if(window.location !== 'http://deepl.io/'){
+					$('.check').removeClass('hidden');
+				}
+
+				var $t = $( ".check-htaccess" );
+				$.ajax( "config/test.html" )
+					.done(function() {
+						$t.addClass('alert-success');
+						$( "strong", $t ).text('working...');
+					})
+					.fail(function() {
+						$( "strong", $t.addClass('alert-danger') ).text('not working!');
+					})
+					.always(function(){
+						$t.removeClass('hidden');
+					});
+			});
+		</script>
+
 		<script>
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
