@@ -2,6 +2,9 @@
 
 ## Master
 
+
+## v0.3.1 - 2015-06-21
+
 * Fix mails with double recipient
 
 ## v0.3.0 - 2015-06-21
