@@ -310,10 +310,10 @@ p {
 small {
 	font-size: 20px;
 }
-small.success {
+.success {
 	color: #79D195;
 }
-small.error {
+.error {
 	color: #E90089;
 }
 
@@ -349,14 +349,18 @@ h6 a:visited {
 }
 /* Panels */
 .panel-success {
-	background: #79D195;
-	border: 1px solid #679C6A;
+	background: #79D195 !important;
+	border: 1px solid #679C6A !important;
 	padding: 10px !important;
+	color: #fff !important;
+	font-weight: bold;
 }
 .panel-error {
-	background: #E90089;
-	border: 1px solid #9A2160;
+	background: #E90089 !important;
+	border: 1px solid #9A2160 !important;
 	padding: 10px !important;
+	color: #fff !important;
+	font-weight: bold;
 }
 .sub-grid table {
 	width: 100%;
@@ -629,7 +633,7 @@ body.outlook p {
 	a.template-label:hover {
 		color: #5e5e5e !important;
 	}
-	.callout .panel {
+	.callout.panel {
 		background: #ECF8FF;
 		border-color: #b9e5ff;
 	}
@@ -731,6 +735,7 @@ body.outlook p {
 							<table class="twelve columns">
 								<tr>
 									<td class="panel panel-{{class}}">
+										<h4>Protocol</h4>
 										{{log}}
 									</td>
 									<td class="expander"></td>
@@ -746,7 +751,7 @@ body.outlook p {
 							<tr>
 								<td>
 									<p>
-										Thank you for using Deepl.io. Please consider
+										Thank you for using Deepl.io.<br/>Please consider
 										<a href="https://twitter.com/share" class="twitter-share-button" data-counturl="Deepl.io" data-url="http://deepl.io" data-text="Deepl.io – A simple yet powerful php-tool to catch GIT Web-Hooks from GITLAB and GITHUB!
 										> " data-hashtags="#webhooks,#github,#gitlab,#simple,#powerful,#push,#post,#request" data-dnt="true">tweeting</a>
 										or bloging about.
