@@ -2,10 +2,12 @@
 
 ## Master
 
+* Logo & improved design
+* Sending html mail
 
 ## v0.2.0 - 2015-06-20
 
-* Improved admin Interface
+* Improved admin interface
 * Sending notification mails
 
 ## v0.1.1 - 2015-06-20
