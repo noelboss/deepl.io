@@ -141,7 +141,7 @@ namespace noelbosscom;
 			} else if($this->token !== $conf->security->token){
 				$this->log('Error: Token not correct: '.$this->token, true);
 			} else {
-				$this->log('Note: Token correct: '.$this->token);
+				$this->log('Note: Token correct');
 			}
 
 			// check ip
@@ -173,17 +173,15 @@ namespace noelbosscom;
 
 			$to = $conf->notification->mail;
 			$status = $success ? 'SUCCESS' : 'FAILED';
-			$lead = $success ? '<p>Your project gas been deployed successfuly.</p>' : '<p>Your project failed to deploy.</p>';
+			$lead = $success ? '<p class="success">Your project has been deployed successfuly.</p>' : '<p class="error">Your project failed to deploy.</p>';
 			$this->log('Sending mail to: '.$to);
 
 			$subject = '['.$conf->project->name.'] Deplyoment Status: '.$status;
 
-			$lead .= "<p>This is the protocol of your deployment:</p>";
-
 			$mail = (object) array(
 				'project' => $conf->project->name,
 				'status' => $status,
-				'class' => $success ? 'success' : 'error'
+				'class' => $success ? 'success' : 'error',
 				'lead' => $lead,
 				'log' => nl2br($this->log),
 			);
