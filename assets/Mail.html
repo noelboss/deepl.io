@@ -310,19 +310,19 @@ p {
 small {
 	font-size: 20px;
 }
-a {
-	color: #2ba6cb;
-	text-decoration: none;
+small.success {
+	color: #79D195;
 }
-a:hover {
-	color: #2795b6 !important;
+small.error {
+	color: #E90089;
 }
-a:active {
-	color: #2795b6 !important;
-}
-a:visited {
-	color: #2ba6cb !important;
-}
+
+a,
+a:link { color: #679C6A; }
+a:hover { color: #79D195 !important; }
+a:active { color: #79D195 !important; }
+a:visited { color: #79D195 !important; }
+
 h1 a,
 h2 a,
 h3 a,
@@ -714,7 +714,7 @@ body.outlook p {
 							<table class="twelve columns">
 							<tr>
 								<td>
-								<h1>Deployment <small class="{{statusclass}}">{{status}}</small></h1>
+								<h1>{{project}} <small class="{{class}}">DEPLOYMENT {{status}}</small></h1>
 									<p class="lead">
 										{{lead}}
 									</p>
@@ -730,7 +730,7 @@ body.outlook p {
 						<td class="wrapper last">
 							<table class="twelve columns">
 								<tr>
-									<td class="panel panel-{{statusclass}}">
+									<td class="panel panel-{{class}}">
 										{{log}}
 									</td>
 									<td class="expander"></td>

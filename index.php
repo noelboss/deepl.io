@@ -176,13 +176,14 @@ namespace noelbosscom;
 			$lead = $success ? '<p>Your project gas been deployed successfuly.</p>' : '<p>Your project failed to deploy.</p>';
 			$this->log('Sending mail to: '.$to);
 
-			$subject = '['.$conf->project->name.'] Deepl.io status: '.$status;
+			$subject = '['.$conf->project->name.'] Deplyoment Status: '.$status;
 
 			$lead .= "<p>This is the protocol of your deployment:</p>";
 
 			$mail = (object) array(
+				'project' => $conf->project->name,
 				'status' => $status,
-				'statusclass' => $success ? 'success' : 'error'
+				'class' => $success ? 'success' : 'error'
 				'lead' => $lead,
 				'log' => nl2br($this->log),
 			);
