@@ -194,7 +194,6 @@ namespace noelbosscom;
 			}
 
 			$headers = "From: Deepl.io <" . strip_tags('noreply@deepl.io') . "> \r\n";
-			$headers .= "To: ". $to . "\r\n";
 			$headers .= "Reply-To: ". $to . "\r\n";
 			$headers .= "MIME-Version: 1.0\r\n";
 			$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
