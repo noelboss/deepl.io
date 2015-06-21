@@ -71,7 +71,7 @@ class Utils {
 				</a>
 			</p>
 			<p class="text-right">
-				<copy>© <a href="//noelboss.com">Noël Bossart</a>. Made in Switzerland.</copy>
+				<copy>© <?= date('Y')?> <a href="//noelboss.com">Noël Bossart</a>. Made in Switzerland.</copy>
 			</p>
 		</footer>
 		<?php

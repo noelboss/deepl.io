@@ -173,7 +173,9 @@ namespace noelbosscom;
 
 			$to = $conf->notification->mail;
 			$status = $success ? 'SUCCESS' : 'FAILED';
-			$lead = $success ? '<p class="success">Your project has been deployed successfuly.</p>' : '<p class="error">Your project failed to deploy.</p>';
+			$lead = $success ? 'Highfive, your deployment was successfull! If you like it, please consider
+										<a href="https://twitter.com/intent/tweet?button_hashtag=Deepl.io&text=I%20use%20Deepl.io%20do%20easily%20deploy%20my%20GIT%20projects%20using%20web-hooks.%20Try%20it,%20it\'s%20great!%20http://deepl.io/%20%20#Deepl.io">tweeting</a>
+										or bloging about...' : 'Your project failed to deploy. Check your configuration and depolyment script and read the <a href="http://deepl.io">documentation</a> or open up a <a href="https://github.com/noelboss/deepl.io/issues/new">support issue</a>.';
 			$this->log('Sending mail to: '.$to);
 
 			$subject = '['.$conf->project->name.'] Deplyoment Status: '.$status;
