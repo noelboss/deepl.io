@@ -173,12 +173,23 @@ namespace noelbosscom;
 
 			$to = $conf->notification->mail;
 			$status = $success ? 'SUCCESS' : 'FAILED';
+			$lead = $success ? '<p>Your project gas been deployed successfuly.</p>' : '<p>Your project failed to deploy.</p>';
 			$this->log('Sending mail to: '.$to);
 
 			$subject = '['.$conf->project->name.'] Deepl.io status: '.$status;
 
-			$message = "This is the protocol of your deployment:<br>";
-			$message .= nl2br($this->log);
+			$lead .= "<p>This is the protocol of your deployment:</p>";
+
+			$mail = (object) array(
+				'status' => $status,
+				'lead' => $lead,
+				'log' => nl2br($this->log),
+			);
+
+			$message = file_get_contents('./assets/Mail.html');
+			foreach ($mail as $key => $value) {
+				$message = str_replace('{{'.$key.'}}', $value, $message);
+			}
 
 			$headers = "From: " . strip_tags('noreply@deepl.io') . "\r\n";
 			$headers .= "Reply-To: ". strip_tags($to) . "\r\n";

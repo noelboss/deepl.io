@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -700,9 +701,9 @@ body.outlook p {
 							<table class="twelve columns">
 							<tr>
 								<td>
-								<h1>Deepl.io <small><?= $this->mail->status ?></small></h1>
+								<h1>Deepl.io <small>{{status}}</small></h1>
 									<p class="lead">
-										<?= $this->mail->lead ?>
+										{{lead}}
 									</p>
 								</td>
 								<td class="expander"></td>
@@ -718,7 +719,7 @@ body.outlook p {
 								<tr>
 									<td class="panel">
 										<p>
-											<?= $this->mail->log ?>
+											{{log}}
 										</p>
 									</td>
 									<td class="expander"></td>

@@ -24,6 +24,9 @@ class Index {
 
 		$this->utils->htmlFragmentStart( 'Deepl.io Settings' );
 		$this->htmlList();
+
+		$this->utils->htmlFooter();
+
 		$script = '
 			$("form").hide();
 			$(".list-group").on("click","a.list-group-item", function(e){
