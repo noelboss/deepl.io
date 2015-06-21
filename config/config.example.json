@@ -1,6 +1,6 @@
 {
 	"security": {
-		"token": "token",
+		"token": "",
 		"allowedips": {
 			"::1": true
 		}

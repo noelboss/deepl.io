@@ -4,6 +4,7 @@
 
 * Moved code to subfolder
 * Checks if .htaccess and mod_rewrite is working
+* Checks config file
 
 ## v0.3.1 - 2015-06-21
 
