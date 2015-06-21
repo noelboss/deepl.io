@@ -9,10 +9,10 @@ namespace noelbosscom;
  * ------------------------------------------------------------------------------------ */
 
 
-	define( 'BASE', __DIR__ . '/' );
-	define( 'repositories', __DIR__ . '/repositories/' );
+	define( 'BASE', __DIR__ . '/../../' );
+	define( 'REPOS', BASE.'/repositories/' );
 
-	class DEEPLIO {
+	class Deeplio {
 		private $config;
 		private $logfile;
 		private $token;
@@ -41,7 +41,10 @@ namespace noelbosscom;
 			$this->token = substr($_SERVER['REQUEST_URI'],1);
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 
-			$this->log('START – Request detected');
+
+			$this->log('[START] Request detected');
+			$this->log('–––––––––––––––––––––––––––––––––');
+			$this->log(date('[Y-m-d H:i:s').' - IP ' . $_SERVER['REMOTE_ADDR'] . ']');
 
 			$this->data = file_get_contents('php://input');
 
@@ -49,7 +52,7 @@ namespace noelbosscom;
 
 			$this->data = json_decode( file_get_contents('php://input') );
 			if($this->data === null || !is_object($this->data->repository)){
-				$this->log('Error: JSON data missing or broken: '.$this->data, true);
+				$this->log('[ERROR] JSON data missing or broken: '.$this->data, true);
 			}
 
 			$this->security();
@@ -63,23 +66,23 @@ namespace noelbosscom;
 				$repo = $this->data->repository->git_ssh_url;
 			}
 
-			$this->log('Note: New push from '.$repo);
+			$this->log('[NOTE] New push from '.$repo);
 
 			$branch = str_replace('refs/heads/','', $this->data->ref);
 			$branch = str_replace('/','-', $branch);
 
-			$path = repositories.basename($repo).'/'.$branch;
+			$path = REPOS.basename($repo).'/'.$branch;
 			if(file_exists($path.'.config.json')){
 
 				$conf = json_decode( file_get_contents( $path.'.config.json' ) );
 				$this->projectconf = $conf;
 
 				if($conf === null || !is_object($conf)){
-					$this->log('Error: '.$path.'.config.json broken', true);
+					$this->log('[ERROR] '.$path.'.config.json broken', true);
 				}
 
 				if ($repo !== $conf->project->repository_ssh_url){
-					$this->log('Error: Repository not matching;');
+					$this->log('[ERROR] Repository not matching;');
 					$this->log(' - Config: '.$conf->project->repository_ssh_url);
 					$this->log(' - Hook: '.$repo , true);
 				}
@@ -94,23 +97,23 @@ namespace noelbosscom;
 				if(file_exists($path.'.script.php')){
 					try {
 						chdir(BASE);
-						$this->log('Note: Using PHP '.$path.'.script.php:');
+						$this->log('[NOTE] Using PHP '.basename($path).'.script.php:');
 						include_once($path.'.script.php');
 						$this->success();
 					} catch (Exception $e) {
-						$this->log('Error: Error in '.$path.'.script.php:');
+						$this->log('[ERROR] Error in '.basename($path).'.script.php:');
 						$this->log('   '.$e);
 					}
 				}
 				// no shell and no php? no deployment
 				else if(!file_exists($path.'.script.sh')){
-					$this->log('Error: No deployment script configured: '.$path.'.script.sh', true);
+					$this->log('[ERROR] No deployment script configured: '.basename($path).'.script.sh / .php', true);
 				} else {
 					// change to root directory
 					chdir(BASE);
 					exec($path.'.script.sh', $out, $ret);
 					if ($ret){
-						$this->log('Error: Error executing command in '.$path.'.script.sh:');
+						$this->log('[ERROR] Error executing command in '.basename($path).'.script.sh:');
 						$this->log("   return code $ret", true);
 					} else {
 						$this->success();
@@ -118,7 +121,7 @@ namespace noelbosscom;
 				}
 
 			} else {
-				$this->log('Error: No deployment configured: '.$path.'/script.sh', true);
+				$this->log('[ERROR] No deployment configured: '.$path.'/script.sh', true);
 			}
 		}
 
@@ -127,21 +130,21 @@ namespace noelbosscom;
 
 			// check conf
 			if(!is_object($conf)){
-				$this->log('Error: config.json broken or missing', true);
+				$this->log('[ERROR] config.json broken or missing', true);
 			}
 
 			// check token
 			if(!isset($conf->security->token) || strlen($conf->security->token) < 1) {
-				$this->log('Error: Please provide security token in config.json', true);
+				$this->log('[ERROR] Please provide security token in config.json', true);
 			} else if(strlen($conf->security->token) < 30) {
-				$this->log('Warning: Token unsave, make it longer');
+				$this->log('[WARNING] Security token unsave, make it longer');
 			}
 			if(!$this->token){
-				$this->log('Error: Token not provided. Add the token to the request '.$_SERVER["HTTP_HOST"]."/YOUR-SAVE-TOKEN", true);
+				$this->log('[ERROR] Security token not provided. Add the token to the request '.$_SERVER["HTTP_HOST"]."/YOUR-SAVE-TOKEN", true);
 			} else if($this->token !== $conf->security->token){
-				$this->log('Error: Token not correct: '.$this->token, true);
+				$this->log('[ERROR] Security token not correct: '.$this->token, true);
 			} else {
-				$this->log('Note: Token correct');
+				$this->log('[NOTE] Security token correct');
 			}
 
 			// check ip
@@ -151,20 +154,20 @@ namespace noelbosscom;
 				} else {
 					$ips = (array) $conf->security->allowedips;
 					if ( !isset($ips[$this->ip]) ){
-						$this->log('Error: IP not allowed: '.$this->ip, true);
+						$this->log('[ERROR] IP not allowed: '.$this->ip, true);
 					}
 				}
 			} else if(strlen($conf->security->allowedips) < 3){
 				$this->log('Warning: Please configure allowed IPs');
 			} else {
 				if ( $conf->security->allowedips !== $this->ip){
-					$this->log('Error: IP not allowed: '.$this->client_ip, true);
+					$this->log('[ERROR] IP not allowed: '.$this->client_ip, true);
 				}
 			}
 		}
 
 		private function success(){
-			$this->log('SUCCESS – Deployment finished.');
+			$this->log('[STATUS] SUCCESS – Deployment finished.');
 			$this->notification(true);
 		}
 
@@ -188,7 +191,7 @@ namespace noelbosscom;
 				'log' => nl2br($this->log),
 			);
 
-			$message = file_get_contents('./assets/Mail.html');
+			$message = file_get_contents(BASE.'/assets/Mail.html');
 			foreach ($mail as $key => $value) {
 				$message = str_replace('{{'.$key.'}}', $value, $message);
 			}
@@ -203,19 +206,21 @@ namespace noelbosscom;
 
 		private function log($msg, $die = false){
 			if(isset($this->config->log)){
-				$pre  = date('Y-m-d H:i:s').' (IP: ' . $_SERVER['REMOTE_ADDR'] . ') ';
+
 				// echoing for manual deploy
 				if($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input')){
-					echo $pre . $msg . "\n";
+					echo '– '.$msg . "\n";
 				}
-				file_put_contents($this->logfile, $pre . $msg . "\n", FILE_APPEND);
-				$this->log .= $pre . $msg . "\n";
+				file_put_contents($this->logfile, $msg . "\n", FILE_APPEND);
+				$this->log .= '– '.$msg . "\n";
 			}
 			if($die && !($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input'))) {
 				header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+				$this->log('[STATUS] FAILED – Deployment not finished!');
 				$this->notification();
 				die();
 			} else if($die){
+				$this->log('[STATUS] FAILED – Deployment not finished!');
 				$this->notification();
 				die();
 			}
@@ -226,5 +231,5 @@ namespace noelbosscom;
 	if(file_exists(BASE . 'config/customisation.php')){
 		include_once( BASE . 'config/customisation.php' );
 	} else {
-		$Deeplio = new DEEPLIO();
+		$Deeplio = new Deeplio();
 	}

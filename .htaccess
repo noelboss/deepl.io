@@ -36,8 +36,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # everything else goes trough index.php
-RewriteRule . index.php [L]
-
+RewriteRule . app/deeplio/Deeplio.php [L]
 
 # Compression
 <IfModule mod_deflate.c>
