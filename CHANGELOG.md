@@ -2,6 +2,9 @@
 
 ## Master
 
+
+## v0.3.2 - 2015-06-22
+
 * Moved code to subfolder
 * Checks if .htaccess and mod_rewrite is working
 * Checks config file

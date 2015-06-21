@@ -201,42 +201,45 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 
-				if(window.location !== 'http://deepl.io/'){
-					$('.check').removeClass('hidden');
+				if('http://deepl.io/' !== window.location.href){
+
+					$(document).ajaxComplete(function() {
+						$('.check').removeClass('hidden');
+					});
+
+					(function(){
+						var $t = $( ".check-htaccess" );
+						$.ajax( "app/deeplio/test.php" )
+						.done(function(data) {
+							$t.addClass('alert-success');
+							$( "strong", $t ).text(data);
+						})
+						.fail(function() {
+							$( "strong", $t.addClass('alert-danger') ).text('not working!');
+						})
+						.always(function(){
+							$t.removeClass('hidden');
+						});
+					})();
+
+					(function(){
+						$t = $( ".check-config" );
+						$.ajax({
+							url: "app/deeplio/test.php",
+							data: { 'config': 1 }
+						})
+						.done(function(data) {
+							$t.addClass('alert-success');
+							$( "strong", $t ).text(data);
+						})
+						.fail(function(data) {
+							$( "strong", $t.addClass('alert-danger') ).text(data.responseText);
+						})
+						.always(function(){
+							$t.removeClass('hidden');
+						});
+					})();
 				}
-
-				(function(){
-					var $t = $( ".check-htaccess" );
-					$.ajax( "app/deeplio/test.php" )
-					.done(function(data) {
-						$t.addClass('alert-success');
-						$( "strong", $t ).text(data);
-					})
-					.fail(function() {
-						$( "strong", $t.addClass('alert-danger') ).text('not working!');
-					})
-					.always(function(){
-						$t.removeClass('hidden');
-					});
-				})();
-
-				(function(){
-					$t = $( ".check-config" );
-					$.ajax({
-						url: "app/deeplio/test.php",
-						data: { 'config': 1 }
-					})
-					.done(function(data) {
-						$t.addClass('alert-success');
-						$( "strong", $t ).text(data);
-					})
-					.fail(function(data) {
-						$( "strong", $t.addClass('alert-danger') ).text(data.responseText);
-					})
-					.always(function(){
-						$t.removeClass('hidden');
-					});
-				})();
 			});
 		</script>
 
