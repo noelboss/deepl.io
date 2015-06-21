@@ -46,8 +46,6 @@ namespace noelbosscom;
 			$this->log('–––––––––––––––––––––––––––––––––');
 			$this->log(date('[Y-m-d H:i:s').' - IP ' . $_SERVER['REMOTE_ADDR'] . ']');
 
-			$this->data = file_get_contents('php://input');
-
 			$this->service = (strpos($this->data, 'github.com') !== false) ? 'github' : 'gitlab';
 
 			$this->data = json_decode( file_get_contents('php://input') );
