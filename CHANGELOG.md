@@ -2,17 +2,17 @@
 
 ## Master
 
-* Fixing mails without recipient
+* Fix mails with double recipient
 
 ## v0.3.0 - 2015-06-21
 
-* Logo & improved design
-* Sending html mail
+* Added Logo & improved design
+* Feature: Sending html mail
 
 ## v0.2.0 - 2015-06-20
 
 * Improved admin interface
-* Sending notification mails
+* Feature: Sending notification mails
 
 ## v0.1.1 - 2015-06-20
 
@@ -24,12 +24,12 @@
 
 ## v0.0.2 - 2015-07-21 - Admin Interface
 
-* creating jobs
-* opening existing jobs
-* testrun jobs
+* Creating jobs
+* Opening existing jobs
+* Testrun jobs
 
 ## v0.0.1 - 2015-07-19 - Initial Release
 
-* deployments working for gitlab & github
-* static test script
-* example jobs
+* Deployments working for gitlab & github
+* Static test script
+* Example jobs
