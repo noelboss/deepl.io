@@ -2,7 +2,7 @@
 namespace noelbosscom;
 
 /* ------------------------------------------------------------------------------------
- * Deepl.io – Version 0.3.0
+ * Deepl.io – Version 0.3.1
  * https://github.com/noelboss/deepl.io
  *
  * Do not change this file - use config/customisation.php for your customisations
