@@ -2,6 +2,7 @@
 
 ## Master
 
+* Fixed github and gitlab identification
 
 ## v0.3.3 - 2015-06-23
 
