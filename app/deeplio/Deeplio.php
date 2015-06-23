@@ -10,7 +10,7 @@ namespace noelbosscom;
 
 
 	define( 'BASE', __DIR__ . '/../../' );
-	define( 'REPOS', BASE.'/repositories/' );
+	define( 'REPOS', BASE.'repositories/' );
 
 	class Deeplio {
 		private $config;
