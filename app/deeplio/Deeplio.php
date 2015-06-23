@@ -70,6 +70,9 @@ namespace noelbosscom;
 			$branch = str_replace('/','-', $branch);
 
 			$path = REPOS.basename($repo).'/'.$branch;
+
+			$this->log('[NOTE] Path '.$path);
+
 			if(file_exists($path.'.config.json')){
 
 				$conf = json_decode( file_get_contents( $path.'.config.json' ) );
@@ -95,23 +98,23 @@ namespace noelbosscom;
 				if(file_exists($path.'.script.php')){
 					try {
 						chdir(BASE);
-						$this->log('[NOTE] Using PHP '.basename($path).'.script.php:');
+						$this->log('[NOTE] Using PHP '.$path.'.script.php:');
 						include_once($path.'.script.php');
 						$this->success();
 					} catch (Exception $e) {
-						$this->log('[ERROR] Error in '.basename($path).'.script.php:');
+						$this->log('[ERROR] Error in '.$path.'.script.php:');
 						$this->log('   '.$e);
 					}
 				}
 				// no shell and no php? no deployment
 				else if(!file_exists($path.'.script.sh')){
-					$this->log('[ERROR] No deployment script configured: '.basename($path).'.script.sh / .php', true);
+					$this->log('[ERROR] No deployment script configured: '.$path.'.script.sh / .php', true);
 				} else {
 					// change to root directory
 					chdir(BASE);
 					exec($path.'.script.sh', $out, $ret);
 					if ($ret){
-						$this->log('[ERROR] Error executing command in '.basename($path).'.script.sh:');
+						$this->log('[ERROR] Error executing command in '.$path.'.script.sh:');
 						$this->log("   return code $ret", true);
 					} else {
 						$this->success();
