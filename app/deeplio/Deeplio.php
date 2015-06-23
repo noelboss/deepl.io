@@ -46,9 +46,10 @@ namespace noelbosscom;
 			$this->log('–––––––––––––––––––––––––––––––––');
 			$this->log(date('[Y-m-d H:i:s').' - IP ' . $_SERVER['REMOTE_ADDR'] . ']');
 
-			$this->service = (strpos($this->data, 'github.com') !== false) ? 'github' : 'gitlab';
+			$raw = file_get_contents('php://input');
+			$this->service = (strpos($raw, 'github.com') !== false) ? 'github' : 'gitlab';
 
-			$this->data = json_decode( file_get_contents('php://input') );
+			$this->data = json_decode( $raw );
 			if($this->data === null || !is_object($this->data->repository)){
 				$this->log('[ERROR] JSON data missing or broken: '.$this->data, true);
 			}
