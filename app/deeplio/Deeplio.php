@@ -122,7 +122,7 @@ namespace noelbosscom;
 				}
 
 			} else {
-				$this->log('[ERROR] No deployment configured: '.$path.'config.json', true);
+				$this->log('[ERROR] No deployment configured: '.$path.'.config.json', true);
 			}
 		}
 
