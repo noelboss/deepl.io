@@ -3,12 +3,15 @@
 ## Master
 
 
+## v0.3.3 - 2015-06-23
+
+* Checks config file
+* Fixed some log infos
+
 ## v0.3.2 - 2015-06-22
 
 * Moved code to subfolder
 * Checks if .htaccess and mod_rewrite is working
-* Checks config file
-* Fixed some loginfos
 
 ## v0.3.1 - 2015-06-21
 
