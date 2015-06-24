@@ -61,7 +61,7 @@ class Index {
 					<h3 class="text-right">Edit Deployment Jobs</h3>
 
 					<div class="list-group text-right">
-						To edit and test a deployment, click on settings on the left.
+						To edit and test a deployment, click Settings on the left.
 					</div>
 				</div>
 			</div>
@@ -117,18 +117,18 @@ class Index {
 						?>
 						<div class="form-group">
 							<label for="name<?= $i ?>" class="control-label">Configuration Name</label>
-							<input type="test" class="form-control" id="name<?= $i ?>" name="name" placeholder="Configuration Title" value="<?= $conf->project->name ?>">
+							<input type="text" class="form-control" id="name<?= $i ?>" name="name" placeholder="Configuration Title" value="<?= $conf->project->name ?>">
 						</div>
 						<div class="form-group">
 							<label for="repo<?= $i ?>" class="control-label">Repository SSH URL</label>
-							<input type="email" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="Repository" value="<?= $conf->project->repository_ssh_url ?>">
+							<input type="url" class="form-control" id="repo<?= $i ?>" name="repo" placeholder="Repository" value="<?= $conf->project->repository_ssh_url ?>">
 						</div>
 						<div class="form-group">
 							<label for="branch<?= $i ?>" class="control-label">Branch</label>
-							<input type="test" class="form-control" id="branch<?= $i ?>" name="branch" placeholder="deploy/dev" value="<?= $conf->project->branch ?>">
+							<input type="text" class="form-control" id="branch<?= $i ?>" name="branch" placeholder="deploy/dev" value="<?= $conf->project->branch ?>">
 						</div>
 						<div class="form-group">
-							<label for="mail<?= $i ?>" class="control-label">e-Mail</label>
+							<label for="mail<?= $i ?>" class="control-label">Email</label>
 							<div class="input-group">
 								<span class="input-group-addon">@</span>
 								<input type="email" class="form-control" id="mail<?= $i ?>" name="mail" placeholder="nofitication@email.com" value="<?= $conf->notification->mail ?>">
