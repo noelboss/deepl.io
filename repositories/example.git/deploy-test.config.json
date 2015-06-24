@@ -1,4 +1,5 @@
 {
+	"enabled": false,
 	"project": {
 		"name": "Example Project",
 		"repository_ssh_url": "git@example.com:mike/example.git",

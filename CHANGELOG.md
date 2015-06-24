@@ -3,6 +3,7 @@
 ## Master
 
 * Fixed github and gitlab identification
+* Added enabled flag to config
 
 ## v0.3.3 - 2015-06-23
 
