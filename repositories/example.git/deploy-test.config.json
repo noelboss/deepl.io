@@ -6,7 +6,7 @@
 		"branch": "deploy/test"
 	},
 	"mails": {
-		"Mike Jackson": "mike@gmail.com",
-		"Robb Sonderegger": "rob@gmail.com"
+		"mike@gmail.com": "Mike Jackson",
+		"rob@gmail.com": "Robb Sonderegger"
 	}
 }

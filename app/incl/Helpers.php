@@ -19,9 +19,9 @@ class Helpers {
 			$mails = (array) $conf->mails;
 
 			if(count($mails) > 0){
-				foreach ($mails as $key => $mail) {
+				foreach ($mails as $mail => $name) {
 					if(filter_var($mail, FILTER_VALIDATE_EMAIL)){
-						$to .= "$key <$mail>,";
+						$to .= "$name <$mail>,";
 					}
 				}
 			}
