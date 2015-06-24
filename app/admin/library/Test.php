@@ -1,4 +1,5 @@
 <?php
+namespace noelbosscom;
 
 /* send test request */
 class Test {

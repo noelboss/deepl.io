@@ -12,7 +12,11 @@ namespace noelbosscom;
 	define( 'BASE', __DIR__ . '/../../' );
 	define( 'REPOS', BASE.'repositories/' );
 
+	include_once('../incl/Helpers.php');
+
 	class Deeplio {
+		private $Helpers;
+
 		private $config;
 		private $logfile;
 		private $token;
@@ -180,27 +184,12 @@ namespace noelbosscom;
 		private function mails($success = false){
 			$conf = $this->projectconf;
 
-			$nomail = false;
-			$to = '';
+			$this->Helpers = new Helpers();
+			$to = $this->Helpers->getMails($conf);
 
-			if(!isset($conf->mails)){
-				$nomail = true;
-			} else {
-				$mails = (array) $conf->mails;
-
-				if(count($mails) > 0){
-					foreach ($mails as $key => $mail) {
-						if(filter_var($mail, FILTER_VALIDATE_EMAIL)){
-							$to .= "$key <$mail>,";
-						}
-					}
-				}
-			}
-
-			// final check if we got mail addresses...
-			if(strpos($to,'@') === false || $nomail){
+			if($to === false){
 				$this->log('[NOTR] No mails configured.');
-				return;
+				return false;
 			}
 
 			$status = $success ? 'SUCCESS' : 'FAILED';

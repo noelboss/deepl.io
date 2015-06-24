@@ -1,4 +1,5 @@
 <?php
+namespace noelbosscom;
 
 class Utils {
 
