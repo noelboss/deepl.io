@@ -4,6 +4,8 @@
 
 * Fixed github and gitlab identification
 * Added enabled flag to config
+* Checks if mails are configured
+* Mails are now arrays with Names and E-Mails
 
 ## v0.3.3 - 2015-06-23
 

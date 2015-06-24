@@ -6,6 +6,7 @@
 		"branch": "deploy/test"
 	},
 	"notification": {
-		"mail": "mike@gmail.com"
+		"Mike Jackson": "mike@gmail.com",
+		"Robb Sonderegger": "rob@gmail.com"
 	}
 }
