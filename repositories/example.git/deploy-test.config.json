@@ -5,7 +5,8 @@
 		"repository_ssh_url": "git@example.com:mike/example.git",
 		"branch": "deploy/test"
 	},
-	"notification": {
-		"mail": "mike@gmail.com"
+	"mails": {
+		"mike@gmail.com": "Mike Jackson",
+		"rob@gmail.com": "Robb Sonderegger"
 	}
 }

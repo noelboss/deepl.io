@@ -12,7 +12,11 @@ namespace noelbosscom;
 	define( 'BASE', __DIR__ . '/../../' );
 	define( 'REPOS', BASE.'repositories/' );
 
+	include_once('../incl/Helpers.php');
+
 	class Deeplio {
+		private $Helpers;
+
 		private $config;
 		private $logfile;
 		private $token;
@@ -174,13 +178,20 @@ namespace noelbosscom;
 
 		private function success(){
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
-			$this->notification(true);
+			$this->mails(true);
 		}
 
-		private function notification($success = false){
+		private function mails($success = false){
 			$conf = $this->projectconf;
 
-			$to = $conf->notification->mail;
+			$this->Helpers = new Helpers();
+			$to = $this->Helpers->getMails($conf);
+
+			if($to === false){
+				$this->log('[NOTR] No mails configured.');
+				return false;
+			}
+
 			$status = $success ? 'SUCCESS' : 'FAILED';
 			$lead = $success ? 'Highfive, your deployment was successfull! If you like it, please consider
 										<a href="https://twitter.com/intent/tweet?button_hashtag=Deepl.io&text=I%20use%20Deepl.io%20do%20easily%20deploy%20my%20GIT%20projects%20using%20web-hooks.%20Try%20it,%20it\'s%20great!%20http://deepl.io/%20%20#Deepl.io">tweeting</a>
@@ -203,8 +214,7 @@ namespace noelbosscom;
 			}
 
 			$headers = "From: Deepl.io <" . strip_tags('noreply@deepl.io') . "> \r\n";
-			$headers .= "To: ". $to . "\r\n";
-			$headers .= "Reply-To: ". $to . "\r\n";
+			//$headers .= "Reply-To: ". $to . "\r\n";
 			$headers .= "MIME-Version: 1.0\r\n";
 			$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
@@ -216,19 +226,19 @@ namespace noelbosscom;
 
 				// echoing for manual deploy
 				if($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input')){
-					echo '– '.$msg . "\n";
+					echo '– '.htmlspecialchars($msg) . "\n";
 				}
 				file_put_contents($this->logfile, $msg . "\n", FILE_APPEND);
-				$this->log .= '– '.$msg . "\n";
+				$this->log .= '– '.htmlspecialchars($msg) . "\n";
 			}
 			if($die && !($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input'))) {
 				header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
 				$this->log('[STATUS] FAILED – Deployment not finished!');
-				$this->notification();
+				$this->mails();
 				die();
 			} else if($die){
 				$this->log('[STATUS] FAILED – Deployment not finished!');
-				$this->notification();
+				$this->mails();
 				die();
 			}
 		}

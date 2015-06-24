@@ -1,18 +1,22 @@
 <?php
+namespace noelbosscom;
 
 include_once( 'Utils.php' );
 include_once( 'User.php' );
+include_once( './../../incl/Helpers.php' );
 
 class Index {
 
+	private $Helpers;
+	private $User;
+	private $Utils;
+
 	private $config;
-	private $user;
-	private $utils;
 	private $logfile = '/logs/deeplio.log';
 
 	function __construct() {
-		$this->user= new User();
-		$this->utils = new Utils();
+		$this->User= new User();
+		$this->Utils = new Utils();
 
 		if(isset($_ENV["ENVIRONMENT"]) && file_exists(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
 			$conffile = BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json';
@@ -22,10 +26,10 @@ class Index {
 		}
 		$this->config = json_decode( file_get_contents( $conffile ) );
 
-		$this->utils->htmlFragmentStart( 'Deepl.io Settings' );
+		$this->Utils->htmlFragmentStart( 'Deepl.io Settings' );
 		$this->htmlList();
 
-		$this->utils->htmlFooter();
+		$this->Utils->htmlFooter();
 
 		$script = '
 			$("form").hide();
@@ -39,13 +43,13 @@ class Index {
 			});
 			$(location.hash+"link").click();
 		';
-		$this->utils->htmlFragmentEnd($script);
+		$this->Utils->htmlFragmentEnd($script);
 	}
 
 	private function htmlList() {
 		?>
 		<h1>Deploy Settings.
-			<span>Hi <?php echo $this->user->getName(); ?>.</span>
+			<span>Hi <?php echo $this->User->getName(); ?>.</span>
 		</h1>
 
 		<div class="row">
@@ -90,12 +94,20 @@ class Index {
 				$sh = dirname($file)."/".$branch.".script.sh";
 				$req = dirname($file)."/".$branch.".request.json";
 
+				$this->Helpers = new Helpers();
+				$to = htmlspecialchars($this->Helpers->getMails($conf));
+
+				if($to === false){
+					$this->log('[NOTR] No mails configured.');
+					return false;
+				}
+
 				?>
 				<a href="#conf<?= $i ?>" id="conf<?= $i ?>link" data-id="conf<?= $i ?>" class="list-group-item">
 					<h4 class="list-group-item-heading"><?= $conf->project->name ?></h4>
 					<p class="list-group-item-text"><strong>Repository:</strong> <?= $conf->project->repository_ssh_url ?></p>
 					<p class="list-group-item-text"><strong>Branch:</strong> <?= $conf->project->branch ?></p>
-					<p class="list-group-item-text"><strong>Notification:</strong> <?= $conf->notification->mail ?></p>
+					<p class="list-group-item-text"><strong>Mails:</strong> <?= $to ?></p>
 					<?php
 						if(isset($_POST['deploy'.$i])){
 							include_once('Test.php');
@@ -128,10 +140,10 @@ class Index {
 							<input type="test" class="form-control" id="branch<?= $i ?>" name="branch" placeholder="deploy/dev" value="<?= $conf->project->branch ?>">
 						</div>
 						<div class="form-group">
-							<label for="mail<?= $i ?>" class="control-label">e-Mail</label>
+							<label for="mail<?= $i ?>" class="control-label">Mails</label>
 							<div class="input-group">
 								<span class="input-group-addon">@</span>
-								<input type="email" class="form-control" id="mail<?= $i ?>" name="mail" placeholder="nofitication@email.com" value="<?= $conf->notification->mail ?>">
+								<input type="email" class="form-control" id="mail<?= $i ?>" name="mail" placeholder="nofitication@email.com" value="<?= $to ?>">
 							</div>
 						</div>
 						<hr/>

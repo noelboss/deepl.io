@@ -1,4 +1,5 @@
 <?php
+namespace noelbosscom;
 
 include_once( 'Utils.php' );
 include_once( 'User.php' );
