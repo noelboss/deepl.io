@@ -31,6 +31,7 @@ class Helpers {
 		if(strpos($to,'@') === false || $nomail){
 			return false;
 		}
+		$to = substr($to, 0,-1);
 		return $to;
 	}
 }
