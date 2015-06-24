@@ -147,7 +147,7 @@ namespace noelbosscom;
 			if(!isset($conf->security->token) || strlen($conf->security->token) < 1) {
 				$this->log('[ERROR] Please provide security token in config.json', true);
 			} else if(strlen($conf->security->token) < 30) {
-				$this->log('[WARNING] Security token unsave, make it longer');
+				$this->log('[WARNING] Security token unsafe, make it longer');
 			}
 			if(!$this->token){
 				$this->log('[ERROR] Security token not provided. Add the token to the request '.$_SERVER["HTTP_HOST"]."/YOUR-SAVE-TOKEN", true);
@@ -193,12 +193,12 @@ namespace noelbosscom;
 			}
 
 			$status = $success ? 'SUCCESS' : 'FAILED';
-			$lead = $success ? 'Highfive, your deployment was successfull! If you like it, please consider
-										<a href="https://twitter.com/intent/tweet?button_hashtag=Deepl.io&text=I%20use%20Deepl.io%20do%20easily%20deploy%20my%20GIT%20projects%20using%20web-hooks.%20Try%20it,%20it\'s%20great!%20http://deepl.io/%20%20#Deepl.io">tweeting</a>
-										or bloging about...' : 'Your project failed to deploy. Check your configuration and depolyment script and read the <a href="http://deepl.io">documentation</a> or open up a <a href="https://github.com/noelboss/deepl.io/issues/new">support issue</a>.';
+			$lead = $success ? 'High five, your deployment was successful! If you like it, please consider
+										<a href="https://twitter.com/intent/tweet?button_hashtag=Deepl.io&text=I%20use%20Deepl.io%20do%20easily%20deploy%20my%20Git%20projects%20using%20webhooks.%20Try%20it,%20it\'s%20great!%20http://deepl.io/%20%20#Deepl.io">tweeting</a>
+										or bloging about...' : 'Your project failed to deploy. Check your configuration and deployment script and read the <a href="http://deepl.io">documentation</a> or open up a <a href="https://github.com/noelboss/deepl.io/issues/new">support issue</a>.';
 			$this->log('Sending mail to: '.$to);
 
-			$subject = '['.$conf->project->name.'] Deplyoment Status: '.$status;
+			$subject = '['.$conf->project->name.'] Deployment Status: '.$status;
 
 			$mail = (object) array(
 				'project' => $conf->project->name,

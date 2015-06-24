@@ -304,8 +304,8 @@ class Component {
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label class="control-label" for="email">E-Mail:</label>
-							<input type="text" id="email" name="email" class="form-control" value="' . $this->user->getEmail() . '" />
+							<label class="control-label" for="email">Email:</label>
+							<input type="email" id="email" name="email" class="form-control" value="' . $this->user->getEmail() . '" />
 						</div>
 					</div>
 				</div>
