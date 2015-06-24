@@ -174,19 +174,19 @@ namespace noelbosscom;
 
 		private function success(){
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
-			$this->notification(true);
+			$this->mails(true);
 		}
 
-		private function notification($success = false){
+		private function mails($success = false){
 			$conf = $this->projectconf;
 
 			$nomail = false;
 			$to = '';
 
-			if(!isset($conf->notification)){
+			if(!isset($conf->mails)){
 				$nomail = true;
 			} else {
-				$mails = (array) $conf->notification;
+				$mails = (array) $conf->mails;
 
 				if(count($mails) > 0){
 					foreach ($mails as $key => $mail) {
@@ -245,11 +245,11 @@ namespace noelbosscom;
 			if($die && !($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input'))) {
 				header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
 				$this->log('[STATUS] FAILED – Deployment not finished!');
-				$this->notification();
+				$this->mails();
 				die();
 			} else if($die){
 				$this->log('[STATUS] FAILED – Deployment not finished!');
-				$this->notification();
+				$this->mails();
 				die();
 			}
 		}

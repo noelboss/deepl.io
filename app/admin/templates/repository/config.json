@@ -4,7 +4,7 @@
 		"repository": "git@example.com:mike/example.git",
 		"branch": "deploy/test"
 	},
-	"notification": {
+	"mails": {
 		"mail": "me@noelboss.com"
 	}
 }
