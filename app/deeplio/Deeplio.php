@@ -77,10 +77,11 @@ namespace noelbosscom;
 			if(file_exists($path.'.config.json')){
 
 				$conf = json_decode( file_get_contents( $path.'.config.json' ) );
+				$this->projectconf = $conf;
+
 				if(!$conf->enabled){
 					$this->log('[NOTE] Repository disabled by config', true);
 				}
-				$this->projectconf = $conf;
 
 				if($conf === null || !is_object($conf)){
 					$this->log('[ERROR] '.$path.'.config.json broken', true);
