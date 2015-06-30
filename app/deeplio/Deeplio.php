@@ -51,7 +51,7 @@ namespace noelbosscom;
 			$this->log(date('[Y-m-d H:i:s').' - IP ' . $_SERVER['REMOTE_ADDR'] . ']');
 
 			$raw = file_get_contents('php://input');
-			$this->service = (strpos($raw, 'github.com') !== false) ? 'github' : 'gitlab';
+			$this->service = (strpos($raw, 'github.com') !== false) ? 'GitHub' : 'GitLab';
 
 			$this->data = json_decode( $raw );
 			if($this->data === null || !is_object($this->data->repository)){
@@ -63,20 +63,24 @@ namespace noelbosscom;
 		}
 
 		private function run() {
-			if($this->service === 'github'){
+			if($this->service === 'GitHub'){
 				$repo = $this->data->repository->ssh_url;
 			} else {
 				$repo = $this->data->repository->git_ssh_url;
 			}
 
-			$this->log('[NOTE] New push from '.$repo);
+			$before = substr($this->data->before, 0, 8).'...'.substr($this->data->before, -8);
+			$after = substr($this->data->after, 0, 8).'...'.substr($this->data->after, -8);
+
+			$this->log('[NOTE] New push from '.$this->service.":\n  - ".$repo."\n  - From $before\n  - To $after");
 
 			$branch = str_replace('refs/heads/','', $this->data->ref);
 			$branch = str_replace('/','-', $branch);
 
 			$path = REPOS.basename($repo).'/'.$branch;
+			$debugpath = REPOS.basename($repo).'/'.$branch;
 
-			$this->log('[NOTE] Path '.$path);
+			$this->log('[NOTE] Path: '.basename($repo).'/'.$branch);
 
 			if(file_exists($path.'.config.json')){
 
@@ -88,7 +92,7 @@ namespace noelbosscom;
 				}
 
 				if($conf === null || !is_object($conf)){
-					$this->log('[ERROR] '.$path.'.config.json broken', true);
+					$this->log('[ERROR] '.$debugpath.'.config.json broken', true);
 				}
 
 				if ($repo !== $conf->project->repository_ssh_url){
@@ -117,13 +121,13 @@ namespace noelbosscom;
 				}
 				// no shell and no php? no deployment
 				else if(!file_exists($path.'.script.sh')){
-					$this->log('[ERROR] No deployment script configured: '.$path.'.script.sh / .php', true);
+					$this->log('[ERROR] No deployment script configured: '.$debugpath.'.script.sh / .php', true);
 				} else {
 					// change to root directory
 					chdir(BASE);
 					exec($path.'.script.sh', $out, $ret);
 					if ($ret){
-						$this->log('[ERROR] Error executing command in '.$path.'.script.sh:');
+						$this->log('[ERROR] Error executing command in '.$debugpath.'.script.sh:');
 						$this->log("   return code $ret", true);
 					} else {
 						$this->success();
@@ -131,7 +135,7 @@ namespace noelbosscom;
 				}
 
 			} else {
-				$this->log('[ERROR] No deployment configured: '.$path.'.config.json', true);
+				$this->log('[ERROR] No deployment configured: '.$localpath.'.config.json', true);
 			}
 		}
 
