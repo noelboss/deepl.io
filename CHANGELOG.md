@@ -2,6 +2,9 @@
 
 ## Master
 
+
+## v0.5.0 - 2015-06-30
+
 * Fixed github and gitlab identification
 * Added enabled flag to config
 * Checks if mails are configured
