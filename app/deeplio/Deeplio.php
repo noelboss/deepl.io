@@ -69,8 +69,8 @@ namespace noelbosscom;
 				$repo = $this->data->repository->git_ssh_url;
 			}
 
-			$before = substr($this->data->before, 0, 8).'...'.substr($this->data->before, -8);
-			$after = substr($this->data->after, 0, 8).'...'.substr($this->data->after, -8);
+			$before = substr($this->data->before, 0, 7).'..'.substr($this->data->before, -7);
+			$after = substr($this->data->after, 0, 7).'..'.substr($this->data->after, -7);
 
 			$this->log('[NOTE] New push from '.$this->service.":\n  - ".$repo."\n  - From $before\n  - To $after");
 
