@@ -40,9 +40,9 @@ namespace noelbosscom;
 				$this->logfile = BASE.'/'.$this->config->log;
 			}
 
+			// using github secret or url
+			$this->token = $_SERVER['HTTP_X_HUB_SIGNATURE'] || substr($_SERVER['REQUEST_URI'],1);
 			$this->log($_SERVER['HTTP_X_HUB_SIGNATURE']);
-
-			$this->token = substr($_SERVER['REQUEST_URI'],1);
 
 
 			$this->ip = $_SERVER['REMOTE_ADDR'];
