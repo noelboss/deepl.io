@@ -44,7 +44,6 @@ namespace noelbosscom;
 			$this->token = $_SERVER['HTTP_X_HUB_SIGNATURE'] || substr($_SERVER['REQUEST_URI'],1);
 			$this->log($_SERVER['HTTP_X_HUB_SIGNATURE']);
 
-
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 
 
