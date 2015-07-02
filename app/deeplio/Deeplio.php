@@ -34,21 +34,22 @@ namespace noelbosscom;
 				$conffile = BASE . 'config/config.json';
 			}
 
-			$this->log($_SERVER);
-
 			$this->config = json_decode( file_get_contents( $conffile ) );
 
 			if(isset($this->config->log)){
 				$this->logfile = BASE.'/'.$this->config->log;
 			}
 
-			$this->token = substr($_SERVER['REQUEST_URI'],1);
+			// using github secret or url
+			$this->token = $_SERVER['HTTP_X_HUB_SIGNATURE'] || substr($_SERVER['REQUEST_URI'],1);
+
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 
 
 			$this->log('[START] Request detected');
 			$this->log('–––––––––––––––––––––––––––––––––');
 			$this->log(date('[Y-m-d H:i:s').' - IP ' . $_SERVER['REMOTE_ADDR'] . ']');
+			$this->log('[TOKEN] '.$this->token);
 
 			$raw = file_get_contents('php://input');
 			$this->service = (strpos($raw, 'github.com') !== false) ? 'GitHub' : 'GitLab';
@@ -69,8 +70,8 @@ namespace noelbosscom;
 				$repo = $this->data->repository->git_ssh_url;
 			}
 
-			$before = substr($this->data->before, 0, 8).'...'.substr($this->data->before, -8);
-			$after = substr($this->data->after, 0, 8).'...'.substr($this->data->after, -8);
+			$before = substr($this->data->before, 0, 7).'..'.substr($this->data->before, -7);
+			$after = substr($this->data->after, 0, 7).'..'.substr($this->data->after, -7);
 
 			$this->log('[NOTE] New push from '.$this->service.":\n  - ".$repo."\n  - From $before\n  - To $after");
 
