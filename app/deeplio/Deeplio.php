@@ -42,7 +42,12 @@ namespace noelbosscom;
 				$this->logfile = BASE.'/'.$this->config->log;
 			}
 
+			$this->log($SERVER);
+
+
 			$this->token = substr($_SERVER['REQUEST_URI'],1);
+
+
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 
 
