@@ -42,7 +42,6 @@ namespace noelbosscom;
 
 			// using github secret or url
 			$this->token = $_SERVER['HTTP_X_HUB_SIGNATURE'] || substr($_SERVER['REQUEST_URI'],1);
-			$this->log($_SERVER['HTTP_X_HUB_SIGNATURE']);
 
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 
@@ -50,6 +49,8 @@ namespace noelbosscom;
 			$this->log('[START] Request detected');
 			$this->log('–––––––––––––––––––––––––––––––––');
 			$this->log(date('[Y-m-d H:i:s').' - IP ' . $_SERVER['REMOTE_ADDR'] . ']');
+			$this->log('[TOKEN] '.$this->token);
+
 
 			$raw = file_get_contents('php://input');
 			$this->service = (strpos($raw, 'github.com') !== false) ? 'GitHub' : 'GitLab';
