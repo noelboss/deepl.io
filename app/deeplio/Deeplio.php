@@ -42,7 +42,7 @@ namespace noelbosscom;
 				$this->logfile = BASE.'/'.$this->config->log;
 			}
 
-			$this->log($SERVER);
+			$this->log($_SERVER);
 
 
 			$this->token = substr($_SERVER['REQUEST_URI'],1);
