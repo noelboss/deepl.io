@@ -41,7 +41,9 @@ namespace noelbosscom;
 			}
 
 			// using github secret or url
-			$this->token = $_SERVER['HTTP_X_HUB_SIGNATURE'] || substr($_SERVER['REQUEST_URI'],1);
+
+			$request = explode('/',$_SERVER['REQUEST_URI']);
+			$this->token = isset($_SERVER['HTTP_X_HUB_SIGNATURE']) ? $_SERVER['HTTP_X_HUB_SIGNATURE'] : end($request);
 
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 
