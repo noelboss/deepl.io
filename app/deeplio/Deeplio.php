@@ -51,7 +51,6 @@ namespace noelbosscom;
 			$this->log(date('[Y-m-d H:i:s').' - IP ' . $_SERVER['REMOTE_ADDR'] . ']');
 			$this->log('[TOKEN] '.$this->token);
 
-
 			$raw = file_get_contents('php://input');
 			$this->service = (strpos($raw, 'github.com') !== false) ? 'GitHub' : 'GitLab';
 
