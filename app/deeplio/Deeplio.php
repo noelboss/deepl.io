@@ -45,7 +45,6 @@ namespace noelbosscom;
 
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 
-
 			$this->log('[START] Request detected');
 			$this->log('–––––––––––––––––––––––––––––––––');
 			$this->log(date('[Y-m-d H:i:s').' - IP ' . $_SERVER['REMOTE_ADDR'] . ']');
