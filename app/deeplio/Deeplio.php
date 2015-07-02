@@ -34,13 +34,13 @@ namespace noelbosscom;
 				$conffile = BASE . 'config/config.json';
 			}
 
-			$this->log(var_dump($_SERVER));
-
 			$this->config = json_decode( file_get_contents( $conffile ) );
 
 			if(isset($this->config->log)){
 				$this->logfile = BASE.'/'.$this->config->log;
 			}
+
+			$this->log($_SERVER['X-Hub-Signature']);
 
 			$this->token = substr($_SERVER['REQUEST_URI'],1);
 
