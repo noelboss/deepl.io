@@ -40,7 +40,7 @@ namespace noelbosscom;
 				$this->logfile = BASE.'/'.$this->config->log;
 			}
 
-			$this->log($_SERVER['X-Hub-Signature']);
+			$this->log($_SERVER['HTTP_X_HUB_SIGNATURE']);
 
 			$this->token = substr($_SERVER['REQUEST_URI'],1);
 
