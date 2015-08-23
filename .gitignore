@@ -6,6 +6,7 @@ logs/*.log
 example.txt
 example-deploy
 repositories/deepl.io.git
+repositories/fincamariposas.git
 backups/*
 node_modules
 assets/original
