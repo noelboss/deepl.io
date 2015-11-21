@@ -2,6 +2,7 @@
 
 ## Master
 
+* Added: Possibility for sub-gits in repositories for versioned configs
 
 ## v0.5.1 - 2015-07-03
 
