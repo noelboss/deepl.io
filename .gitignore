@@ -5,8 +5,9 @@ config/config.json
 logs/*.log
 example.txt
 example-deploy
-repositories/deepl.io.git
-repositories/fincamariposas.git
+!repositories/deepl.io.git
+!repositories/example.git
+repositories/*
 backups/*
 node_modules
 assets/original

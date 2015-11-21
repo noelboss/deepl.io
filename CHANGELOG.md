@@ -2,6 +2,9 @@
 
 ## Master
 
+
+## v0.5.1 - 2015-07-03
+
 * Fixed Issue #2: Secret check for subdirectory installs
 
 ## v0.5.0 - 2015-06-30
