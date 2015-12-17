@@ -117,7 +117,7 @@ namespace noelbosscom;
 				}
 
 				// using php over shell (since you can call shell from php)
-				if(file_exists($this->cachepath.substr($this->data->after, -7))){
+				if(file_exists($this->cachepath.substr($this->data->after, -12))){
 					$this->log('[NOTE] Version already deployed '.$after);
 				}
 				else if(file_exists($path.'.script.php')){
