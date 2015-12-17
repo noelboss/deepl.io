@@ -19,6 +19,7 @@ namespace noelbosscom;
 
 		private $config;
 		private $logfile;
+		private $cachepath;
 		private $token;
 		private $ip;
 		private $service;
@@ -38,6 +39,12 @@ namespace noelbosscom;
 
 			if(isset($this->config->log)){
 				$this->logfile = BASE.'/'.$this->config->log;
+			}
+
+
+			
+			if(isset($this->config->cachepath)){
+				$this->cachepath = BASE.'/'.$this->config->cachepath;
 			}
 
 			// using github secret or url
@@ -110,11 +117,14 @@ namespace noelbosscom;
 				}
 
 				// using php over shell (since you can call shell from php)
-				if(file_exists($path.'.script.php')){
+				if(file_exists($this->cachepath.substr($this->data->after, -7))){
+					$this->log('[NOTE] Version already deployed '.$after);
+				}
+				else if(file_exists($path.'.script.php')){
 					try {
 						chdir(BASE);
 						$this->log('[NOTE] Using PHP '.$path.'.script.php:');
-						include_once($path.'.script.php');
+						//include_once($path.'.script.php');
 						$this->success();
 					} catch (Exception $e) {
 						$this->log('[ERROR] Error in '.$path.'.script.php:');
@@ -132,6 +142,10 @@ namespace noelbosscom;
 						$this->log('[ERROR] Error executing command in '.$debugpath.'.script.sh:');
 						$this->log("   return code $ret", true);
 					} else {
+						if($this->cachepath && $this->data->after){
+							if(!is_dir($this->cachepath)) mkdir($this->cachepath);
+							file_put_contents($this->cachepath.substr($this->data->after, -12), "");
+						}
 						$this->success();
 					}
 				}
@@ -184,6 +198,10 @@ namespace noelbosscom;
 
 		private function success(){
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
+			if($this->cachepath && $this->data->after){
+				if(!is_dir($this->cachepath)) mkdir($this->cachepath);
+				file_put_contents($this->cachepath.substr($this->data->after, -7), "");
+			}
 			$this->mails(true);
 		}
 

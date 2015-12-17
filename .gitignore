@@ -9,5 +9,6 @@ example-deploy
 !repositories/example.git
 repositories/*
 backups/*
+cache/*
 node_modules
 assets/original
