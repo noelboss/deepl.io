@@ -42,7 +42,7 @@ namespace noelbosscom;
 			}
 
 
-			
+
 			if(isset($this->config->cachepath)){
 				$this->cachepath = BASE.'/'.$this->config->cachepath;
 			}
@@ -142,10 +142,6 @@ namespace noelbosscom;
 						$this->log('[ERROR] Error executing command in '.$debugpath.'.script.sh:');
 						$this->log("   return code $ret", true);
 					} else {
-						if($this->cachepath && $this->data->after){
-							if(!is_dir($this->cachepath)) mkdir($this->cachepath);
-							file_put_contents($this->cachepath.substr($this->data->after, -12), "");
-						}
 						$this->success();
 					}
 				}
@@ -200,7 +196,7 @@ namespace noelbosscom;
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
 			if($this->cachepath && $this->data->after){
 				if(!is_dir($this->cachepath)) mkdir($this->cachepath);
-				file_put_contents($this->cachepath.substr($this->data->after, -7), "");
+				file_put_contents($this->cachepath.substr($this->data->after, -12), "");
 			}
 			$this->mails(true);
 		}
