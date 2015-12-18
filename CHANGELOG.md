@@ -2,6 +2,7 @@
 
 ## Master
 
+* Fixed deploy php script not being executed
 
 ## v0.7.1 - 2015-12-18
 
