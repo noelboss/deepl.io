@@ -2,6 +2,10 @@
 
 ## Master
 
+* Removing of old cache-files
+
+## v0.7.0 - 2015-12-17
+
 * Added: caching to prevent double execution
 
 ## v0.6.0 - 2015-11-21

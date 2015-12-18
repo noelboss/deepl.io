@@ -19,7 +19,8 @@ namespace noelbosscom;
 
 		private $config;
 		private $logfile;
-		private $cachepath;
+		private $cachefile;
+		private $cachefilebefore;
 		private $token;
 		private $ip;
 		private $service;
@@ -41,10 +42,9 @@ namespace noelbosscom;
 				$this->logfile = BASE.'/'.$this->config->log;
 			}
 
-
-
 			if(isset($this->config->cachepath)){
 				$this->cachepath = BASE.'/'.$this->config->cachepath;
+				if(!is_dir($this->cachepath)) mkdir($this->cachepath);
 			}
 
 			// using github secret or url
@@ -66,6 +66,9 @@ namespace noelbosscom;
 			if($this->data === null || !is_object($this->data->repository)){
 				$this->log('[ERROR] JSON data missing or broken: '.$this->data, true);
 			}
+			
+			$this->cachefile = $this->cachepath.substr($this->data->after, -12);
+			$this->cachefilebefore = $this->cachepath.substr($this->data->before, -12);
 
 			$this->security();
 			$this->run();
@@ -195,8 +198,8 @@ namespace noelbosscom;
 		private function success(){
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
 			if($this->cachepath && $this->data->after){
-				if(!is_dir($this->cachepath)) mkdir($this->cachepath);
-				file_put_contents($this->cachepath.substr($this->data->after, -12), "");
+				if(file_exists($this->cachefilebefore)) unlink($this->cachefilebefore);
+				file_put_contents($this->cachefile, "");
 			}
 			$this->mails(true);
 		}
