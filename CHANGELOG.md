@@ -2,6 +2,9 @@
 
 ## Master
 
+
+## v0.7.1 - 2015-12-18
+
 * Removing of old cache-files
 
 ## v0.7.0 - 2015-12-17
