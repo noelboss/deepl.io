@@ -127,7 +127,7 @@ namespace noelbosscom;
 					try {
 						chdir(BASE);
 						$this->log('[NOTE] Using PHP '.$path.'.script.php:');
-						//include_once($path.'.script.php');
+						include_once($path.'.script.php');
 						$this->success();
 					} catch (Exception $e) {
 						$this->log('[ERROR] Error in '.$path.'.script.php:');
