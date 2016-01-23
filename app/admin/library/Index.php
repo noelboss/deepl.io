@@ -41,7 +41,9 @@ class Index {
 					location.hash="#"+$(this).attr("data-id");
 					return false;
 			});
-			$(location.hash+"link").click();
+			if(location.hash && $(location.hash+"link").length){
+				$(location.hash+"link").click();
+			}
 		';
 		$this->Utils->htmlFragmentEnd($script);
 	}
