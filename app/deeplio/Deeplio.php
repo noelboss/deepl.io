@@ -40,6 +40,7 @@ namespace noelbosscom;
 
 			if(isset($this->config->log)){
 				$this->logfile = BASE.'/'.$this->config->log;
+				if(!is_dir($this->logfile)) mkdir($this->logfile);
 			}
 
 			if(isset($this->config->cachepath)){
@@ -66,7 +67,7 @@ namespace noelbosscom;
 			if($this->data === null || !is_object($this->data->repository)){
 				$this->log('[ERROR] JSON data missing or broken: '.$this->data, true);
 			}
-			
+
 			$this->cachefile = $this->cachepath.substr($this->data->after, -12);
 			$this->cachefilebefore = $this->cachepath.substr($this->data->before, -12);
 
