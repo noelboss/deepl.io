@@ -40,7 +40,7 @@ namespace noelbosscom;
 
 			if(isset($this->config->log)){
 				$this->logfile = BASE.$this->config->log;
-				if(!is_dir(dirname($this->logfile))) mkdir($this->logfile);
+				if(!is_dir(dirname($this->logfile))) mkdir(dirname($this->logfile));
 			}
 
 			if(isset($this->config->cachepath)){
