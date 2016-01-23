@@ -3,6 +3,7 @@
 ## Master
 
 * Fixed deploy php script not being executed
+* Fixed JS error
 
 ## v0.7.1 - 2015-12-18
 

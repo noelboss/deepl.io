@@ -39,12 +39,12 @@ namespace noelbosscom;
 			$this->config = json_decode( file_get_contents( $conffile ) );
 
 			if(isset($this->config->log)){
-				$this->logfile = BASE.'/'.$this->config->log;
-				if(!is_dir($this->logfile)) mkdir($this->logfile);
+				$this->logfile = BASE.$this->config->log;
+				if(!is_dir(dirname($this->logfile))) mkdir($this->logfile);
 			}
 
 			if(isset($this->config->cachepath)){
-				$this->cachepath = BASE.'/'.$this->config->cachepath;
+				$this->cachepath = BASE.$this->config->cachepath;
 				if(!is_dir($this->cachepath)) mkdir($this->cachepath);
 			}
 

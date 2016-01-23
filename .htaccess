@@ -29,7 +29,8 @@ Options -Indexes +FollowSymLinks
 # Routing
 RewriteEngine On
 
-RewriteRule ^admin/assets/(.*) app/admin/public/assets/$1 [L]
+RewriteRule ^admin/assets/(.*) app/admin/public/assets/$1 [P,L]
+RewriteRule ^admin$ admin/ [L]
 RewriteRule ^admin/(.*) app/admin/public/index.php?uriparts=$1 [QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
