@@ -4,6 +4,7 @@ namespace noelbosscom;
 include_once( 'Utils.php' );
 include_once( 'User.php' );
 include_once( './../../incl/Helpers.php' );
+define( 'REPOS', BASE.'repositories/' );
 
 class Index {
 
@@ -13,6 +14,7 @@ class Index {
 
 	private $config;
 	private $logfile = '/logs/deeplio.log';
+	private $repositoriesPath;
 
 	function __construct() {
 		$this->User= new User();
@@ -24,6 +26,7 @@ class Index {
 		else {
 			$conffile = BASE . 'config/config.json';
 		}
+
 		$this->config = json_decode( file_get_contents( $conffile ) );
 
 		$this->Utils->htmlFragmentStart( 'Deepl.io Settings' );
@@ -59,7 +62,8 @@ class Index {
 				<h3>Deployment Jobs</h3>
 				<?php
 				global $config;
-				$this->configCollector( BASE . 'repositories' );
+				$this->repositoriesPath = isset($this->config->repositoriesPath) && is_dir(BASE.$this->config->repositoriesPath) ? BASE.$this->config->repositoriesPath : REPOS;
+				$this->configCollector( $this->repositoriesPath );
 				?>
 			</div>
 			<div class="col-md-7">

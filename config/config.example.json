@@ -6,5 +6,6 @@
 		}
 	},
 	"log": "logs/deeplio.log",
-	"cachepath": "cache/"
+	"cachePath": "cache/",
+	"repositoriesPath": "repositories"
 }
