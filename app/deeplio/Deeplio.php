@@ -182,19 +182,19 @@ namespace noelbosscom;
 			}
 
 			// check ip
-			if(is_object($conf->security->allowedips)) {
-				if(count($conf->security->allowedips)<1) {
+			if(is_object($conf->security->allowedIps)) {
+				if(count($conf->security->allowedIps)<1) {
 					$this->log('Warning: Please configure allowed IPs');
 				} else {
-					$ips = (array) $conf->security->allowedips;
+					$ips = (array) $conf->security->allowedIps;
 					if ( !isset($ips[$this->ip]) ){
 						$this->log('[ERROR] IP not allowed: '.$this->ip, true);
 					}
 				}
-			} else if(strlen($conf->security->allowedips) < 3){
+			} else if(strlen($conf->security->allowedIps) < 3){
 				$this->log('Warning: Please configure allowed IPs');
 			} else {
-				if ( $conf->security->allowedips !== $this->ip){
+				if ( $conf->security->allowedIps !== $this->ip){
 					$this->log('[ERROR] IP not allowed: '.$this->client_ip, true);
 				}
 			}

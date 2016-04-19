@@ -1,7 +1,7 @@
 {
 	"security": {
 		"token": "",
-		"allowedips": {
+		"allowedIps": {
 			"::1": true
 		}
 	},
