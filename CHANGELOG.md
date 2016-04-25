@@ -2,7 +2,17 @@
 
 ## Master
 
+
+## v0.8.0 - 2016-01-25
+
+* Made repositories configurable
+* Renamed properties
+* Ignoring config.project.json for your own settings
+
+## v0.7.2 - 2016-01-23
+
 * Fixed deploy php script not being executed
+* Fixed JS error
 
 ## v0.7.1 - 2015-12-18
 

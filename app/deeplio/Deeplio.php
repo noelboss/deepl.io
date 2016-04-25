@@ -27,6 +27,8 @@ namespace noelbosscom;
 		private $data;
 		private $log;
 		private $projectconf;
+		private $cachePath;
+		private $repositoriesPath;
 
 		public function __construct() {
 			if(isset($_ENV["ENVIRONMENT"]) && file_exists(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
@@ -39,16 +41,19 @@ namespace noelbosscom;
 			$this->config = json_decode( file_get_contents( $conffile ) );
 
 			if(isset($this->config->log)){
-				$this->logfile = BASE.'/'.$this->config->log;
+				$this->logfile = BASE.$this->config->log;
+				if(!is_dir(dirname($this->logfile))) mkdir(dirname($this->logfile));
 			}
 
-			if(isset($this->config->cachepath)){
-				$this->cachepath = BASE.'/'.$this->config->cachepath;
-				if(!is_dir($this->cachepath)) mkdir($this->cachepath);
+			if(isset($this->config->cachePath)){
+				$this->cachePath = BASE.$this->config->cachePath;
+				if(!is_dir($this->cachePath)) mkdir($this->cachePath);
 			}
+
+
+			$this->repositoriesPath = isset($this->config->repositoriesPath) && is_dir(BASE.$this->config->repositoriesPath) ? BASE.$this->config->repositoriesPath : REPOS;
 
 			// using github secret or url
-
 			$request = explode('/',$_SERVER['REQUEST_URI']);
 			$this->token = isset($_SERVER['HTTP_X_HUB_SIGNATURE']) ? $_SERVER['HTTP_X_HUB_SIGNATURE'] : end($request);
 
@@ -66,9 +71,9 @@ namespace noelbosscom;
 			if($this->data === null || !is_object($this->data->repository)){
 				$this->log('[ERROR] JSON data missing or broken: '.$this->data, true);
 			}
-			
-			$this->cachefile = $this->cachepath.substr($this->data->after, -12);
-			$this->cachefilebefore = $this->cachepath.substr($this->data->before, -12);
+
+			$this->cachefile = $this->cachePath.substr($this->data->after, -12);
+			$this->cachefilebefore = $this->cachePath.substr($this->data->before, -12);
 
 			$this->security();
 			$this->run();
@@ -89,8 +94,8 @@ namespace noelbosscom;
 			$branch = str_replace('refs/heads/','', $this->data->ref);
 			$branch = str_replace('/','-', $branch);
 
-			$path = REPOS.basename($repo).'/'.$branch;
-			$debugpath = REPOS.basename($repo).'/'.$branch;
+			$path = $this->repositoriesPath.basename($repo).'/'.$branch;
+			$debugpath = $this->repositoriesPath.basename($repo).'/'.$branch;
 
 			$this->log('[NOTE] Path: '.basename($repo).'/'.$branch);
 
@@ -120,7 +125,7 @@ namespace noelbosscom;
 				}
 
 				// using php over shell (since you can call shell from php)
-				if(file_exists($this->cachepath.substr($this->data->after, -12))){
+				if(file_exists($this->cachePath.substr($this->data->after, -12))){
 					$this->log('[NOTE] Version already deployed '.$after);
 				}
 				else if(file_exists($path.'.script.php')){
@@ -177,19 +182,19 @@ namespace noelbosscom;
 			}
 
 			// check ip
-			if(is_object($conf->security->allowedips)) {
-				if(count($conf->security->allowedips)<1) {
+			if(is_object($conf->security->allowedIps)) {
+				if(count($conf->security->allowedIps)<1) {
 					$this->log('Warning: Please configure allowed IPs');
 				} else {
-					$ips = (array) $conf->security->allowedips;
+					$ips = (array) $conf->security->allowedIps;
 					if ( !isset($ips[$this->ip]) ){
 						$this->log('[ERROR] IP not allowed: '.$this->ip, true);
 					}
 				}
-			} else if(strlen($conf->security->allowedips) < 3){
+			} else if(strlen($conf->security->allowedIps) < 3){
 				$this->log('Warning: Please configure allowed IPs');
 			} else {
-				if ( $conf->security->allowedips !== $this->ip){
+				if ( $conf->security->allowedIps !== $this->ip){
 					$this->log('[ERROR] IP not allowed: '.$this->client_ip, true);
 				}
 			}
@@ -197,7 +202,7 @@ namespace noelbosscom;
 
 		private function success(){
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
-			if($this->cachepath && $this->data->after){
+			if($this->cachePath && $this->data->after){
 				if(file_exists($this->cachefilebefore)) unlink($this->cachefilebefore);
 				file_put_contents($this->cachefile, "");
 			}
