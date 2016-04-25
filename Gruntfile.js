@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		replace: {
 			version: {
-				src: ['./README.md','./index.html','./index.php'],
+				src: ['./README.md','./index.html','./app/deeplio/Deeplio.php'],
 				overwrite: true,
 				replacements: [
 					{
