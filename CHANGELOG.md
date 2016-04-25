@@ -3,6 +3,9 @@
 ## Master
 
 
+## v0.8.1 - 2016-04-25
+
+
 ## v0.8.0 - 2016-01-25
 
 * Made repositories configurable

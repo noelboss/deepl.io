@@ -150,12 +150,14 @@
 					<pre>
 {
 	"project": {
-		"name": "Example Project",
-		"repository_ssh_url": "git@example.com:mike/example.git",
-		"branch": "master"
+		"name": "Example Music Project",
+		"repository_ssh_url": "git@example.com:music/example.git",
+		"branch": "master",
+		"repositoriesPath": "../repositories-under-own-git/"
 	},
 	"mails": {
-		"mail": "mike@gmail.com"
+		"michael.jackson@gmail.com": "Michael Jackson",
+		"tina.turner@gmail.com": "Tina Turner"
 	}
 }</pre>
 					<p>
@@ -164,12 +166,12 @@
 					</p>
 					<strong><a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/web_hooks/web_hooks.md">GitLab JSON</a>:</strong><pre>
 	"repository": {
-		"git_ssh_url":"git@example.com:mike/example.git",
+		"git_ssh_url":"git@example.com:music/example.git",
 	},
 </pre>
 					<strong><a href="http://doc.gitlab.com/ee/web_hooks/web_hooks.html">GitHub JSON</a>:</strong><pre>
 	"repository": {
-		"ssh_url": "git@github.com:mike/example.git",
+		"ssh_url": "git@github.com:music/example.git",
 	},
 </pre>
 
