@@ -29,13 +29,20 @@ Options -Indexes +FollowSymLinks
 # Routing
 RewriteEngine On
 
-RewriteRule ^admin/assets/(.*) app/admin/public/assets/$1 [L]
+
+RewriteRule ^admin/assets/(.*) app/admin/public/assets/$1 [P,L]
+RewriteRule ^admin$ admin/ [L]
+
+# prevent access not from localhost
+RewriteCond %{HTTP_HOST} ^127.0.0.1$ [OR]
+RewriteCond %{HTTP_HOST} ^local [OR]
+RewriteCond %{HTTP_HOST} ^addyourownhosthereif$
 RewriteRule ^admin/(.*) app/admin/public/index.php?uriparts=$1 [QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# everything else goes trough index.php
+# everything else goes trough Deeplio.php
 RewriteRule . app/deeplio/Deeplio.php [L]
 
 # Compression

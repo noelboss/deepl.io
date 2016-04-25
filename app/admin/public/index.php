@@ -1,8 +1,5 @@
 <?php
-//error_reporting(-1);
-//ini_set('display_errors', '1');
 namespace noelbosscom;
-
 
 $pathes  = explode( '/app/admin/public', dirname( str_replace( '\\', '/', __FILE__ ) ) );
 $uri     = 'http' . ( empty( $_SERVER['HTTPS'] ) ? '' : 's' ) . '://' . $_SERVER['SERVER_NAME'] . ( $_SERVER['SERVER_PORT'] != '80' ? ':' . $_SERVER['SERVER_PORT'] : '' ) . $_SERVER['REQUEST_URI'];

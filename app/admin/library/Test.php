@@ -20,7 +20,9 @@ class Test {
 				)
 		);
 
-		$url = 'http://'.$_SERVER["HTTP_HOST"].'/'.$this->config->security->token;
+		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+
+		$url = $protocol.$_SERVER["HTTP_HOST"].'/'.$this->config->security->token;
 
 		$context = stream_context_create( $options );
 		$response = file_get_contents( $url, false, $context );
