@@ -108,10 +108,14 @@
 					</p>
 
 					<hr/>
-					<h2>Setup</h2>
+					<h2>Setup Depl.io</h2>
 					<p>
-						Open <code>config/config.example.json</code> and rename it to <code>config.json</code>.
+						Open <code><a href="https://github.com/noelboss/deepl.io/blob/master/config/config.example.json">config/config.example.json</a></code> and rename it to <code>config.json</code>.
 						Set a secret token and maybe configure allowed IPs.
+						<br/>
+						You can configure the repositoryPath to a location outside the deepl.io path to
+						use your own git repo for the deploy-configuration:
+						<code>"repositoriesPath": "./../my-own-deployment-repositories/"</code>
 						<br/>
 						Then, add this to the webhook settings of your Git provider:
 						<code>deploy.yourserver.com/your-secret-token</code>
@@ -146,20 +150,22 @@
 					</p>
 
 					<hr/>
-					<h4>Example config.json</h4>
+					<h4>Example Project Configuration</h4>
+					<p>Make sure to set the "enabled" flag to enable execution</p>
 					<pre>
 {
+	"enabled": true,
 	"project": {
 		"name": "Example Music Project",
 		"repository_ssh_url": "git@example.com:music/example.git",
-		"branch": "master",
-		"repositoriesPath": "../repositories-under-own-git/"
+		"branch": "deploy/test"
 	},
 	"mails": {
 		"michael.jackson@gmail.com": "Michael Jackson",
 		"tina.turner@gmail.com": "Tina Turner"
 	}
-}</pre>
+}
+</pre>
 					<p>
 						It is important, that the "repository_ssh_url" matches the repository that your service provider
 						delivers using the JSON payload. You can test this by calling <a href="/admin/">/admin/</a> (protected by .htaccess, only works localy) and updating the example request <code>branch.request.json</code>:
