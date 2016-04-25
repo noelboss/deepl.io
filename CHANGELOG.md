@@ -2,15 +2,18 @@
 
 ## Master
 
+* Updated Documentation
 
 ## v0.8.1 - 2016-04-25
-
-
-## v0.8.0 - 2016-01-25
 
 * Made repositories configurable
 * Renamed properties
 * Ignoring config.project.json for your own settings
+
+## v0.8.0 - 2016-01-25
+
+* Added host protection and protocol improvements
+* Fixed path error
 
 ## v0.7.2 - 2016-01-23
 
