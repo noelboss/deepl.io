@@ -1,10 +1,11 @@
 {
 	"security": {
 		"token": "",
-		"allowedips": {
+		"allowedIps": {
 			"::1": true
 		}
 	},
 	"log": "logs/deeplio.log",
-	"cachepath": "cache/"
+	"cachePath": "cache/",
+	"repositoriesPath": "repositories"
 }
