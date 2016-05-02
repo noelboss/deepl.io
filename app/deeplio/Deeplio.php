@@ -19,15 +19,17 @@ namespace noelbosscom;
 
 		private $config;
 		private $logfile;
-		private $cachefile;
-		private $cachefilebefore;
 		private $token;
 		private $ip;
 		private $service;
 		private $data;
 		private $log;
 		private $projectconf;
+
 		private $cachePath;
+		private $cacheFile;
+		private $cacheFileBefore;
+
 		private $repositoriesPath;
 
 		public function __construct() {
@@ -72,8 +74,8 @@ namespace noelbosscom;
 				$this->log('[ERROR] JSON data missing or broken: '.$this->data, true);
 			}
 
-			$this->cachefile = $this->cachePath.substr($this->data->after, -12);
-			$this->cachefilebefore = $this->cachePath.substr($this->data->before, -12);
+			$this->cacheFile = $this->cachePath.substr($this->data->after, -12);
+			$this->cacheFileBefore = $this->cachePath.substr($this->data->before, -12);
 
 			$this->security();
 			$this->run();
@@ -99,7 +101,12 @@ namespace noelbosscom;
 
 			$this->log('[NOTE] Path: '.basename($repo).'/'.$branch);
 
-			if(file_exists($path.'.config.json')){
+			if(file_exists($this->cacheFile)){
+				$this->log('[NOTE] Commit already deployed: '.$after, true);
+			}
+			else if(file_exists($path.'.config.json')){
+
+				$this->log('[NOTE] Cache File does not exist '.$this->cacheFile);
 
 				$conf = json_decode( file_get_contents( $path.'.config.json' ) );
 				$this->projectconf = $conf;
@@ -124,12 +131,8 @@ namespace noelbosscom;
 					$this->log(' - Hook: '.$this->data->ref, true);
 				}
 
-				// using php over shell (since you can call shell from php)
-				if(file_exists($this->cachePath.substr($this->data->after, -12))){
-					$this->log('[NOTE] Version already deployed '.$after);
-				}
-				else if(file_exists($path.'.script.php')){
-					try {
+				if(file_exists($path.'.script.php')){
+					try {				// using php over shell (since you can call shell from php)
 						chdir(BASE);
 						$this->log('[NOTE] Using PHP '.$path.'.script.php:');
 						include_once($path.'.script.php');
@@ -202,9 +205,9 @@ namespace noelbosscom;
 
 		private function success(){
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
-			if($this->cachePath && $this->data->after){
-				if(file_exists($this->cachefilebefore)) unlink($this->cachefilebefore);
-				file_put_contents($this->cachefile, "");
+			if($this->cachePath $this->cacheFile){
+				if(file_exists($this->cacheFileBefore)) unlink($this->cacheFileBefore);
+				file_put_contents($this->cacheFile, "");
 			}
 			$this->mails(true);
 		}
