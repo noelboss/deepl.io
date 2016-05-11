@@ -13,12 +13,14 @@ class Index {
 	private $Utils;
 
 	private $config;
-	private $logfile = '/logs/deeplio.log';
+	private $logfile;
 	private $repositoriesPath;
 
 	function __construct() {
 		$this->User= new User();
 		$this->Utils = new Utils();
+		$this->logfile =  BASE . '/logs/deeplio.log';
+
 
 		if(isset($_ENV["ENVIRONMENT"]) && file_exists(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
 			$conffile = BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json';
@@ -27,7 +29,13 @@ class Index {
 			$conffile = BASE . 'config/config.json';
 		}
 
+		if(!file_exists($conffile)){
+			$this->log('[ERROR] Config file missing: '.$conffile, true);
+		}
 		$this->config = json_decode( file_get_contents( $conffile ) );
+		if($this->config  === null || !is_object($this->config)){
+			$this->log('[ERROR] Config broken: '.$conffile, true);
+		}
 
 		$this->Utils->htmlFragmentStart( 'Deepl.io Settings' );
 		$this->htmlList();
@@ -183,7 +191,11 @@ class Index {
 
 	private function log($msg, $die = false){
 		$pre= date('Y-m-d H:i:s').' (IP: ' . $_SERVER['REMOTE_ADDR'] . '): ';
-		file_put_contents($this->logfile, $pre . $msg . "\n", FILE_APPEND);
+		if(file_exists($this->logfile)){
+			file_put_contents($this->logfile, $pre . $msg . "\n", FILE_APPEND);
+		} else {
+			echo $pre . $msg . "<br/>";
+		}
 		if($die) die();
 	}
 }

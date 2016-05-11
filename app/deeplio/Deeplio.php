@@ -74,8 +74,8 @@ namespace noelbosscom;
 				$this->log('[ERROR] JSON data missing or broken: '.$this->data, true);
 			}
 
-			$this->cacheFile = $this->cachePath.substr($this->data->after, -12);
-			$this->cacheFileBefore = $this->cachePath.substr($this->data->before, -12);
+			$this->cacheFile = $this->cachePath.'/'.substr($this->data->after, -12);
+			$this->cacheFileBefore = $this->cachePath.'/'.substr($this->data->before, -12);
 
 			$this->security();
 			$this->run();
@@ -102,7 +102,7 @@ namespace noelbosscom;
 			$this->log('[NOTE] Path: '.basename($repo).'/'.$branch);
 
 			if(file_exists($this->cacheFile)){
-				$this->log('[NOTE] Commit already deployed: '.$after, true);
+				$this->log('[NOTE] Commit already deployed: '.$after);
 			}
 			else if(file_exists($path.'.config.json')){
 
@@ -112,7 +112,9 @@ namespace noelbosscom;
 				$this->projectconf = $conf;
 
 				if(!$conf->enabled){
-					$this->log('[NOTE] Repository disabled by config', true);
+					$this->log('[NOTE] Repository disabled by config');
+					// abbort script but don't send mails...
+					die();
 				}
 
 				if($conf === null || !is_object($conf)){
