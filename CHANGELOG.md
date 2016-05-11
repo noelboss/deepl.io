@@ -2,6 +2,9 @@
 
 ## Master
 
+
+## v0.9.0 - 2016-05-11
+
 * Fixed Chaching and PHP Error
 * Updated Documentation
 
