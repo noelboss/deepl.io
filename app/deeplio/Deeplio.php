@@ -205,7 +205,7 @@ namespace noelbosscom;
 
 		private function success(){
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
-			if($this->cachePath $this->cacheFile){
+			if($this->cachePath && $this->cacheFile){
 				if(file_exists($this->cacheFileBefore)) unlink($this->cacheFileBefore);
 				file_put_contents($this->cacheFile, "");
 			}
