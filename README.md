@@ -2,7 +2,7 @@
 
 A simple yet powerful PHP tool to catch Git webhooks from GitLab and GitHub and deploy your projects to your server after pushing.
 
-#### [Current Release: 0.8.1](https://github.com/noelboss/deepl.io/archive/0.8.1.zip)
+#### [Current Release: 0.9.0](https://github.com/noelboss/deepl.io/archive/0.9.0.zip)
 
 ## Features
 

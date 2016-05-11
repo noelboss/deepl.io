@@ -2,6 +2,7 @@
 
 ## Master
 
+* Fixed Chaching and PHP Error
 * Updated Documentation
 
 ## v0.8.1 - 2016-04-25
