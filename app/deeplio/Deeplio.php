@@ -150,8 +150,8 @@ namespace noelbosscom;
 
 				if(!$conf->enabled){
 					$this->log('[NOTE] Repository disabled by config');
-					// abbort script but don't send mails...
-					die();
+					// abort function but don't send mails...
+					return;
 				}
 
 				if($conf === null || !is_object($conf)){
@@ -162,12 +162,16 @@ namespace noelbosscom;
 					$this->log('[ERROR] Repository not matching;');
 					$this->log(' - Config: '.$conf->project->repository_ssh_url);
 					$this->log(' - Hook: '.$repo , true);
+                    // abort function
+					return;
 				}
 
 				if ($branch !== $conf->project->branch){
 					$this->log('Branch not configured: Repository not matching;');
 					$this->log(' - Config: '. $conf->project->branch );
 					$this->log(' - Hook: '.$branch, true);
+                    // abort function
+                    return;
 				}
 
 				if(file_exists($path.'.script.php')){
@@ -207,11 +211,13 @@ namespace noelbosscom;
 			// check conf
 			if(!is_object($conf)){
 				$this->log('[ERROR] config.json broken or missing', true);
+                die();
 			}
 
 			// check token
 			if(!isset($conf->security->token) || strlen($conf->security->token) < 1) {
 				$this->log('[ERROR] Please provide security token in config.json', true);
+                die();
 			} else if(strlen($conf->security->token) < 30) {
 				$this->log('[WARNING] Security token unsafe, make it longer');
 			}
@@ -219,6 +225,7 @@ namespace noelbosscom;
 				$this->log('[ERROR] Security token not provided. Add the token to the request '.$_SERVER["HTTP_HOST"]."/YOUR-SAVE-TOKEN", true);
 			} else if($this->token !== $conf->security->token){
 				$this->log('[ERROR] Security token not correct: '.$this->token, true);
+                die();
 			} else {
 				$this->log('[NOTE] Security token correct');
 			}
@@ -231,6 +238,7 @@ namespace noelbosscom;
 					$ips = (array) $conf->security->allowedIps;
 					if ( !isset($ips[$this->ip]) ){
 						$this->log('[ERROR] IP not allowed: '.$this->ip, true);
+                        die();
 					}
 				}
 			} else if(strlen($conf->security->allowedIps) < 3){
@@ -238,6 +246,7 @@ namespace noelbosscom;
 			} else {
 				if ( $conf->security->allowedIps !== $this->ip){
 					$this->log('[ERROR] IP not allowed: '.$this->ip, true);
+					die();
 				}
 			}
 		}
@@ -307,7 +316,7 @@ namespace noelbosscom;
 			mail($to, $subject, $message, $headers);
 		}
 
-		private function log($msg, $die = false){
+		private function log($msg, $sendMails = false){
 			if(isset($this->config->log)){
 
 				// echoing for manual deploy
@@ -317,15 +326,13 @@ namespace noelbosscom;
 				file_put_contents($this->logfile, $msg . "\n", FILE_APPEND);
 				$this->log .= '– '.htmlspecialchars($msg) . "\n";
 			}
-			if($die && !($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input'))) {
+			if($sendMails && !($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input'))) {
 				header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
 				$this->log('[STATUS] FAILED – Deployment not finished!');
 				$this->mails();
-				die();
-			} else if($die){
+			} else if($sendMails){
 				$this->log('[STATUS] FAILED – Deployment not finished!');
 				$this->mails();
-				die();
 			}
 		}
 	}
