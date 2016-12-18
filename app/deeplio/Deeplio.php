@@ -79,15 +79,23 @@ namespace noelbosscom;
 		}
 
 		private function run() {
-            if($this->service === 'GitHub'){
-                $repo = $this->data->repository->ssh_url;
+		    if ($this->service === 'Bitbucket'){
+
             } else {
-                $repo = $this->data->repository->git_ssh_url;
+                if ($this->service === 'GitHub') {
+                    $repo = $this->data->repository->ssh_url;
+                } else {
+                    $repo = $this->data->repository->git_ssh_url;
+                }
+
+                $branch = str_replace('refs/heads/','', $this->data->ref);
+                $branch = str_replace('/','-', $branch);
+
+                $this->handle($repo, $branch, $this->data->before, $this->data->after);
             }
-            $this->handle($repo, $this->data->before, $this->data->after);
         }
 
-		private function handle($repo, $before, $after) {
+		private function handle($repo, $branch, $before, $after) {
             $this->cacheFile = $this->cachePath.'/'.substr($after, -12);
             $this->cacheFileBefore = $this->cachePath.'/'.substr($before, -12);
 
@@ -96,8 +104,6 @@ namespace noelbosscom;
 
 			$this->log('[NOTE] New push from '.$this->service.":\n  - ".$repo."\n  - From $beforeShort\n  - To $afterShort");
 
-			$branch = str_replace('refs/heads/','', $this->data->ref);
-			$branch = str_replace('/','-', $branch);
 
 			$path = $this->repositoriesPath.basename($repo).'/'.$branch;
 			$debugPath = $this->repositoriesPath.basename($repo).'/'.$branch;
