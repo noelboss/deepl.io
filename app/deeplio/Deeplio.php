@@ -33,7 +33,7 @@ namespace noelbosscom;
 		private $repositoriesPath;
 
 		public function __construct() {
-			if(isset($_ENV["ENVIRONMENT"]) && file_exists(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
+			if(isset($_ENV["ENVIRONMENT"]) && is_file(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
 				$confFile = BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json';
 			}
 			else {
@@ -118,7 +118,7 @@ namespace noelbosscom;
 		    // Check if there is an old version of the before file.
             $fileBase = $this->cachePath . DIRECTORY_SEPARATOR . base64_encode($repo . "." .$branch) . ".";
             $cacheFileBefore = $this->cachePath.'/'.substr($before, -12);
-            if (!file_exists($cacheFileBefore)){
+            if (!is_file($cacheFileBefore)){
                 $cacheFileBefore = $fileBase . substr($before, -12);
             }
 
@@ -138,10 +138,10 @@ namespace noelbosscom;
 
 			$this->log('[NOTE] Path: '.basename($repo).'/'.$branch);
 
-			if(file_exists($this->cacheFile)){
+			if(is_file($this->cacheFile)){
 				$this->log('[NOTE] Commit already deployed: '.$afterShort);
 			}
-			else if(file_exists($path.'.config.json')){
+			else if(is_file($path.'.config.json')){
 
 				$this->log('[NOTE] Cache File does not exist '.$this->cacheFile);
 
@@ -174,7 +174,7 @@ namespace noelbosscom;
                     return;
 				}
 
-				if(file_exists($path.'.script.php')){
+				if(is_file($path.'.script.php')){
 					try {				// using php over shell (since you can call shell from php)
 						chdir(BASE);
 						$this->log('[NOTE] Using PHP '.$path.'.script.php:');
@@ -186,7 +186,7 @@ namespace noelbosscom;
 					}
 				}
 				// no shell and no php? no deployment
-				else if(!file_exists($path.'.script.sh')){
+				else if(!is_file($path.'.script.sh')){
 					$this->log('[ERROR] No deployment script configured: '.$debugPath.'.script.sh / .php', true);
 				} else {
 					// change to root directory
@@ -267,7 +267,7 @@ namespace noelbosscom;
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
 			if($this->cachePath){
 			    if ($this->cacheFileBefore){
-                    if(file_exists($this->cacheFileBefore)) unlink($this->cacheFileBefore);
+                    if(is_file($this->cacheFileBefore)) unlink($this->cacheFileBefore);
                 }
                 if ($this->cacheFile) {
                     file_put_contents($this->cacheFile, "");
@@ -338,7 +338,7 @@ namespace noelbosscom;
 	}
 
 
-	if(file_exists(BASE . 'config/customisation.php')){
+	if(is_file(BASE . 'config/customisation.php')){
 		include_once( BASE . 'config/customisation.php' );
 	} else {
 		$Deeplio = new Deeplio();
