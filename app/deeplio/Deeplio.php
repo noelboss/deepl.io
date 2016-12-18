@@ -74,9 +74,6 @@ namespace noelbosscom;
 				$this->log('[ERROR] JSON data missing or broken: '.$this->data, true);
 			}
 
-			$this->cacheFile = $this->cachePath.'/'.substr($this->data->after, -12);
-			$this->cacheFileBefore = $this->cachePath.'/'.substr($this->data->before, -12);
-
 			$this->security();
 			$this->run();
 		}
@@ -87,15 +84,17 @@ namespace noelbosscom;
             } else {
                 $repo = $this->data->repository->git_ssh_url;
             }
-            $this->handle($repo);
+            $this->handle($repo, $this->data->before, $this->data->after);
         }
 
-		private function handle($repo) {
+		private function handle($repo, $before, $after) {
+            $this->cacheFile = $this->cachePath.'/'.substr($after, -12);
+            $this->cacheFileBefore = $this->cachePath.'/'.substr($before, -12);
 
-			$before = substr($this->data->before, 0, 7).'..'.substr($this->data->before, -7);
-			$after = substr($this->data->after, 0, 7).'..'.substr($this->data->after, -7);
+			$beforeShort = substr($before, 0, 7).'..'.substr($before, -7);
+			$afterShort = substr($after, 0, 7).'..'.substr($after, -7);
 
-			$this->log('[NOTE] New push from '.$this->service.":\n  - ".$repo."\n  - From $before\n  - To $after");
+			$this->log('[NOTE] New push from '.$this->service.":\n  - ".$repo."\n  - From $beforeShort\n  - To $afterShort");
 
 			$branch = str_replace('refs/heads/','', $this->data->ref);
 			$branch = str_replace('/','-', $branch);
@@ -106,7 +105,7 @@ namespace noelbosscom;
 			$this->log('[NOTE] Path: '.basename($repo).'/'.$branch);
 
 			if(file_exists($this->cacheFile)){
-				$this->log('[NOTE] Commit already deployed: '.$after);
+				$this->log('[NOTE] Commit already deployed: '.$afterShort);
 			}
 			else if(file_exists($path.'.config.json')){
 
