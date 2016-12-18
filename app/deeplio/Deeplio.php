@@ -67,7 +67,7 @@ namespace noelbosscom;
 			//$this->log('[TOKEN] '.$this->token);
 
 			$raw = file_get_contents('php://input');
-			$this->service = (strpos($raw, 'github.com') !== false) ? 'GitHub' : 'GitLab';
+			$this->service = $this->getService();
 
 			$this->data = json_decode( $raw );
 			if($this->data === null || !is_object($this->data->repository)){
@@ -204,6 +204,18 @@ namespace noelbosscom;
 				}
 			}
 		}
+
+        private function getService(){
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            if ((strpos($userAgent, 'GitHub') !== false)) {
+                return 'GitHub';
+            }
+            if ((strpos($userAgent, 'Bitbucket') !== false)) {
+                return 'Bitbucket';
+            }
+            // TODO: make sure it is really from GitLab
+            return 'GitLab';
+        }
 
 		private function success(){
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
