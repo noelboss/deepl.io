@@ -242,7 +242,7 @@ namespace noelbosscom;
 			$to = $this->Helpers->getMails($conf);
 
 			if($to === false){
-				$this->log('[NOTR] No mails configured.');
+				$this->log('[NOTE] No mails configured.');
 				return false;
 			}
 
