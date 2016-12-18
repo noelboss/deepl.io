@@ -24,7 +24,7 @@ namespace noelbosscom;
 		private $service;
 		private $data;
 		private $log;
-		private $projectconf;
+		private $projectConf;
 
 		private $cachePath;
 		private $cacheFile;
@@ -34,13 +34,13 @@ namespace noelbosscom;
 
 		public function __construct() {
 			if(isset($_ENV["ENVIRONMENT"]) && file_exists(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
-				$conffile = BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json';
+				$confFile = BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json';
 			}
 			else {
-				$conffile = BASE . 'config/config.json';
+				$confFile = BASE . 'config/config.json';
 			}
 
-			$this->config = json_decode( file_get_contents( $conffile ) );
+			$this->config = json_decode( file_get_contents( $confFile ) );
 
 			if(isset($this->config->log)){
 				$this->logfile = BASE.$this->config->log;
@@ -97,7 +97,7 @@ namespace noelbosscom;
 			$branch = str_replace('/','-', $branch);
 
 			$path = $this->repositoriesPath.basename($repo).'/'.$branch;
-			$debugpath = $this->repositoriesPath.basename($repo).'/'.$branch;
+			$debugPath = $this->repositoriesPath.basename($repo).'/'.$branch;
 
 			$this->log('[NOTE] Path: '.basename($repo).'/'.$branch);
 
@@ -109,7 +109,7 @@ namespace noelbosscom;
 				$this->log('[NOTE] Cache File does not exist '.$this->cacheFile);
 
 				$conf = json_decode( file_get_contents( $path.'.config.json' ) );
-				$this->projectconf = $conf;
+				$this->projectConf = $conf;
 
 				if(!$conf->enabled){
 					$this->log('[NOTE] Repository disabled by config');
@@ -118,7 +118,7 @@ namespace noelbosscom;
 				}
 
 				if($conf === null || !is_object($conf)){
-					$this->log('[ERROR] '.$debugpath.'.config.json broken', true);
+					$this->log('[ERROR] '.$debugPath.'.config.json broken', true);
 				}
 
 				if ($repo !== $conf->project->repository_ssh_url){
@@ -146,13 +146,13 @@ namespace noelbosscom;
 				}
 				// no shell and no php? no deployment
 				else if(!file_exists($path.'.script.sh')){
-					$this->log('[ERROR] No deployment script configured: '.$debugpath.'.script.sh / .php', true);
+					$this->log('[ERROR] No deployment script configured: '.$debugPath.'.script.sh / .php', true);
 				} else {
 					// change to root directory
 					chdir(BASE);
 					exec($path.'.script.sh', $out, $ret);
 					if ($ret){
-						$this->log('[ERROR] Error executing command in '.$debugpath.'.script.sh:');
+						$this->log('[ERROR] Error executing command in '.$debugPath.'.script.sh:');
 						$this->log("   return code $ret", true);
 					} else {
 						$this->success();
@@ -215,7 +215,7 @@ namespace noelbosscom;
 		}
 
 		private function mails($success = false){
-			$conf = $this->projectconf;
+			$conf = $this->projectConf;
 
 			$this->Helpers = new Helpers();
 			$to = $this->Helpers->getMails($conf);
