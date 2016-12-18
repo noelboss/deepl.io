@@ -82,11 +82,15 @@ namespace noelbosscom;
 		}
 
 		private function run() {
-			if($this->service === 'GitHub'){
-				$repo = $this->data->repository->ssh_url;
-			} else {
-				$repo = $this->data->repository->git_ssh_url;
-			}
+            if($this->service === 'GitHub'){
+                $repo = $this->data->repository->ssh_url;
+            } else {
+                $repo = $this->data->repository->git_ssh_url;
+            }
+            $this->handle($repo);
+        }
+
+		private function handle($repo) {
 
 			$before = substr($this->data->before, 0, 7).'..'.substr($this->data->before, -7);
 			$after = substr($this->data->after, 0, 7).'..'.substr($this->data->after, -7);
