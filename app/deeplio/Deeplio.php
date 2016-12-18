@@ -80,7 +80,26 @@ namespace noelbosscom;
 
 		private function run() {
 		    if ($this->service === 'Bitbucket'){
+		        // Get repository name
+                $scm = $this->data->repository->scm;
+                $fullName = $this->data->repository->full_name;
+                $repo = "$scm@bitbucket.org:$fullName.$scm";
 
+                foreach ($this->data->push->changes as $change) {
+                    $branch = '';
+                    $before = '';
+                    if (is_object($change->old)){
+                        $before = $change->old->target->hash;
+                        $branch = $change->old->name;
+                    }
+                    $after = '';
+                    if (is_object($change->new)){
+                        $after = $change->new->target->hash;
+                        $branch = $change->new->name;
+                    }
+                    
+                    $this->handle($repo, $branch, $before, $after);
+		        }
             } else {
                 if ($this->service === 'GitHub') {
                     $repo = $this->data->repository->ssh_url;
@@ -96,8 +115,17 @@ namespace noelbosscom;
         }
 
 		private function handle($repo, $branch, $before, $after) {
-            $this->cacheFile = $this->cachePath.'/'.substr($after, -12);
-            $this->cacheFileBefore = $this->cachePath.'/'.substr($before, -12);
+		    // Check if there is an old version of the before file.
+            $fileBase = $this->cachePath . DIRECTORY_SEPARATOR . base64_encode($repo . "." .$branch) . ".";
+            $cacheFileBefore = $this->cachePath.'/'.substr($before, -12);
+            if (!file_exists($cacheFileBefore)){
+                $cacheFileBefore = $fileBase . substr($before, -12);
+            }
+
+            // New way for cache files, repo and branch specific.
+            // Just to be sure we don't mess up
+            $this->cacheFile = $fileBase . substr($after, -12);
+            $this->cacheFileBefore = $cacheFileBefore;
 
 			$beforeShort = substr($before, 0, 7).'..'.substr($before, -7);
 			$afterShort = substr($after, 0, 7).'..'.substr($after, -7);
@@ -136,10 +164,10 @@ namespace noelbosscom;
 					$this->log(' - Hook: '.$repo , true);
 				}
 
-				if ($this->data->ref !== 'refs/heads/'.$conf->project->branch){
+				if ($branch !== $conf->project->branch){
 					$this->log('Branch not configured: Repository not matching;');
-					$this->log(' - Config: refs/heads/'.$conf->project->branch);
-					$this->log(' - Hook: '.$this->data->ref, true);
+					$this->log(' - Config: '. $conf->project->branch );
+					$this->log(' - Hook: '.$branch, true);
 				}
 
 				if(file_exists($path.'.script.php')){
@@ -228,9 +256,13 @@ namespace noelbosscom;
 
 		private function success(){
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
-			if($this->cachePath && $this->cacheFile){
-				if(file_exists($this->cacheFileBefore)) unlink($this->cacheFileBefore);
-				file_put_contents($this->cacheFile, "");
+			if($this->cachePath){
+			    if ($this->cacheFileBefore){
+                    if(file_exists($this->cacheFileBefore)) unlink($this->cacheFileBefore);
+                }
+                if ($this->cacheFile) {
+                    file_put_contents($this->cacheFile, "");
+                }
 			}
 			$this->mails(true);
 		}
