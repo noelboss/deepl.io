@@ -139,7 +139,7 @@ namespace noelbosscom;
 						$this->log('[NOTE] Using PHP '.$path.'.script.php:');
 						include_once($path.'.script.php');
 						$this->success();
-					} catch (Exception $e) {
+					} catch (\Exception $e) {
 						$this->log('[ERROR] Error in '.$path.'.script.php:');
 						$this->log('   '.$e);
 					}
@@ -160,7 +160,7 @@ namespace noelbosscom;
 				}
 
 			} else {
-				$this->log('[ERROR] No deployment configured: '.$localpath.'.config.json', true);
+				$this->log('[ERROR] No deployment configured: '.$path.'.config.json', true);
 			}
 		}
 
@@ -200,7 +200,7 @@ namespace noelbosscom;
 				$this->log('Warning: Please configure allowed IPs');
 			} else {
 				if ( $conf->security->allowedIps !== $this->ip){
-					$this->log('[ERROR] IP not allowed: '.$this->client_ip, true);
+					$this->log('[ERROR] IP not allowed: '.$this->ip, true);
 				}
 			}
 		}
