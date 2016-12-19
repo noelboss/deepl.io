@@ -1,12 +1,12 @@
 {
 	"title": "Deepl.io \u2013 Git deployment simplified",
-	"version": "0.9.0",
+	"version": "0.10.0",
 	"author": {
 		"name": "No\u00ebl Raoul Bossart",
 		"url": "http://www.noelboss.com"
 	},
 	"bugs": "https://github.com/noelboss/deepl.io/issues",
-	"description": "Deepl.io is a simple yet powerful php-tool to catch GIT Web-Hooks from GITLAB and GITHUB to deploy your projects to your server after pushing.",
+	"description": "Deepl.io is a simple yet powerful php-tool to catch GIT Web-Hooks from GITLAB, GITHUB & BITBUCKET to deploy your projects to your server after pushing.",
 	"devDependencies": {
 		"bower": "*",
 		"grunt": "~0.4.2",
