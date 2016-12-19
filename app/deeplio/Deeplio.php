@@ -13,6 +13,8 @@ namespace noelbosscom;
 	define( 'REPOS', BASE.'repositories/' );
 
 	include_once('../incl/Helpers.php');
+    include_once('../incl/IpAddress.php');
+    include_once('../incl/IpRange.php');
 
 	class Deeplio {
 		private $Helpers;
@@ -61,7 +63,7 @@ namespace noelbosscom;
 			$request = explode('/',$_SERVER['REQUEST_URI']);
 			$this->token = isset($_SERVER['HTTP_X_HUB_SIGNATURE']) ? $_SERVER['HTTP_X_HUB_SIGNATURE'] : end($request);
 
-			$this->ip = $_SERVER['REMOTE_ADDR'];
+			$this->ip = new IpAddress($_SERVER['REMOTE_ADDR']);
 
 			$this->log('[START] Request detected');
 			$this->log('–––––––––––––––––––––––––––––––––');
@@ -262,15 +264,26 @@ namespace noelbosscom;
 					$this->log('Warning: Please configure allowed IPs');
 				} else {
 					$ips = (array) $conf->security->allowedIps;
-					if ( !isset($ips[$this->ip]) ){
-						$this->log('[ERROR] IP not allowed: '.$this->ip, true, 403);
+					$ipAllowed = false;
+                    foreach ($ips as $ip => $allowed) {
+                        if ($allowed){
+                            $allowedIp = new IpRange($ip);
+                            if ($allowedIp->contains($this->ip)){
+                                $ipAllowed = true;
+                                break;
+                            }
+                        }
+					}
+					if (!$ipAllowed){
+						$this->log('[ERROR] IP not allowed: '. (string)$this->ip, true, 403);
 					}
 				}
 			} else if(strlen($conf->security->allowedIps) < 3){
 				$this->log('Warning: Please configure allowed IPs');
 			} else {
-				if ( $conf->security->allowedIps !== $this->ip){
-					$this->log('[ERROR] IP not allowed: '.$this->ip, true, 403);
+			    $allowedIp = new IpRange($conf->security->allowedIps);
+				if ( $allowedIp->contains($this->ip)){
+					$this->log('[ERROR] IP not allowed: '. (string)$this->ip, true, 403);
 				}
 			}
 		}
