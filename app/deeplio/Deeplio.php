@@ -319,7 +319,7 @@ namespace noelbosscom;
 			mail($to, $subject, $message, $headers);
 		}
 
-		private function log($msg, $sendMails = false){
+		private function log($msg, $sendMails = false, $statusCode = false){
 			if(isset($this->config->log)){
 
 				// echoing for manual deploy
@@ -336,6 +336,10 @@ namespace noelbosscom;
 				$this->log('[STATUS] FAILED – Deployment not finished!');
 				$this->mails();
 			}
+			if ($statusCode) {
+                http_response_code($statusCode);
+                die();
+            }
 		}
 	}
 
