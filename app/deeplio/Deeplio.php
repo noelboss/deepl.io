@@ -117,6 +117,19 @@ namespace noelbosscom;
             }
         }
 
+        /**
+         * Handles the deploy of a repository.
+         *
+         * This method will not abort the request since bitbucket payload can contain information about
+         * multiple branches and we need to find the right one.
+         * However, it will end the request if a matching repo/branch is found and the deployment
+         * is successful
+         *
+         * @param $repo string The repo url
+         * @param $branch string Name of the changed branch
+         * @param $before string The hash of the commit before the change
+         * @param $after string The hash of the commit after the change
+         */
 		private function handle($repo, $branch, $before, $after) {
 		    // Check if there is an old version of the before file.
             $fileBase = $this->cachePath . DIRECTORY_SEPARATOR . base64_encode($repo . "." .$branch) . ".";
@@ -208,6 +221,19 @@ namespace noelbosscom;
 			}
 		}
 
+        /**
+         * Checks if the request is allowed.
+         *
+         * Sends the following HTTP Status Codes:
+         *
+         * 500 Internal Server Error
+         *     - If config.json is broken of missing
+         *
+         * 403 Forbidden
+         *     - If the security token is missing
+         *     - If the security token is not correct
+         *     - If the IP is not allowed
+         */
 		private function security(){
 			$conf = $this->config;
 
