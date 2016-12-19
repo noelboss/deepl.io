@@ -213,22 +213,19 @@ namespace noelbosscom;
 
 			// check conf
 			if(!is_object($conf)){
-				$this->log('[ERROR] config.json broken or missing', true);
-                die();
+				$this->log('[ERROR] config.json broken or missing', true, 500);
 			}
 
 			// check token
 			if(!isset($conf->security->token) || strlen($conf->security->token) < 1) {
-				$this->log('[ERROR] Please provide security token in config.json', true);
-                die();
+				$this->log('[ERROR] Please provide security token in config.json', true, 403);
 			} else if(strlen($conf->security->token) < 30) {
 				$this->log('[WARNING] Security token unsafe, make it longer');
 			}
 			if(!$this->token){
-				$this->log('[ERROR] Security token not provided. Add the token to the request '.$_SERVER["HTTP_HOST"]."/YOUR-SAVE-TOKEN", true);
+				$this->log('[ERROR] Security token not provided. Add the token to the request '.$_SERVER["HTTP_HOST"]."/YOUR-SAVE-TOKEN", true, 403);
 			} else if($this->token !== $conf->security->token){
-				$this->log('[ERROR] Security token not correct: '.$this->token, true);
-                die();
+				$this->log('[ERROR] Security token not correct: '.$this->token, true, 403);
 			} else {
 				$this->log('[NOTE] Security token correct');
 			}
@@ -240,16 +237,14 @@ namespace noelbosscom;
 				} else {
 					$ips = (array) $conf->security->allowedIps;
 					if ( !isset($ips[$this->ip]) ){
-						$this->log('[ERROR] IP not allowed: '.$this->ip, true);
-                        die();
+						$this->log('[ERROR] IP not allowed: '.$this->ip, true, 403);
 					}
 				}
 			} else if(strlen($conf->security->allowedIps) < 3){
 				$this->log('Warning: Please configure allowed IPs');
 			} else {
 				if ( $conf->security->allowedIps !== $this->ip){
-					$this->log('[ERROR] IP not allowed: '.$this->ip, true);
-					die();
+					$this->log('[ERROR] IP not allowed: '.$this->ip, true, 403);
 				}
 			}
 		}
@@ -277,6 +272,7 @@ namespace noelbosscom;
                 }
 			}
 			$this->mails(true);
+			die();
 		}
 
 		private function mails($success = false){
