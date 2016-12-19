@@ -32,6 +32,8 @@ namespace noelbosscom;
 
 		private $repositoriesPath;
 
+		private $isManualDeploy;
+
 		public function __construct() {
 			if(isset($_ENV["ENVIRONMENT"]) && is_file(BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json')){
 				$confFile = BASE . 'config.'.$_ENV["ENVIRONMENT"].'/config.json';
@@ -67,6 +69,7 @@ namespace noelbosscom;
 			//$this->log('[TOKEN] '.$this->token);
 
 			$raw = file_get_contents('php://input');
+			$this->isManualDeploy = $_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && $raw;
 			$this->service = $this->getService();
 
 			$this->data = json_decode( $raw );
@@ -320,14 +323,13 @@ namespace noelbosscom;
 			if(isset($this->config->log)){
 
 				// echoing for manual deploy
-				if($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input')){
+				if($this->isManualDeploy){
 					echo '– '.htmlspecialchars($msg) . "\n";
 				}
 				file_put_contents($this->logfile, $msg . "\n", FILE_APPEND);
 				$this->log .= '– '.htmlspecialchars($msg) . "\n";
 			}
-			if($sendMails && !($_SERVER["SERVER_ADDR"] === $_SERVER["REMOTE_ADDR"] && file_get_contents('php://input'))) {
-				header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+			if($sendMails && !$this->isManualDeploy) {
 				$this->log('[STATUS] FAILED – Deployment not finished!');
 				$this->mails();
 			} else if($sendMails){
