@@ -83,7 +83,6 @@ class IpRange
         $binMask = str_pad($binMask, 32, '0');
         $binMask = pack("H*", $binMask);
 
-
         return ($ip & $binMask) == $subnet;
     }
 
@@ -101,9 +100,6 @@ class IpRange
         $ip_ip = ip2long($ip);
 
         $ip_ip_net = $ip_ip & $ip_mask;
-
-
-        echo "$ip_ip_net | $ip_net<br>";
 
         return ($ip_ip_net == $ip_net);
     }
