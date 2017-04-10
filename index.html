@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 
 		<title>Deepl.io</title>
-		<meta name="description" content="A simple yet powerful PHP tool to catch Git web hooks from GitLab and GitHub and deploy your projects to your server after pushing." />
+		<meta name="description" content="A simple yet powerful PHP tool to catch Git web hooks from GitLab, GitHub &amp; Bitbucket and deploy your projects to your server after pushing." />
 
 		<link rel="shortcut icon" href="assets/img/icon/favicon.png" type="image/x-icon" />
 		<link rel="apple-touch-icon" href="assets/img/icon/apple-touch-icon.png" />
@@ -55,7 +55,7 @@
 			</h1>
 			<div class="row">
 				<div class="col-md-7">
-					<p class="lead ">A simple yet powerful PHP tool to catch Git webhooks from GitLab and GitHub and deploy your projects to your server after pushing.</p>
+					<p class="lead ">A simple yet powerful PHP tool to catch Git webhooks from GitLab, GitHub &amp; Bitbucket and deploy your projects to your server after pushing.</p>
 					<p>
 						<iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=noelboss&amp;repo=Deepl.io&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
 						<iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=noelboss&amp;repo=Deepl.io&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="102px" height="20px"></iframe>
@@ -72,28 +72,29 @@
 					<hr/>
 					<h2>Features</h2>
 					<ul>
-						<li>Catch webhooks from <a href="htto://gitlab.com">GitLab</a> &amp; <a href="htto://github.com">GitHub</a></li>
+						<li>Catch webhooks from <a href="http://gitlab.com">GitLab</a>, <a href="http://github.com">GitHub</a> &amp; <a href="http://bitbucket.org.com">Bitbucket</a></li>
 						<li>Configure multiple repositories</li>
 						<li>Configure multiple branches per repository</li>
 						<li>Use your own deploy scripts, either PHP, shell or both</li>
 						<li>Sends confirmation emails</li>
 					</ul>
 				</div>
-				<div class="col-md-12">
+				<p class="col-md-12">
 					<hr/>
 					<h2>How does it work?</h2>
 					<p>
 						Deepl.io catches and then acts on post requests sent by your git service-provider
 						using <a href="https://developer.github.com/v3/repos/hooks/">webhooks</a>.
-						Currently <a href="http://doc.gitlab.com/ee/web_hooks/web_hooks.html">github.com</a>
-						and <a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/web_hooks/web_hooks.md">gitlab.com</a>
+						Currently <a href="http://doc.gitlab.com/ee/web_hooks/web_hooks.html">github.com</a>,
+						<a href="https://gitlab.com/gitlab-org/gitlab-ce/blob/master/doc/web_hooks/web_hooks.md">gitlab.com</a>
+						and <a href="https://confluence.atlassian.com/bitbucket/manage-webhooks-735643732.html">bitbucket.org</a>
 						are supported.<br/>
-						You configure your repository to send push-updates to your Deepl.io instance runing on your server via Webhooks.
+						You configure your repository to send push-updates to your Deepl.io instance running on your server via Webhooks.
 						Check the repository setting for the appropriate options.
 						Deepl.io will check if the request comes from the right source,
 						detects if the branch that has been updated is correct and then
 						executes your custom PHP or shell commands. Deepl.io only calls your commands, it does not act
-						on it's own since this would be way too unflexible.
+						on it's own since this would be way too inflexible.
 					</p>
 
 					<hr/>
@@ -180,6 +181,14 @@
 		"ssh_url": "git@github.com:music/example.git",
 	},
 </pre>
+					<strong><a href="https://confluence.atlassian.com/bitbucket/event-payloads-740262817.html#EventPayloads-Push">Bitbucket JSON</a>:</strong>
+				<p>Create <code>repository_ssh_url</code> using the full repository name found in the json:</p>
+					<pre>
+	"repository": {
+		"full_name": "music/example",
+	},
+</pre>
+				<p><code>git@bitbucket.org:</code> + <code>{full_name}</code> + <code>.git</code> converts to <code>git@bitbucket.org:music/example.git</code></p>
 
 					<hr/>
 					<h2>Debugging &amp; Issues</h2>
