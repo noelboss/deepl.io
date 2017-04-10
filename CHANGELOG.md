@@ -3,6 +3,9 @@
 ## Master
 
 
+## v0.11.0 - 2017-04-10
+
+
 ## v0.10.1 - 2017-04-10
 
 * Integrated Changes from natronite-bitbucket_dev
