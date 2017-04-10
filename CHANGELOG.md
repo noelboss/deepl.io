@@ -2,6 +2,11 @@
 
 ## Master
 
+
+## v0.10.1 - 2017-04-10
+
+* Integrated Changes from natronite-bitbucket_dev
+
 ## v0.10.0 - 2016-12-19
 
 * Added support for Bitbucket
