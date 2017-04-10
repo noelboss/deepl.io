@@ -194,12 +194,13 @@ namespace noelbosscom;
 					return;
 				}
 
-				if ($branch !== $conf->project->branch){
+				// cannot compare to $branch since its adjusted with -
+				if ($this->data->ref !== 'refs/heads/'.$conf->project->branch){
 					$this->log('Branch not configured: Repository not matching;');
-					$this->log(' - Config: '. $conf->project->branch );
-					$this->log(' - Hook: '.$branch, true);
-                    // abort function
-                    return;
+					$this->log(' - Config: refs/heads/'.$conf->project->branch);
+					$this->log(' - Hook: '.$this->data->ref, true);
+	                // abort function
+	                return;
 				}
 
 				if(is_file($path.'.script.php')){
