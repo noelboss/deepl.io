@@ -2,6 +2,9 @@
 
 ## Master
 
+## v0.10.0 - 2016-12-19
+
+* Added support for Bitbucket
 
 ## v0.9.0 - 2016-05-11
 
