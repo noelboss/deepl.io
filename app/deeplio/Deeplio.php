@@ -65,6 +65,7 @@ namespace noelbosscom;
 
 			$this->ip = new IpAddress($_SERVER['REMOTE_ADDR']);
 
+			$this->log('');
 			$this->log('[START] Request detected');
 			$this->log('–––––––––––––––––––––––––––––––––');
 			$this->log(date('[Y-m-d H:i:s').' - IP ' . $_SERVER['REMOTE_ADDR'] . ']');
@@ -78,6 +79,10 @@ namespace noelbosscom;
 			if($this->data === null || !is_object($this->data->repository)){
 				$this->log('[ERROR] JSON data missing or broken: '.$this->data, true);
 			}
+
+
+			$this->cacheFile = $this->cachePath.substr($this->data->after, -12);
+			$this->cacheFileBefore = $this->cachePath.substr($this->data->before, -12);
 
 			$this->security();
 			$this->run();
@@ -161,10 +166,15 @@ namespace noelbosscom;
 			}
 			else if(is_file($path.'.config.json')){
 
-				$this->log('[NOTE] Cache File does not exist '.$this->cacheFile);
+				$this->log('[NOTE] Cache File does not exist '.$this->cacheFile.' . Start Deploying:');
 
-				$conf = json_decode( file_get_contents( $path.'.config.json' ) );
-				$this->projectConf = $conf;
+				try {
+					$conf = json_decode( file_get_contents( $path.'.config.json' ) );
+					$this->projectconf = $conf;
+				} catch (Exception $e) {
+					$this->log('[ERROR] Could not read data from json: '.$path.'.config.json');
+				}
+
 
 				if(!$conf->enabled){
 					$this->log('[NOTE] Repository disabled by config');
@@ -288,17 +298,17 @@ namespace noelbosscom;
 			}
 		}
 
-        private function getService(){
-            $userAgent = $_SERVER['HTTP_USER_AGENT'];
-            if ((strpos($userAgent, 'GitHub') !== false)) {
-                return 'GitHub';
-            }
-            if ((strpos($userAgent, 'Bitbucket') !== false)) {
-                return 'Bitbucket';
-            }
-            // TODO: make sure it is really from GitLab
-            return 'GitLab';
+    private function getService(){
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        if ((strpos($userAgent, 'GitHub') !== false)) {
+            return 'GitHub';
         }
+        if ((strpos($userAgent, 'Bitbucket') !== false)) {
+            return 'Bitbucket';
+        }
+        // TODO: make sure it is really from GitLab
+        return 'GitLab';
+    }
 
 		private function success(){
 			$this->log('[STATUS] SUCCESS – Deployment finished.');
