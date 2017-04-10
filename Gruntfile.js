@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 				overwrite: true,
 				replacements: [
 					{
-						from: /@\s[0-9]{4}/g,
+						from: /©\s[0-9]{4}/g,
 						to: '© <%= grunt.template.today("yyyy") %>'
 					},
 					{
