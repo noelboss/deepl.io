@@ -12,6 +12,6 @@ A simple yet powerful PHP tool to catch Git webhooks from GitLab, GitHub & Bitbu
 * Use your own deploy scripts, either PHP, shell or both
 * Sends confirmation emails
 
-#### [Visit the official website for instructions and more information »](http://deepl.io)
+#### [Visit the official website for instructions and more information »](https://deepl.io.noelboss.com)
 
 © 2017 [Noël Bossart](http://noelboss.com). Made in Switzerland.
